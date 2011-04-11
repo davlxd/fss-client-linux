@@ -105,12 +105,12 @@ int sha1_digest_via_fname_fss(const char *fname,
   int len, i;
   unsigned char buf[SHA1_BUF_LEN];
   char fullpath[MAX_PATH_LEN];
+  char digest0[41], digest1[41], digest2[81];
   struct stat statbuf;
 
   strncpy(fullpath, fname+strlen(root_path),
 	  strlen(fname)-strlen(root_path));
   fullpath[strlen(fname)-strlen(root_path)] = 0;
-
 
   if (stat(fname, &statbuf) < 0) {
     if (errno == ENOENT)
@@ -121,82 +121,110 @@ int sha1_digest_via_fname_fss(const char *fname,
     }
   }
 
-  /* following code is the way to calc dir's sha1 digest */
-  if (S_ISDIR(statbuf.st_mode)) {
-    SHA1Reset(&sha);
+  SHA1Reset(&sha);
 
-    char *token;
-    token = strtok(fullpath, "/");
-    while(token) {
-      SHA1Input(&sha, (unsigned char*)token, strlen(token));
-      token = strtok(NULL, "/");
+  // for dir, add a string here, just in case there is an empty file
+  // with same name
+  if (S_ISDIR(statbuf.st_mode)) {
+    SHA1Input(&sha, (unsigned char*)"IAMDIR", 6);
+
+    // for file, calculate normal sha1 digest
+  } else {
+    if (!(file = fopen(fname, "rb"))) {
+      fprintf(stderr,
+	      "@sha1_digest_via_fname_fss(): open %s fails: %s\n",
+	      fname, strerror(errno));
+      return 1;
     }
 
-    /* make sure dir's sha1 string is different from an empty file in
-     * same name */
-    SHA1Input(&sha, (unsigned char*)"IAMDIR", 6);
-  
+    len = fread(buf, sizeof(unsigned char), SHA1_BUF_LEN, file);
+    while(len) {
+      SHA1Input(&sha, buf, len);
+      len = fread(buf, sizeof(unsigned char), SHA1_BUF_LEN, file);
+    }
+
+    if (fclose(file) < 0) {
+      perror("sha1_digest_via_fname_fss(): fclose() failed");
+      return 1;
+    }
+    
+  }
+
+  if (!SHA1Result(&sha)) {
+    fprintf(stderr,
+	    "@sha1_file(): SHA1Result() failed\n");
+    return 1;
+  }
+
+  // export first stage's sha1 digest to digest0
+  for (i = 0 ; i < 5 ; i++) {
+    if (0 > snprintf(digest0+8*i, 8+1, "%08X", sha.Message_Digest[i])) {
+      perror("@sha1_file(): snprintf() fails");
+      return 1;
+    }
+  }
+  digest0[40] = 0;
+
+  // now calcuate relapth's sha1 digest
+  char *token;
+  token = strtok(fullpath, "/");
+  while(token) {
+
+    SHA1Reset(&sha);
+    SHA1Input(&sha, (unsigned char*)token, strlen(token));
+    if (!SHA1Result(&sha)) {
+      fprintf(stderr,
+	      "@sha1_file(): SHA1Result() fails.\n");
+      return 1;
+    }
+    // export current token's sha1 digest to digest1[]
+    for (i = 0 ; i < 5 ; i++) {
+      if (0 > snprintf(digest1+8*i, 8+1, "%08X", sha.Message_Digest[i])) {
+	perror("@sha1_file(): snprintf() fails");
+	return 1;
+      }
+    }
+    digest1[40] = 0;
+
+    // copy first stage's digest OR previous traversal's digest to digest2[]
+    if(!strncpy(digest2, digest0, 40)) {
+      perror("@sha1_file(): strncpy failed");
+      return 1;
+    }
+
+    // copy current token's sha1 string to digest2[]
+    if(!strncpy(digest2+40, digest1, 40)) {
+      perror("@sha1_file(): strncpy failed");
+      return 1;
+    }
+    digest2[80] = 0;
+
+    // calcuate digest2[]'s sha1 digest
+    SHA1Reset(&sha);
+    SHA1Input(&sha, digest2, strlen(digest2));
     if (!SHA1Result(&sha)) {
       fprintf(stderr,
 	      "@sha1_file(): SHA1Result() fails.\n");
       return 1;
     }
 
-    for (i = 0 ; i < 5 ; i++) {
-      if (0 > snprintf(digest+8*i, 8+1, "%08X", sha.Message_Digest[i])) {
-	perror("@sha1_file(): snprintf() fails");
+    // export to digest0[]
+    for(i = 0; i < 5; i++) {
+      if (0 > snprintf(digest0+8*i, 8+1, "%08X", sha.Message_Digest[i])) {
+	perror("@sha_file(): snprintf() failed");
 	return 1;
       }
     }
-    digest[40] = 0;
-
-    return 0;
-  }
-  /* end */
-  
-  if (!(file = fopen(fname, "rb"))) {
-    fprintf(stderr,
-	    "@sha1_digest_via_fname_fss(): open %s fails: %s\n",
-	    fname, strerror(errno));
-    return 1;
-  }
-  
-  SHA1Reset(&sha);
-
-  len = fread(buf, sizeof(unsigned char), SHA1_BUF_LEN, file);
-  while(len) {
-    SHA1Input(&sha, buf, len);
-    len = fread(buf, sizeof(unsigned char), SHA1_BUF_LEN, file);
-  }
-
-  char *token;
-  token = strtok(fullpath, "/");
-  while(token) {
-    SHA1Input(&sha, (unsigned char*)token, strlen(token));
+    digest0[40] = 0;
+    
     token = strtok(NULL, "/");
   }
-  
 
-  if (!SHA1Result(&sha)) {
-    fprintf(stderr,
-	    "@sha1_file(): SHA1Result() fails.\n");
+  if (!strncpy(digest, digest0, 40)) {
+    perror("@sha1_digest_via_fname_fss(): strncpy() failed");
     return 1;
-  }
-
-  for (i = 0 ; i < 5 ; i++) {
-    if (0 > snprintf(digest+8*i, 8+1, "%08X", sha.Message_Digest[i])) {
-      perror("@sha1_file(): snprintf() fails");
-      return 1;
-    }
   }
   digest[40] = 0;
-
-
-
-  if (0 != fclose(file)) {
-    perror("@sha1_digest_via_fname_fss(): fclose() fails");
-    return 1;
-  }
 
   return 0;
 }
