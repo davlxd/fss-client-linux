@@ -1,0 +1,28 @@
+Table of contents :
+ 1. Introduction
+ 2. Usage
+ 3. Contacts
+ 4. About License
+
+
+1.  Introduction
+----------------
+    The File Synchronization System(fss) is a C/S software system 
+    synchronizing specific directory on each client machine via a
+    centralized server.
+
+2.  Usage
+---------
+    
+
+3.  Contacts
+------------
+    Author's E-mail: edl.eppc@gmail.com
+    Author's Site: http://lxd.me
+
+4.  About License
+-----------------
+    sha1.c, sha1.h are licensed under FPL (refer to file license.txt).
+    Other code files are licensed under GPLv3 (refer to file COPYING)
+    unless explictly otherwise stated.
+
