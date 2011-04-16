@@ -184,13 +184,6 @@ int update_files()
 }
 
 
-
- /* return 1: error exist
-  * return 2: remote.sha1.fss is identical to sha1.fss
-  * return 3: no unique records in remote.sha1.fss, only in sha1.fss
-  * return 4: no unique records in sha1.fss, only in remote.sha1.fss
-  * return 0: both have unique records
-  */
 int generate_diffs()
 {
   char fullpath0[MAX_PATH_LEN]; // remote.sha1.fss
@@ -228,7 +221,7 @@ int generate_diffs()
   }
 
   if (strncmp(digest_remote, digest_local, 40) == 0)
-    return 2;
+    return DIFF_IDENTICAL;
   
   else {
     if (diff(fullpath0, fullpath1, fullpath2, fullpath3, NULL)) {
@@ -254,11 +247,11 @@ int generate_diffs()
   size3 = statbuf.st_size;
 
   if (size2 == 0 && size3 == 0)
-    return 2;
+    return DIFF_IDENTICAL;
   if (size2 == 0)
-    return 3;
+    return DIFF_LOCAL_UNIQ;
   if (size3 == 0)
-    return 4;
+    return DIFF_REMOTE_UNIQ;
   /* end */
 
 
@@ -675,7 +668,6 @@ int send_del_index_info(int sockfd, const char *prefix)
 }
 
 
-/* return ... */
 int send_entryinfo_via_linenum(int sockfd, long linenum,
 			       const char *prefix0, const char *prefix1)
 {
@@ -702,17 +694,14 @@ int send_entryinfo_via_linenum(int sockfd, long linenum,
 	    "send_entryinfo() failed\n");
     return 1;
 
-  } else if (rv == 2)
-    return 2;
+  } else if (rv == PREFIX1_SENT)
+    return PREFIX1_SENT;
 
-  return 0;
+  return PREFIX0_SENT;
 }
 
 
-/* return 1 -> error
- * return 0 -> sent prefix0
- * return 2 -> sent prefix1
- */
+
 int send_entryinfo(int sockfd, const char *fname,
 		   const char *prefix0, const char *prefix1)
 {
@@ -734,14 +723,14 @@ int send_entryinfo(int sockfd, const char *fname,
       perror("@send_entryinfo(): strncpy() failed");
       return 1;
     }
-    msg[strlen(prefix1)] = 0;  rv = 2;
+    msg[strlen(prefix1)] = 0;  rv = PREFIX1_SENT;
 
   } else {
     if (strncpy(msg, prefix0, strlen(prefix0)) == NULL) {
       perror("@send_entryinfo(): strncpy() failed");
       return 1;
     }
-    msg[strlen(prefix0)] = 0;  rv = 0;
+    msg[strlen(prefix0)] = 0;  rv = PREFIX0_SENT;
   }
   
   if (get_rela_path(fname, rela_fname)) {
@@ -796,10 +785,7 @@ int send_msg(int sockfd, const char *msg)
 }
 
 
-/* return 1  ->  error
- * return 0  ->  not DONE
- * return 2  ->  DONE
- */
+
 int send_linenum_or_done(int sockfd, int if_init,
 			 const char *prefix0, const char *prefix1)
 {
@@ -841,23 +827,18 @@ int send_linenum_or_done(int sockfd, int if_init,
       perror("@send_linenum_or_done(): fclose() failed\n");
       return 1;
     }
-    return 2;
+    return PREFIX1_SENT;
 
   } else {
     fprintf(stderr, "@send_liennum_or_done(): fgets() failed\n");
     return 1;
   }
   
-  return 0;
+  return PREFIX0_SENT;
 
 }
 
 
-/* return 1  -> error
- * return 0  -> sent prefix0
- * return 2  -> sent prefix1
- * return 3  -> sent prefix2
- */
 int send_entryinfo_or_reqsha1info(int sockfd, int ifinit,
 				  const char *prefix0,
 				  const char *prefix1, const char *prefix2)
@@ -893,11 +874,11 @@ int send_entryinfo_or_reqsha1info(int sockfd, int ifinit,
       return 1;
     }
 
-    if (rv == 2)
-      return 2;
+    if (rv == PREFIX1_SENT)
+      return PREFIX1_SENT;
 
-    else if (rv == 0)
-      return 0;
+    else if (rv == PREFIX0_SENT)
+      return PREFIX0_SENT;
 
   } else if (feof(diff_local_index)) {
     if (send_msg(sockfd, prefix2)) {
@@ -909,14 +890,14 @@ int send_entryinfo_or_reqsha1info(int sockfd, int ifinit,
       return 1;
     }
     linenum_to_send = -1;
-    return 3;
+    return PREFIX2_SENT;
 
   } else {
     fprintf(stderr, "@send_entryinfo_or_done(): fgets() failed\n");
     return 1;
   }
   
-  return 0;
+  return PREFIX0_SENT;
 }
 
 

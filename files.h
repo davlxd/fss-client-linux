@@ -42,6 +42,16 @@ extern int errno;
 #define MAX_PATH_LEN 1024
 #endif
 
+#define PREFIX0_SENT 0
+#define PREFIX1_SENT 2
+#define PREFIX2_SENT 3
+#define PREFIX3_SENT 4
+
+#define DIFF_BOTH_UNIQ 0
+#define DIFF_IDENTICAL 2
+#define DIFF_LOCAL_UNIQ 3
+#define DIFF_REMOTE_UNIQ 4
+
 
 #define FNAME_FSS "fname.fss"
 

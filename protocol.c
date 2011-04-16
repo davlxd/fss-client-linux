@@ -97,7 +97,7 @@ static int handle_monifd()
     fprintf(stderr, "@handle_sockfd(): generate_diffs() failed\n");
     return 1;
 
-  } else if (rv == 0 || rv == 3) {
+  } else if (rv == DIFF_BOTH_UNIQ || rv == DIFF_LOCAL_UNIQ) {
     // lock on
     lock = 1;
     printf(">>>> lock set\n");
@@ -107,15 +107,16 @@ static int handle_monifd()
 	      "@handle_monifd(): send_entryinfo_or_reqsha1info() failed\n");
       return 1;
 	    
-    } else if (rvv == 0)
+    } else if (rvv == PREFIX0_SENT)
       status = WAIT_MSG_SER_REQ_FILE;
-    else if (rvv == 2)
+
+    else if (rvv == PREFIX1_SENT)
       status = WAIT_MSG_SER_RECEIVED;
-    else if (rvv == 3)
+
+    else if (rvv == PREFIX2_SENT)
       status = WAIT_SHA1_FSS_INFO;
 
-  } else if (rv == 4) {
-    // lock on 
+  } else if (rv == DIFF_REMOTE_UNIQ) {
     lock = 1;
     printf(">>>> lock set\n");
     if (send_del_index_info(sockfd, DEL_IDX_INFO)) {
@@ -302,7 +303,7 @@ static int analyse_sha1()
    }
    // local's sha1.fss is newer
    if (mtime <= sha1_fss_mtime()) {
-     if (rv == 0 || rv == 3) {
+     if (rv == DIFF_BOTH_UNIQ || rv == DIFF_LOCAL_UNIQ) {
        if ((rvv = send_entryinfo_or_reqsha1info(sockfd, 1, FILE_INFO,
 						DIR_INFO, 
 						CLI_REQ_SHA1_FSS_INFO))
@@ -311,14 +312,16 @@ static int analyse_sha1()
 		 "@analyse_sha1(): send_entryinfo_or_done() failed\n");
 	 return 1;
 	 
-       } else if (rvv == 0) 
+       } else if (rvv = PREFIX0_SENT) 
 	 status = WAIT_MSG_SER_REQ_FILE;
-       else if (rvv == 2) 
+
+       else if (rvv == PREFIX1_SENT) 
 	 status = WAIT_MSG_SER_RECEIVED;
-       else if (rvv == 3)
+
+       else if (rvv == PREFIX2_SENT)
 	 status = WAIT_SHA1_FSS_INFO;
 
-     } else if (rv == 2) {
+     } else if (rv == DIFF_IDENTICAL) {
        if (mtime == (time_t)1) {
 	 if (send_msg(sockfd, FIN)) {
 	   fprintf(stderr, "@analyse_sha1(): send_msg() failed\n");
@@ -335,7 +338,7 @@ static int analyse_sha1()
        
        lock = 0;
        printf(">>>> lock unset\n");
-     } else if (rv == 4) {
+     } else if (rv == DIFF_REMOTE_UNIQ) {
        if (send_del_index_info(sockfd, DEL_IDX_INFO)) {
 	 fprintf(stderr,
 		 "@analyse_sha1(): send_del_index_info() failed\n");
@@ -345,7 +348,7 @@ static int analyse_sha1()
      }
      // remote.sha1.fss is newer
    } else {
-     if (rv == 0 || rv == 4) {
+     if (rv == DIFF_BOTH_UNIQ || rv == DIFF_REMOTE_UNIQ) {
        if ((rvv = send_linenum_or_done(sockfd, 1, LINE_NUM, DONE)) == 1) {
 	 fprintf(stderr,
 		 "@analyse_sha1(): send_linenum_or_done() failed\n");
@@ -353,7 +356,7 @@ static int analyse_sha1()
        }
        status = WAIT_ENTRY_INFO;
        printf(">>>> status set to ----> WAIT_ENTRY_INFO\n");
-     } else if (rv == 2) {
+     } else if (rv == DIFF_IDENTICAL) {
        if (send_msg(sockfd, DONE)) {
 	 fprintf(stderr, "@analyse_sha1(): send_msg() failed\n");
 	 return 1;
@@ -363,7 +366,7 @@ static int analyse_sha1()
 
        status = WAIT_SHA1_FSS_INFO;
        printf(">>>> status set to ----> WAIT_SHA1_FSS_INFO\n");
-     } else if (rv == 3) {
+     } else if (rv == DIFF_LOCAL_UNIQ) {
        if (remove_files()) {
 	 fprintf(stderr, "@analyse_sha1(): remove_files() failed\n");
 	 return 1;
@@ -449,7 +452,6 @@ static int status_WAIT_ENTRY_INFO()
 static int status_WAIT_FILE()
 {
   printf(">>>> ---> WAIT_FILE\n");
-  int rv, rvv, rvvv;
   
   if (receive_common_file(sockfd, rela_name, req_sz)) {
     fprintf(stderr,
@@ -475,12 +477,12 @@ static int download_sync()
 	    "@status_WAIT_FILE(): send_linenum_or_done() failed\n");
     return 1;
 
-  } else if (rv == 0) {
+  } else if (rv == PREFIX0_SENT) {
     status = WAIT_ENTRY_INFO;
     printf(">>>> linenum sent, status sent to --->  WAIT_FILE_INFO\n");
 
     // sent DONE
-  } else if (rv == 2) {
+  } else if (rv == PREFIX1_SENT) {
 
     if (update_files()) {
       fprintf(stderr, "@status_WAIT_FILE(): update_files() failed\n");
@@ -493,7 +495,7 @@ static int download_sync()
       fprintf(stderr, "@status_WAIT_FILE(): generate_diffs() failed\n");
       return 1;
 
-    } else if (rvv == 0 || rvv == 4) {
+    } else if (rvv == DIFF_BOTH_UNIQ || rvv == DIFF_REMOTE_UNIQ) {
 
       if ((rvvv = send_entryinfo_or_reqsha1info(sockfd, 1, FILE_INFO,
 						DIR_INFO,
@@ -504,18 +506,20 @@ static int download_sync()
 		"send_entryinfo_or_reqsha1info() failed\n");
 	return 1;
 	    
-      } else if (rvvv == 0) 
+      } else if (rvvv == PREFIX0_SENT) 
 	status = WAIT_MSG_SER_REQ_FILE;
-      else if (rvvv == 2)
+
+      else if (rvvv == PREFIX1_SENT)
 	status = WAIT_MSG_SER_RECEIVED;
-      else if (rvvv == 3)
+
+      else if (rvvv == PREFIX2_SENT)
 	status = WAIT_SHA1_FSS_INFO;
       
       /* Attension, if user add some files during download sync process
        * program still goes to here, hereby being deleted */
-    } else if (rvv == 3 || rvv == 2) {
+    } else if (rvv == DIFF_LOCAL_UNIQ || rvv == DIFF_IDENTICAL) {
 
-      if (rvv == 3) {
+      if (rvv == DIFF_LOCAL_UNIQ) {
 	if (remove_files()) {
 	  fprintf(stderr, "@status_WAIT_FILE(): remove_files() failed\n");
 	  return 1;
@@ -592,14 +596,15 @@ static int status_WAIT_MSG_SER_RECEIVED()
 	      "send_entryinfo_or_reqsha1info() failed\n");
       return 1;
 	    
-    } else if (rvv == 0) {
+    } else if (rvv == PREFIX0_SENT) {
       status = WAIT_MSG_SER_REQ_FILE;
       printf(">>>> fileinfo sent, status set to ---> WAIT_MSG_SER_REQ_FILE\n");
       
-    } else if (rvv == 2) {
+    } else if (rvv == PREFIX1_SENT) {
       status = WAIT_MSG_SER_RECEIVED;
       printf(">>>> done sent, status set to ---> WAIT_SHA1_FSS_INFO\n");
-    } else if (rvv == 3) {
+
+    } else if (rvv == PREFIX2_SENT) {
       status = WAIT_SHA1_FSS_INFO;
     }
   }
