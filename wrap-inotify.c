@@ -24,6 +24,35 @@
  */
 #include "wrap-inotify.h"
 
+static char FIFO0[MAX_PATH_LEN];
+static char FIFO1[MAX_PATH_LEN];
+
+static char fullpath[MAX_PATH_LEN];
+static fd_set set;
+
+/* all sub-dirs gonna be monitored under same inotify mask */
+static uint32_t mask;
+
+/* point to current monitor of ddlink,
+ * after recurse iterator, it point to tail of list */
+static monitor *tail_monitor;
+
+
+static int rfd, wfd;
+static pid_t pid;
+static int maxfd;
+
+
+static int monitors_poll();
+static void sig_child(int);
+
+static int join_fname(const monitor*, const char*);
+static int monitor_connect(const char*, const struct stat*, int,
+			   struct FTW*);
+static int monitor_connect_via_fpath(const monitor*, const char*);
+static int monitor_disconnect(monitor*);
+static int monitor_disconnect_via_fpath(const monitor*, const char*);
+
 /*
  * arg:root_path -> root directory we monitor, pass in
  * arg:mask -> inotify mask

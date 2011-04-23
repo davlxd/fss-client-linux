@@ -31,23 +31,22 @@
 
 int main(int argc, char **argv)
 {
-  int n, len;
-  fd_set rset;
-  char buffer[BUF_LEN];
+
   char server[VALUE_LEN];
   char path[VALUE_LEN];
   int monitor_fd;
-  int maxfd;
   int sockfd;
 
   setbuf(stdout, NULL);
+  memset(path, 0, VALUE_LEN);
+  memset(server, 0, VALUE_LEN);
 
 
   if (get_param_value("Path", path)) {
     perror("@main(): get_param_value Path fails\n");
     exit(0);
   }
-  if (!path) {
+  if (!strlen(path)) {
     perror("Path in fss.conf cannot be empty");
     exit(0);
   }
@@ -55,7 +54,7 @@ int main(int argc, char **argv)
     perror("@main(): get_param_value Server fails\n");
     exit(0);
   }
-  if (!server) {
+  if (!strlen(server)) {
     perror("Server in fss.conf cannot be empty");
     exit(0);
   }

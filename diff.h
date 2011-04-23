@@ -44,15 +44,6 @@ FILE *file_out_2;
 int diff(const char *fin0, const char *fin1,
 	 const char *fout0, const char *fout1, const char *fout2);
 
-static int open_them(const char *fin0, const char *fin1,
-		     const char *fout0, const char *fout1,
-		     const char *fout2);
-static int close_them();
-
-static int get_line_num(long *num, FILE *file);
-static int write_line_num(long num, FILE *file_out);
-
-
 
 
 #endif

@@ -201,7 +201,7 @@ int sha1_digest_via_fname_fss(const char *fname,
 
     // calcuate digest2[]'s sha1 digest
     SHA1Reset(&sha);
-    SHA1Input(&sha, digest2, strlen(digest2));
+    SHA1Input(&sha, (unsigned char*)digest2, strlen(digest2));
     if (!SHA1Result(&sha)) {
       fprintf(stderr,
 	      "@sha1_file(): SHA1Result() fails.\n");

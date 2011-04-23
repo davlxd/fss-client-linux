@@ -18,7 +18,15 @@
  * You should have received a copy of the GNU General Public License
  * along with fss.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 #include "diff.h"
+
+static int open_them(const char*, const char*, const char*, const char*,
+		     const char*);
+static int get_line_num(long*, FILE*);
+static int write_line_num(long, FILE*);
+static int close_them();
+
 
 int diff(const char *fin0, const char *fin1,
 	 const char *fout0, const char *fout1, const char *fout2)

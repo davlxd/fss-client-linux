@@ -21,6 +21,31 @@
 
 #include "protocol.h"
 
+static int status;
+static int sockfd;
+static int monifd;
+
+// monitor lock 
+static int lock;
+
+static char rela_name[MAX_PATH_LEN];
+static time_t mtime;
+static off_t req_sz;
+
+static int handle_monifd();
+static int handle_sockfd();
+static int status_WAIT_SHA1_FSS_INFO();
+static int status_WAIT_SHA1_FSS();
+static int status_WAIT_ENTRY_INFO();
+static int status_WAIT_FILE();
+static int status_WAIT_MSG_SER_RECEIVED();
+static int status_WAIT_MSG_SER_REQ_FILE();
+static int status_WAIT_MSG_SER_REQ_DEL_IDX();
+static int receive_line(int, char*, int);
+static int set_fileinfo(char*);
+static int analyse_sha1();
+static int download_sync();
+
 int client_polling(int moni_fd, int sock_fd)
 {
   fd_set rset;
@@ -57,7 +82,7 @@ int client_polling(int moni_fd, int sock_fd)
     }
 
     if (FD_ISSET(sockfd, &rset)) {
-      if (handle_sockfd(sockfd)) {
+      if (handle_sockfd()) {
 	fprintf(stderr, "@client_polling(): handle_sockfd() failed");
 	return 1;
       }
@@ -136,7 +161,6 @@ static int handle_sockfd()
   printf(">>>> socket readable\n");
   char buf[MAX_PATH_LEN];
   memset(buf, 0, MAX_PATH_LEN);
-  int rv, rvv;
 
   switch (status) {
     
@@ -270,7 +294,6 @@ static int status_WAIT_SHA1_FSS_INFO()
 static int status_WAIT_SHA1_FSS()
 {
   printf(">>>> ---> WAIT_SHA1_FSS \n");
-  int rv, rvv;
   
   if (receive_sha1_file(sockfd, req_sz)) {
     fprintf(stderr, "@status_WAIT_SHA1_FSS(): receive_sha1_file() failed\n");
@@ -295,7 +318,7 @@ static int status_WAIT_SHA1_FSS()
 
 static int analyse_sha1()
 {
-  int rv, rvv, rvvv;
+  int rv, rvv;
 
    if ((rv = generate_diffs()) == 1) {
       fprintf(stderr, "@analyse_sha1(): generate_diffs() failed\n");
@@ -312,7 +335,7 @@ static int analyse_sha1()
 		 "@analyse_sha1(): send_entryinfo_or_done() failed\n");
 	 return 1;
 	 
-       } else if (rvv = PREFIX0_SENT) 
+       } else if (rvv == PREFIX0_SENT) 
 	 status = WAIT_MSG_SER_REQ_FILE;
 
        else if (rvv == PREFIX1_SENT) 
@@ -399,7 +422,7 @@ static int status_WAIT_ENTRY_INFO()
   char buf[MAX_PATH_LEN];
   
   if (receive_line(sockfd, buf, MAX_PATH_LEN)) {
-    fprintf(stderr, "@status_WIAT_FILE_INFO(): received_line() failed\n");
+    fprintf(stderr, "@status_WAIT_FILE_INFO(): received_line() failed\n");
     return 1;
   }
   printf(">>>> received %s\n", buf);
@@ -579,7 +602,7 @@ static int status_WAIT_MSG_SER_REQ_FILE()
 static int status_WAIT_MSG_SER_RECEIVED()
 {
   printf(">>>> ---> WAIT_MSG_SER_RECEIVED\n");
-  int rv, rvv;
+  int rv;
   char buf[MAX_PATH_LEN];
   
   if (receive_line(sockfd, buf, MAX_PATH_LEN)) {
@@ -589,22 +612,22 @@ static int status_WAIT_MSG_SER_RECEIVED()
   }
   printf(">>>> received %s\n", buf);
   if (strncmp(buf, SER_RECEIVED, strlen(SER_RECEIVED)) == 0) {
-    if ((rvv = send_entryinfo_or_reqsha1info(sockfd, 0, FILE_INFO, DIR_INFO,
+    if ((rv = send_entryinfo_or_reqsha1info(sockfd, 0, FILE_INFO, DIR_INFO,
 					    CLI_REQ_SHA1_FSS_INFO)) == 1) {
       fprintf(stderr,
 	      "@status_WAIT_MSG_SER_RECEIVED(): "\
 	      "send_entryinfo_or_reqsha1info() failed\n");
       return 1;
 	    
-    } else if (rvv == PREFIX0_SENT) {
+    } else if (rv == PREFIX0_SENT) {
       status = WAIT_MSG_SER_REQ_FILE;
       printf(">>>> fileinfo sent, status set to ---> WAIT_MSG_SER_REQ_FILE\n");
       
-    } else if (rvv == PREFIX1_SENT) {
+    } else if (rv == PREFIX1_SENT) {
       status = WAIT_MSG_SER_RECEIVED;
       printf(">>>> done sent, status set to ---> WAIT_SHA1_FSS_INFO\n");
 
-    } else if (rvv == PREFIX2_SENT) {
+    } else if (rv == PREFIX2_SENT) {
       status = WAIT_SHA1_FSS_INFO;
     }
   }
@@ -647,47 +670,6 @@ static int status_WAIT_MSG_SER_REQ_DEL_IDX()
   return 0;
 }
 
-/*
-static int status_WAIT_MSG_DONE()
-{
-  printf(">>>> ---> MSG_DONE\n");
-  char buf[MAX_PATH_LEN];
-
-  if (receive_line(sockfd, buf, MAX_PATH_LEN)) {
-    fprintf(stderr,
-	    "@status_WAIT_MSG_SER_REQ_DEL_IDX(): received_line() failed\n");
-    return 1;
-  }
-  printf(">>>> received %s\n", buf);
-  if (strncmp(buf, DONE, strlen(DONE)) == 0) {
-
-    if (remove_diffs()) {
-      fprintf(stderr, "@status_WIAT_MSG_DONE(): remove_diffs() failed\n");
-      return 1;
-    }
-    printf(">>>> diff.* files removed\n");
-
-    if (send_msg(sockfd, CLI_REQ_SHA1_FSS_INFO)) {
-      fprintf(stderr, "@status_WAIT_MSG_DONE(): send_msg() failed\n");
-      return 1;
-    }
-    status = WAIT_SHA1_FSS_INFO;
-
-    printf(">>>> calling handle_monifd()\n");
-    if (handle_monifd()) {
-      fprintf(stderr, "@status_WAIT_MSG_DONE(): handle_monifd() failed\n");
-      return 1;
-    }
-
-  } else {
-    printf("WARNING: current status WAIT_MSG_DONE"\
-	   " received invalid message: %s\n", buf);
-    return 0;
-  }
-
-  return 0;
-}
-*/
 
 
 static int receive_line(int sockfd, char *text, int len)

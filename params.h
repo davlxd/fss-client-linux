@@ -40,15 +40,8 @@
 
 extern int errno;
 
-static const char *conf_fname = "fss.conf";
-static FILE *conf_fp;
-
 int get_param_value(const char *k, char *v);
-static int open_file(FILE **conf_fp);
-static int skip_space(FILE *conf_fp);
-static int skip_comment(FILE *conf_fp);
-static int parse(FILE *conf_fp, const char *k, char *v);
-static int parse_param(FILE *, char c,  const char *k, char *v);
+
 
 
 

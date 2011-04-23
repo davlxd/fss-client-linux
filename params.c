@@ -21,6 +21,14 @@
 
 #include "params.h"
 
+
+static const char *conf_fname = "fss.conf";
+static FILE *conf_fp;
+
+static int open_file(FILE **);
+static int parse(FILE*, const char*, char*);
+static int parse_param(FILE*, char , const char*, char*);
+  
 /*
  * k is key, pass in
  * v is value-result argument

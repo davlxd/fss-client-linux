@@ -21,6 +21,34 @@
 
 #include "files.h"
 
+
+/* rootpath do not end with '/' */
+static char rootpath[MAX_PATH_LEN];
+
+static long linenum_to_send;
+static off_t size_to_send;
+
+/* these 2 global via called by call back function write_in() */
+static FILE *fname_fss;
+static FILE *temp_sha1_fss;
+
+// client
+static FILE *diff_remote_index;
+static FILE *diff_local_index;
+
+static int get_temp_sha1_fss(char*);
+static int get_sha1_fss(char*);
+static int get_fname_fss(char*);
+static int get_fss_dir(char*);
+static int get_remote_sha1_fss(char*);
+static int get_diff_remote_index(char*);
+static int get_diff_local_index(char*);
+static int create_fss_dir(const char*);
+static int connect_path(char*, const char*);
+static int disconnect_path(char*, const char*);
+static int write_in(const char*, const struct stat*, int, struct FTW*);
+static int fn(const char*, const struct stat*, int, struct FTW*);
+
 int set_rootpath(const char *root_path)
 {
   size_t strncpy_len, str_len;
@@ -196,15 +224,15 @@ int generate_diffs()
     return 1;
   }
   if (get_sha1_fss(fullpath1)) {
-    fprintf(stderr, "@genereate_diffs(): get_remote_sha1_fss() failed\n");
+    fprintf(stderr, "@generate_diffs(): get_remote_sha1_fss() failed\n");
     return 1;
   }
   if (get_diff_remote_index(fullpath2)) {
-    fprintf(stderr, "@genereate_diffs(): get_diff_remote_index() failed\n");
+    fprintf(stderr, "@generate_diffs(): get_diff_remote_index() failed\n");
     return 1;
   }
   if (get_diff_local_index(fullpath3)) {
-    fprintf(stderr, "@genereate_diffs(): get_diff_local_index() failed\n");
+    fprintf(stderr, "@generate_diffs(): get_diff_local_index() failed\n");
     return 1;
   }
 
@@ -212,11 +240,11 @@ int generate_diffs()
   char digest_local[41];
 
   if (sha1_digest_via_fname(fullpath0, digest_remote)) {
-    fprintf(stderr, "@genereate_diffs(): sha1_digest_via_fname() failed\n");
+    fprintf(stderr, "@generate_diffs(): sha1_digest_via_fname() failed\n");
     return 1;
   }
   if (sha1_digest_via_fname(fullpath1, digest_local)) {
-    fprintf(stderr, "@genereate_diffs(): sha1_digest_via_fname() failed\n");
+    fprintf(stderr, "@generate_diffs(): sha1_digest_via_fname() failed\n");
     return 1;
   }
 
@@ -225,7 +253,7 @@ int generate_diffs()
   
   else {
     if (diff(fullpath0, fullpath1, fullpath2, fullpath3, NULL)) {
-      fprintf(stderr, "@genereate_diffs(): diff() failed\n");
+      fprintf(stderr, "@generate_diffs(): diff() failed\n");
       return 1;
     }
   }
@@ -235,13 +263,13 @@ int generate_diffs()
   off_t size2, size3;
   
   if (stat(fullpath2, &statbuf) < 0) {
-    fprintf(stderr, "@genereate_diffs(): stat() failed\n");
+    fprintf(stderr, "@generate_diffs(): stat() failed\n");
     return 1;
   }
   size2 = statbuf.st_size;
 
   if (stat(fullpath3, &statbuf) < 0) {
-    fprintf(stderr, "@genereate_diffs(): stat() failed\n");
+    fprintf(stderr, "@generate_diffs(): stat() failed\n");
     return 1;
   }
   size3 = statbuf.st_size;
@@ -514,7 +542,7 @@ int remove_files()
     return 1;
   }
   if (get_fname_fss(fullpath1)) {
-    fprintf(stderr, "@remove_files(): get_del_index() failed\n");
+    fprintf(stderr, "@remove_files(): get_fname_fss() failed\n");
     return 1;
   }
 
@@ -988,7 +1016,7 @@ int receive_common_file(int sockfd, const char *rela_fname, off_t sz)
 int receive_file(int sockfd, const char *fname, off_t sz)
 {
   printf(">>>> in receive_file(), receiving: %s, size=%ld\n", fname, sz); fflush(stdout);
-  char fullpath[MAX_PATH_LEN];
+
   char buf[BUF_LEN];
   ssize_t len;
   off_t size;
@@ -1172,8 +1200,11 @@ static int get_diff_local_index(char * fpath)
   return get_xxx(fpath, DIFF_LOCAL_INDEX);
 }
 
-static int get_del_index(char * fpath)
-{
-  return get_xxx(fpath, DEL_INDEX);
-}
+
+
+
+
+
+
+
 

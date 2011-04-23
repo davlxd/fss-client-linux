@@ -52,9 +52,6 @@
 //#define FIFO0 "/tmp/fifo-wrap-inotify.0"
 //#define FIFO1 "/tmp/fifo-wrap-inotify.1"
 
-static char FIFO0[MAX_PATH_LEN];
-static char FIFO1[MAX_PATH_LEN];
-
 extern int errno;
 
 // monitoring STRUCT per directory
@@ -69,35 +66,10 @@ typedef struct monitor
 } monitor;
 
 
-int rfd, wfd;
-pid_t pid;
-
-static char fullpath[MAX_PATH_LEN];
-static fd_set set;
-int maxfd;
-
-/* all sub-dirs gonna be monitored under same inotify mask */
-static uint32_t mask;
-
-/* point to current monitor of ddlink,
- * after recurse iterator, it point to tail of list */
-static monitor *tail_monitor;
 
 /* API */
 int monitors_init(const char *root_path, uint32_t mask, int *fd);
 int monitors_cleanup();
 
-static int monitors_poll();
-static void sig_child(int signo);
-
-static int join_fname(const monitor *this_monitor,
-		      const char *fname);
-static int monitor_connect(const char *path, const struct stat *p,
-			   int f, struct FTW *);
-static int monitor_connect_via_fpath(const monitor *this_monitor,
-				   const char *fname);
-static int monitor_disconnect(monitor *this_monitor);
-static int monitor_disconnect_via_fpath(const monitor *this_monitor,
-				      const char *fname);
 
 #endif

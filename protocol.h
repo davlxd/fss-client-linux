@@ -64,36 +64,8 @@ extern int errno;
 #define WAIT_MSG_SER_RECEIVED 11
 #define WAIT_MSG_SER_REQ_DEL_IDX 13
 
-static int status;
-
-static int sockfd;
-static int monifd;
-
-// monitor lock 
-static int lock;
-
-static char rela_name[MAX_PATH_LEN];
-static time_t mtime;
-static off_t req_sz;
-
 
 int client_polling(int moni_fd, int sock_fd);
-static int handle_monifd();
-static int handle_sockfd();
-static int status_WAIT_SHA1_FSS_INFO();
-static int status_WAIT_SHA1_FSS();
-static int status_WAIT_ENTRY_INFO();
-static int status_WAIT_FILE();
-static int status_WAIT_MSG_SER_REQ_FILE();
-static int status_WAIT_MSG_SER_RECEIVED();
-static int status_WAIT_MSG_SER_REQ_DEL_IDX();
-
-static int analyse_sha1();
-static int download_sync();
-static int receive_line(int sockfd, char *text, int len);
-static int set_fileinfo(char *buf);
-
-
 
 
 #endif
