@@ -28,17 +28,11 @@
 #include <errno.h>
 #include <sys/select.h>
 #include <sys/time.h>
+#include "fss.h"
 #include "files.h"
 
 extern int errno;
 
-#ifndef BUF_LEN
-#define BUF_LEN 4096
-#endif
-
-#ifndef MAX_PATH_LEN
-#define MAX_PATH_LEN 1024
-#endif
 
 #define CLI_REQ_SHA1_FSS "A"
 #define CLI_REQ_FILE "B"
@@ -54,7 +48,15 @@ extern int errno;
 #define CLI_REQ_SHA1_FSS_INFO "M"
 #define DIR_INFO "N"
 
-
+enum {
+  WAIT_SHA1_FSS_INFO = 1,
+  WAIT_SHA1_FSS = 3,
+  WAIT_ENTRY_INFO = 5,
+  WAIT_FILE = 7,
+  WAIT_MSG_SER_REQ_FILE = 9,
+  WAIT_MSG_SER_RECEIVED = 11,
+  WAIT_MSG_SER_REQ_DEL_IDX = 13
+};
 
 #define WAIT_SHA1_FSS_INFO 1
 #define WAIT_SHA1_FSS 3
@@ -65,7 +67,7 @@ extern int errno;
 #define WAIT_MSG_SER_REQ_DEL_IDX 13
 
 
-int client_polling(int moni_fd, int sock_fd);
+int client_polling(int, int);
 
 
 #endif

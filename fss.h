@@ -31,8 +31,18 @@
 #define FSS_DIR ".fss"
 #endif
 
+#ifndef MAX_PATH_LEN
+#define MAX_PATH_LEN 1024
+#endif
 
-extern int errno;
+#ifndef BUF_LEN
+#define BUF_LEN 4096
+#endif
+
+#ifndef FLF
+#define FLF __FILE__, __LINE__, __FUNCTION__
+#endif
+
 
 
 #endif

@@ -19,8 +19,8 @@
  * along with fss.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _FILES_H_
-#define _FILES_H_
+#ifndef _FSS_FILES_H_
+#define _FSS_FILES_H_
 
 #define _XOPEN_SOURCE 500
 
@@ -38,9 +38,6 @@
 
 extern int errno;
 
-#ifndef MAX_PATH_LEN
-#define MAX_PATH_LEN 1024
-#endif
 
 #define PREFIX0_SENT 0
 #define PREFIX1_SENT 2
@@ -68,10 +65,6 @@ extern int errno;
 #define DIFF_LOCAL_INDEX "diff.local.index.fss"
 
 #define DEL_INDEX "del.index.fss"
-
-#ifndef BUF_LEN
-#define BUF_LEN 4096
-#endif
 
 int set_rootpath(const char *root_path);
 int update_files();

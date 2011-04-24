@@ -67,8 +67,8 @@ int set_rootpath(const char *root_path)
   // copy stripped path to rootpath as global viraible
   if (!strncpy(rootpath, root_path, strncpy_len)) {
     fprintf(stderr,
-	    "@update_files(): fail to strncpy %s to rootpath: %s\n",
-	    fullpath, strerror(errno));
+	    "%s %d %s(): fail to strncpy %s to rootpath: %s\n",
+	    FLF, fullpath, strerror(errno));
     return 1;
   }
   rootpath[strlen(rootpath)] = 0;
@@ -84,42 +84,42 @@ int update_files()
   char fullpath1[MAX_PATH_LEN]; //sha1.fss
 
   if (get_temp_sha1_fss(fullpath0)) {
-    fprintf(stderr, "@update_files(): get_temp_sha1_fss() failed\n");
+    fprintf(stderr, "%s %d %s(): get_temp_sha1_fss() failed\n", FLF);
     return 1;
   }
 
   if (get_sha1_fss(fullpath1)) {
-    fprintf(stderr, "@update_files(): get_sha1_fss() failed\n");
+    fprintf(stderr, "%s %d %s(): get_sha1_fss() failed\n", FLF);
     return 1;
   }
 
   if (!strncpy(fullpath, rootpath, strlen(rootpath))) {
-    perror("@update_files(): strncpy failed");
+    fprintf(stderr, "%s %d %s(): strncpy() failed: %s", FLF,
+	    strerror(errno));
     return 1;
   }
   fullpath[strlen(rootpath)] = 0;
 
   if (get_fss_dir(fullpath)) {
-    fprintf(stderr, "@update_files(): get_fss_dir() failed\n");
+    fprintf(stderr, "%s %d %s(): get_fss_dir() failed\n", FLF);
     return 1;
   }
 
   if (create_fss_dir(fullpath)) {
     fprintf(stderr,
-	    "@update_files(): create_fss_dir(%s) fails\n",
-	    fullpath);
+	    "%s %d %s(): create_fss_dir(%s) failed\n", FLF, fullpath);
     return 1;
   }
   
   if (connect_path(fullpath, FNAME_FSS)) {
     fprintf(stderr,
-	    "@update_files(): connect_path(%s, %s) fails\n",
-	    fullpath, FNAME_FSS);
+	    "%s %d %s(): connect_path(%s, %s) failed\n",
+	    FLF, fullpath, FNAME_FSS);
     return 1;
   }
   
   if (!(fname_fss = fopen(fullpath, "w+"))) {
-    fprintf(stderr, "@update_files(): fopen(%s) fails\n", fullpath);
+    fprintf(stderr, "%s %d %s(): fopen(%s) failed\n", FLF, fullpath);
     return 1;
   }
 
