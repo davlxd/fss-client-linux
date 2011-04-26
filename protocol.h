@@ -22,42 +22,25 @@
 #ifndef _FSS_PROTOCOL_H_
 #define _FSS_PROTOCOL_H_
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <sys/select.h>
-#include <sys/time.h>
-#include "files.h"
 
-extern int errno;
-
-#ifndef BUF_LEN
-#define BUF_LEN 4096
-#endif
-
-#ifndef MAX_PATH_LEN
-#define MAX_PATH_LEN 1024
-#endif
-
-#define CLI_REQ_SHA1_FSS "A"
+#define CLI_REQ_HASH_FSS "A"
 #define CLI_REQ_FILE "B"
 #define SER_REQ_FILE "D"
 #define SER_REQ_DEL_IDX "E"
 #define SER_RECEIVED "F"
 #define DONE "G"
-#define SHA1_FSS_INFO "H"
+#define HASH_FSS_INFO "H"
 #define LINE_NUM "I"
 #define FILE_INFO "J"
 #define DEL_IDX_INFO "K"
 #define FIN "L"
-#define CLI_REQ_SHA1_FSS_INFO "M"
+#define CLI_REQ_HASH_FSS_INFO "M"
 #define DIR_INFO "N"
 
 
 
-#define WAIT_SHA1_FSS_INFO 1
-#define WAIT_SHA1_FSS 3
+#define WAIT_HASH_FSS_INFO 1
+#define WAIT_HASH_FSS 3
 #define WAIT_ENTRY_INFO 5
 #define WAIT_FILE 7
 #define WAIT_MSG_SER_REQ_FILE 9

@@ -21,32 +21,6 @@
 #ifndef _SOCK_H_
 #define _SOCK_H_
 
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <string.h>
-#include <errno.h>
-
-extern int errno;
-
-
-#define PORT 3375
-#define PORT_STR "3375"
-
-#ifndef BUF_LEN
-#define BUF_LEN 4096
-#endif
-
-#define CLIENT_CHANGE "A"
-
-#define SERVER_REQUEST_SHA1_FILE_SZ "a"
-#define SERVER_REQUEST_SHA1_FILE "b"
-
-#define SERVER_QUIET 0
-#define CHANGE_SENT 1
-#define SHA1_FILE_SZ_SENT 2
-#define SHA1_FILE_SENT 3
 
 /* input IP addr or Domain name AS text */
 int fss_connect(const char *text, int *sockfd);

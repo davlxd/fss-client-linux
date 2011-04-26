@@ -18,8 +18,11 @@
  * You should have received a copy of the GNU General Public License
  * along with fss.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#include "fss.h"
+#include "files.h"
 #include "protocol.h"
+
+extern int errno;
 
 static int status;
 static int sockfd;
@@ -34,8 +37,8 @@ static off_t req_sz;
 
 static int handle_monifd();
 static int handle_sockfd();
-static int status_WAIT_SHA1_FSS_INFO();
-static int status_WAIT_SHA1_FSS();
+static int status_WAIT_HASH_FSS_INFO();
+static int status_WAIT_HASH_FSS();
 static int status_WAIT_ENTRY_INFO();
 static int status_WAIT_FILE();
 static int status_WAIT_MSG_SER_RECEIVED();
@@ -43,7 +46,7 @@ static int status_WAIT_MSG_SER_REQ_FILE();
 static int status_WAIT_MSG_SER_REQ_DEL_IDX();
 static int receive_line(int, char*, int);
 static int set_fileinfo(char*);
-static int analyse_sha1();
+static int analyse_hash();
 static int download_sync();
 
 int client_polling(int moni_fd, int sock_fd)
@@ -58,7 +61,7 @@ int client_polling(int moni_fd, int sock_fd)
     fprintf(stderr, "@client_polling(): remove_diffs() failed\n");
     return 1;
   }
-  status = WAIT_SHA1_FSS_INFO;
+  status = WAIT_HASH_FSS_INFO;
   lock = 1;
 
   while(1) {
@@ -126,10 +129,10 @@ static int handle_monifd()
     // lock on
     lock = 1;
     printf(">>>> lock set\n");
-    if ((rvv = send_entryinfo_or_reqsha1info(sockfd, 1, FILE_INFO, DIR_INFO,
-					     CLI_REQ_SHA1_FSS_INFO)) == 1) {
+    if ((rvv = send_entryinfo_or_reqhashinfo(sockfd, 1, FILE_INFO, DIR_INFO,
+					     CLI_REQ_HASH_FSS_INFO)) == 1) {
       fprintf(stderr,
-	      "@handle_monifd(): send_entryinfo_or_reqsha1info() failed\n");
+	      "@handle_monifd(): send_entryinfo_or_reqhashinfo() failed\n");
       return 1;
 	    
     } else if (rvv == PREFIX0_SENT)
@@ -139,7 +142,7 @@ static int handle_monifd()
       status = WAIT_MSG_SER_RECEIVED;
 
     else if (rvv == PREFIX2_SENT)
-      status = WAIT_SHA1_FSS_INFO;
+      status = WAIT_HASH_FSS_INFO;
 
   } else if (rv == DIFF_REMOTE_UNIQ) {
     lock = 1;
@@ -164,19 +167,19 @@ static int handle_sockfd()
 
   switch (status) {
     
-  case WAIT_SHA1_FSS_INFO:
-    if (status_WAIT_SHA1_FSS_INFO(sockfd)) {
+  case WAIT_HASH_FSS_INFO:
+    if (status_WAIT_HASH_FSS_INFO(sockfd)) {
       fprintf(stderr,
-	      "@handle_sockfd(): status_WAIT_SHA1_FSS_INFO() failed\n");
+	      "@handle_sockfd(): status_WAIT_HASH_FSS_INFO() failed\n");
       return 1;
     }
     break;
 
 
-  case WAIT_SHA1_FSS:
-    if (status_WAIT_SHA1_FSS(sockfd)) {
+  case WAIT_HASH_FSS:
+    if (status_WAIT_HASH_FSS(sockfd)) {
       fprintf(stderr,
-	      "@handle_sockfd(): status_WAIT_SHA1_FSS() failed\n");
+	      "@handle_sockfd(): status_WAIT_HASH_FSS() failed\n");
       return 1;
     }
     break;
@@ -240,29 +243,29 @@ static int handle_sockfd()
 }
 
 
-static int status_WAIT_SHA1_FSS_INFO()
+static int status_WAIT_HASH_FSS_INFO()
 {
-  printf(">>>> ---> WAIT_SHA1_FSS_INFO\n");
+  printf(">>>> ---> WAIT_HASH_FSS_INFO\n");
   char buf[MAX_PATH_LEN];
   
   if (receive_line(sockfd, buf, MAX_PATH_LEN)) {
     fprintf(stderr,
-	    "@status_WAIT_SHA1_FSS_INFO(): received_line() failed\n");
+	    "@status_WAIT_HASH_FSS_INFO(): received_line() failed\n");
     return 1;
   }
 
-  if (strncmp(buf, SHA1_FSS_INFO, strlen(SHA1_FSS_INFO)) == 0) {
+  if (strncmp(buf, HASH_FSS_INFO, strlen(HASH_FSS_INFO)) == 0) {
     lock = 1;
     printf(">>>> lock is on\n");
 
-    if (set_fileinfo(buf+strlen(SHA1_FSS_INFO))) {
+    if (set_fileinfo(buf+strlen(HASH_FSS_INFO))) {
       fprintf(stderr,
-	      "@status_WAIT_SHA1_FSS_INFO(): set_fileinfo() failed\n");
+	      "@status_WAIT_HASH_FSS_INFO(): set_fileinfo() failed\n");
       return 1;
     }
 
-    if (send_msg(sockfd, CLI_REQ_SHA1_FSS)) {
-      fprintf(stderr, "@status_WAIT_SHA1_FSS_INFO(): send_msg() failed\n");
+    if (send_msg(sockfd, CLI_REQ_HASH_FSS)) {
+      fprintf(stderr, "@status_WAIT_HASH_FSS_INFO(): send_msg() failed\n");
       return 1;
     }
     
@@ -271,19 +274,19 @@ static int status_WAIT_SHA1_FSS_INFO()
     // so directly invoke receive_sha_fss() routine (receive_file can
     // handle 0 byte receivation )
     if (req_sz == 0) {
-      if (status_WAIT_SHA1_FSS()) {
+      if (status_WAIT_HASH_FSS()) {
 	fprintf(stderr,
-		"@status_WAIT_SHA1_FSS_INFO(), " \
-		"status_WAIT_SHA1_FSS() failed\n");
+		"@status_WAIT_HASH_FSS_INFO(), " \
+		"status_WAIT_HASH_FSS() failed\n");
 	return 1;
       }
     } else {
-      status = WAIT_SHA1_FSS;
-      printf(">>>> status set to ----> WAIT_SHA1_FSS\n");
+      status = WAIT_HASH_FSS;
+      printf(">>>> status set to ----> WAIT_HASH_FSS\n");
     }
 
   } else {
-    printf("WARNING: current status WAIT_SHA1_FSS_INFO"\
+    printf("WARNING: current status WAIT_HASH_FSS_INFO"\
 	   " received invalid message: %s\n", buf);
     return 0;
   }
@@ -291,23 +294,23 @@ static int status_WAIT_SHA1_FSS_INFO()
   return 0;
 }
 
-static int status_WAIT_SHA1_FSS()
+static int status_WAIT_HASH_FSS()
 {
-  printf(">>>> ---> WAIT_SHA1_FSS \n");
+  printf(">>>> ---> WAIT_HASH_FSS \n");
   
-  if (receive_sha1_file(sockfd, req_sz)) {
-    fprintf(stderr, "@status_WAIT_SHA1_FSS(): receive_sha1_file() failed\n");
+  if (receive_hash_fss(sockfd, req_sz)) {
+    fprintf(stderr, "@status_WAIT_HASH_FSS(): receive_hash_fss() failed\n");
     return 1;
   }
-  printf(">>>> sha1_file received, updating local sha1.fss ...\n");
+  printf(">>>> hash.fss received, updating local hash.fss ...\n");
 
   if (update_files()) {
-    fprintf(stderr, "@status_WAIT_SHA1_FSS(): update_files() failed\n");
+    fprintf(stderr, "@status_WAIT_HASH_FSS(): update_files() failed\n");
     return 1;
   }
 
-  if (analyse_sha1()) {
-    fprintf(stderr, "@status_WAIT_SHA1_FSS(): analyse_sha1() failed\n");
+  if (analyse_hash()) {
+    fprintf(stderr, "@status_WAIT_HASH_FSS(): analyse_hash() failed\n");
     return 1;
   }
 
@@ -316,23 +319,23 @@ static int status_WAIT_SHA1_FSS()
 
 
 
-static int analyse_sha1()
+static int analyse_hash()
 {
   int rv, rvv;
 
    if ((rv = generate_diffs()) == 1) {
-      fprintf(stderr, "@analyse_sha1(): generate_diffs() failed\n");
+      fprintf(stderr, "@analyse_hash(): generate_diffs() failed\n");
       return 1;
    }
-   // local's sha1.fss is newer
-   if (mtime <= sha1_fss_mtime()) {
+   // local's hash.fss is newer
+   if (mtime <= hash_fss_mtime()) {
      if (rv == DIFF_BOTH_UNIQ || rv == DIFF_LOCAL_UNIQ) {
-       if ((rvv = send_entryinfo_or_reqsha1info(sockfd, 1, FILE_INFO,
+       if ((rvv = send_entryinfo_or_reqhashinfo(sockfd, 1, FILE_INFO,
 						DIR_INFO, 
-						CLI_REQ_SHA1_FSS_INFO))
+						CLI_REQ_HASH_FSS_INFO))
 	   == 1) {
 	 fprintf(stderr,
-		 "@analyse_sha1(): send_entryinfo_or_done() failed\n");
+		 "@analyse_hash(): send_entryinfo_or_done() failed\n");
 	 return 1;
 	 
        } else if (rvv == PREFIX0_SENT) 
@@ -342,71 +345,71 @@ static int analyse_sha1()
 	 status = WAIT_MSG_SER_RECEIVED;
 
        else if (rvv == PREFIX2_SENT)
-	 status = WAIT_SHA1_FSS_INFO;
+	 status = WAIT_HASH_FSS_INFO;
 
      } else if (rv == DIFF_IDENTICAL) {
        if (mtime == (time_t)1) {
 	 if (send_msg(sockfd, FIN)) {
-	   fprintf(stderr, "@analyse_sha1(): send_msg() failed\n");
+	   fprintf(stderr, "@analyse_hash(): send_msg() failed\n");
 	   return 1;
 	 }
        } else {
 	 if (send_msg(sockfd, DONE)) {
-	   fprintf(stderr, "@analyse_sha1(): send_msg() failed\n");
+	   fprintf(stderr, "@analyse_hash(): send_msg() failed\n");
 	   return 1;
 	 }
        }
-       status = WAIT_SHA1_FSS_INFO;
-       printf(">>>> status set to ------> WAIT_SHA1_FSS_INFO\n");
+       status = WAIT_HASH_FSS_INFO;
+       printf(">>>> status set to ------> WAIT_HASH_FSS_INFO\n");
        
        lock = 0;
        printf(">>>> lock unset\n");
      } else if (rv == DIFF_REMOTE_UNIQ) {
        if (send_del_index_info(sockfd, DEL_IDX_INFO)) {
 	 fprintf(stderr,
-		 "@analyse_sha1(): send_del_index_info() failed\n");
+		 "@analyse_hash(): send_del_index_info() failed\n");
 	 return 1;
        }
        status = WAIT_MSG_SER_REQ_DEL_IDX;
      }
-     // remote.sha1.fss is newer
+     // remote.hash.fss is newer
    } else {
      if (rv == DIFF_BOTH_UNIQ || rv == DIFF_REMOTE_UNIQ) {
        if ((rvv = send_linenum_or_done(sockfd, 1, LINE_NUM, DONE)) == 1) {
 	 fprintf(stderr,
-		 "@analyse_sha1(): send_linenum_or_done() failed\n");
+		 "@analyse_hash(): send_linenum_or_done() failed\n");
 	 return 1;
        }
        status = WAIT_ENTRY_INFO;
        printf(">>>> status set to ----> WAIT_ENTRY_INFO\n");
      } else if (rv == DIFF_IDENTICAL) {
        if (send_msg(sockfd, DONE)) {
-	 fprintf(stderr, "@analyse_sha1(): send_msg() failed\n");
+	 fprintf(stderr, "@analyse_hash(): send_msg() failed\n");
 	 return 1;
        }
        lock = 0;
        printf(">>>> lock unset\n");
 
-       status = WAIT_SHA1_FSS_INFO;
-       printf(">>>> status set to ----> WAIT_SHA1_FSS_INFO\n");
+       status = WAIT_HASH_FSS_INFO;
+       printf(">>>> status set to ----> WAIT_HASH_FSS_INFO\n");
      } else if (rv == DIFF_LOCAL_UNIQ) {
        if (remove_files()) {
-	 fprintf(stderr, "@analyse_sha1(): remove_files() failed\n");
+	 fprintf(stderr, "@analyse_hash(): remove_files() failed\n");
 	 return 1;
        }
        if (update_files()) {
-	 fprintf(stderr, "@analyse_sha1(): update_files() failed\n");
+	 fprintf(stderr, "@analyse_hash(): update_files() failed\n");
 	 return 1;
        }
        if (send_msg(sockfd, DONE)) {
-	 fprintf(stderr, "@analyse_sha1(): send_msg() failed\n");
+	 fprintf(stderr, "@analyse_hash(): send_msg() failed\n");
 	 return 1;
        }
        lock = 0;
        printf(">>>> lock unset\n");
 
-       status = WAIT_SHA1_FSS_INFO;
-       printf(">>>> status set to ----> WAIT_SHA1_FSS_INFO\n");
+       status = WAIT_HASH_FSS_INFO;
+       printf(">>>> status set to ----> WAIT_HASH_FSS_INFO\n");
      }
    }
 
@@ -462,7 +465,7 @@ static int status_WAIT_ENTRY_INFO()
     printf(">>>> CLI_REQ_FILE sent, status sent to ---> WAIT_FILE\n");
 
   } else {
-    printf("WARNING: current status WAIT_SHA1_FSS_INFO"\
+    printf("WARNING: current status WAIT_HASH_FSS_INFO"\
 	   " received invalid message: %s\n", buf);
     return 0;
   }
@@ -520,13 +523,13 @@ static int download_sync()
 
     } else if (rvv == DIFF_BOTH_UNIQ || rvv == DIFF_REMOTE_UNIQ) {
 
-      if ((rvvv = send_entryinfo_or_reqsha1info(sockfd, 1, FILE_INFO,
+      if ((rvvv = send_entryinfo_or_reqhashinfo(sockfd, 1, FILE_INFO,
 						DIR_INFO,
-						CLI_REQ_SHA1_FSS_INFO))
+						CLI_REQ_HASH_FSS_INFO))
 	  == 1) {
 	fprintf(stderr,
 		"@status_WAIT_FILE(): " \
-		"send_entryinfo_or_reqsha1info() failed\n");
+		"send_entryinfo_or_reqhashinfo() failed\n");
 	return 1;
 	    
       } else if (rvvv == PREFIX0_SENT) 
@@ -536,7 +539,7 @@ static int download_sync()
 	status = WAIT_MSG_SER_RECEIVED;
 
       else if (rvvv == PREFIX2_SENT)
-	status = WAIT_SHA1_FSS_INFO;
+	status = WAIT_HASH_FSS_INFO;
       
       /* Attension, if user add some files during download sync process
        * program still goes to here, hereby being deleted */
@@ -559,8 +562,8 @@ static int download_sync()
       lock = 0;
       printf(">>>> lock unset\n");
 
-      status = WAIT_SHA1_FSS_INFO;
-      printf(">>>> status sent to ---> WAIT_SHA1_FSS_INFO\n");
+      status = WAIT_HASH_FSS_INFO;
+      printf(">>>> status sent to ---> WAIT_HASH_FSS_INFO\n");
     }
     
   }
@@ -612,11 +615,11 @@ static int status_WAIT_MSG_SER_RECEIVED()
   }
   printf(">>>> received %s\n", buf);
   if (strncmp(buf, SER_RECEIVED, strlen(SER_RECEIVED)) == 0) {
-    if ((rv = send_entryinfo_or_reqsha1info(sockfd, 0, FILE_INFO, DIR_INFO,
-					    CLI_REQ_SHA1_FSS_INFO)) == 1) {
+    if ((rv = send_entryinfo_or_reqhashinfo(sockfd, 0, FILE_INFO, DIR_INFO,
+					    CLI_REQ_HASH_FSS_INFO)) == 1) {
       fprintf(stderr,
 	      "@status_WAIT_MSG_SER_RECEIVED(): "\
-	      "send_entryinfo_or_reqsha1info() failed\n");
+	      "send_entryinfo_or_reqhashinfo() failed\n");
       return 1;
 	    
     } else if (rv == PREFIX0_SENT) {
@@ -625,10 +628,10 @@ static int status_WAIT_MSG_SER_RECEIVED()
       
     } else if (rv == PREFIX1_SENT) {
       status = WAIT_MSG_SER_RECEIVED;
-      printf(">>>> done sent, status set to ---> WAIT_SHA1_FSS_INFO\n");
+      printf(">>>> done sent, status set to ---> WAIT_HASH_FSS_INFO\n");
 
     } else if (rv == PREFIX2_SENT) {
-      status = WAIT_SHA1_FSS_INFO;
+      status = WAIT_HASH_FSS_INFO;
     }
   }
 
@@ -658,8 +661,8 @@ static int status_WAIT_MSG_SER_REQ_DEL_IDX()
     /* lock = 0; */
     /* printf(">>>> lock unset\n"); */
 
-    status = WAIT_SHA1_FSS_INFO;
-    printf(">>>> del_index sent, status set to ---> WAIT_SHA1_FSS_INFO\n");
+    status = WAIT_HASH_FSS_INFO;
+    printf(">>>> del_index sent, status set to ---> WAIT_HASH_FSS_INFO\n");
 
   } else {
     printf("WARNING: current status WAIT_MSG_SER_REQ_FILE"\

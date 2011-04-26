@@ -19,7 +19,10 @@
  * along with fss.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "fss.h"
 #include "params.h"
+
+extern int errno;
 
 
 static const char *conf_fname = "fss.conf";

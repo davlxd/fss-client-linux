@@ -19,7 +19,16 @@
  * along with fss.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "fss.h"
 #include "diff.h"
+
+
+static FILE *file_in_0;
+static FILE *file_in_1;
+static FILE *file_out_0;
+static FILE *file_out_1;
+static FILE *file_out_2;
+
 
 static int open_them(const char*, const char*, const char*, const char*,
 		     const char*);

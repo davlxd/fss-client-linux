@@ -18,8 +18,11 @@
  * You should have received a copy of the GNU General Public License
  * along with fss.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#include "diff.h"
+#include "wrap-sha1.h"
 #include "files.h"
+
+extern int error;
 
 
 /* rootpath do not end with '/' */
@@ -29,18 +32,18 @@ static long linenum_to_send;
 static off_t size_to_send;
 
 /* these 2 global via called by call back function write_in() */
-static FILE *fname_fss;
-static FILE *temp_sha1_fss;
+static FILE *finfo_fss;
+static FILE *temp_hash_fss;
 
 // client
 static FILE *diff_remote_index;
 static FILE *diff_local_index;
 
-static int get_temp_sha1_fss(char*);
-static int get_sha1_fss(char*);
-static int get_fname_fss(char*);
+static int get_temp_hash_fss(char*);
+static int get_hash_fss(char*);
+static int get_finfo_fss(char*);
 static int get_fss_dir(char*);
-static int get_remote_sha1_fss(char*);
+static int get_remote_hash_fss(char*);
 static int get_diff_remote_index(char*);
 static int get_diff_local_index(char*);
 static int create_fss_dir(const char*);
@@ -80,16 +83,16 @@ int update_files()
 {
   struct stat statbuf;
   char fullpath[MAX_PATH_LEN];
-  char fullpath0[MAX_PATH_LEN]; //temp.sha1.fss
-  char fullpath1[MAX_PATH_LEN]; //sha1.fss
+  char fullpath0[MAX_PATH_LEN]; //temp.hash.fss
+  char fullpath1[MAX_PATH_LEN]; //hash.fss
 
-  if (get_temp_sha1_fss(fullpath0)) {
-    fprintf(stderr, "@update_files(): get_temp_sha1_fss() failed\n");
+  if (get_temp_hash_fss(fullpath0)) {
+    fprintf(stderr, "@update_files(): get_temp_hash_fss() failed\n");
     return 1;
   }
 
-  if (get_sha1_fss(fullpath1)) {
-    fprintf(stderr, "@update_files(): get_sha1_fss() failed\n");
+  if (get_hash_fss(fullpath1)) {
+    fprintf(stderr, "@update_files(): get_hash_fss() failed\n");
     return 1;
   }
 
@@ -111,32 +114,32 @@ int update_files()
     return 1;
   }
   
-  if (connect_path(fullpath, FNAME_FSS)) {
+  if (connect_path(fullpath, FINFO_FSS)) {
     fprintf(stderr,
 	    "@update_files(): connect_path(%s, %s) fails\n",
-	    fullpath, FNAME_FSS);
+	    fullpath, FINFO_FSS);
     return 1;
   }
   
-  if (!(fname_fss = fopen(fullpath, "w+"))) {
+  if (!(finfo_fss = fopen(fullpath, "w+"))) {
     fprintf(stderr, "@update_files(): fopen(%s) fails\n", fullpath);
     return 1;
   }
 
-  disconnect_path(fullpath, FNAME_FSS);
+  disconnect_path(fullpath, FINFO_FSS);
   
-  if (connect_path(fullpath, TEMP_SHA1_FSS)) {
+  if (connect_path(fullpath, TEMP_HASH_FSS)) {
     fprintf(stderr,
 	    "@update_files(): connect_path(%s, %s) fails\n",
-	    fullpath, TEMP_SHA1_FSS);
+	    fullpath, TEMP_HASH_FSS);
     return 1;
   }
 
-  if (!(temp_sha1_fss = fopen(fullpath, "w+"))) {
+  if (!(temp_hash_fss = fopen(fullpath, "w+"))) {
     fprintf(stderr, "@update_files(): fopen(%s) fails\n", fullpath);
     return 1;
   }
-  disconnect_path(fullpath, TEMP_SHA1_FSS);
+  disconnect_path(fullpath, TEMP_HASH_FSS);
   disconnect_path(fullpath, FSS_DIR);
 
   if (nftw(fullpath, write_in, 10, FTW_DEPTH) != 0) {
@@ -144,23 +147,23 @@ int update_files()
     return 1;
   }
 
-  if (0 != fflush(fname_fss)) {
-    perror("@update_files(): fflush(fname_fss) fails.");
+  if (0 != fflush(finfo_fss)) {
+    perror("@update_files(): fflush(finfo_fss) fails.");
     return 1;
   }
   
-  if (0 != fclose(fname_fss)) {
-    perror("@update_files(): fclose(fname_fss) fails.");
+  if (0 != fclose(finfo_fss)) {
+    perror("@update_files(): fclose(finfo_fss) fails.");
     return 1;
   }
 
-  if (0 != fflush(temp_sha1_fss)) {
-    perror("@update_files(): fflush(sha1_fss) fails.");
+  if (0 != fflush(temp_hash_fss)) {
+    perror("@update_files(): fflush(hash_fss) fails.");
     return 1;
   }
   
-  if (0 != fclose(temp_sha1_fss)) {
-    perror("@update_files(): fclose(sha1_fss) fails.");
+  if (0 != fclose(temp_hash_fss)) {
+    perror("@update_files(): fclose(hashx_fss) fails.");
     return 1;
   }
   
@@ -206,7 +209,7 @@ int update_files()
       return 1;
     }
   }
-  printf(">>>> sha1.fss and fname.fss updateed\n");
+  printf(">>>> hash.fss and finfo.fss updateed\n");
   
   return 0;
 }
@@ -214,17 +217,17 @@ int update_files()
 
 int generate_diffs()
 {
-  char fullpath0[MAX_PATH_LEN]; // remote.sha1.fss
-  char fullpath1[MAX_PATH_LEN]; // sha1.fss
+  char fullpath0[MAX_PATH_LEN]; // remote.hash.fss
+  char fullpath1[MAX_PATH_LEN]; // hash.fss
   char fullpath2[MAX_PATH_LEN]; // diff.remote.index
   char fullpath3[MAX_PATH_LEN]; // diff.local.index
 
-  if (get_remote_sha1_fss(fullpath0)) {
-    fprintf(stderr, "@generate_diffs(): get_remote_sha1_fss() failed\n");
+  if (get_remote_hash_fss(fullpath0)) {
+    fprintf(stderr, "@generate_diffs(): get_remote_hash_fss() failed\n");
     return 1;
   }
-  if (get_sha1_fss(fullpath1)) {
-    fprintf(stderr, "@generate_diffs(): get_remote_sha1_fss() failed\n");
+  if (get_hash_fss(fullpath1)) {
+    fprintf(stderr, "@generate_diffs(): get_remote_hash_fss() failed\n");
     return 1;
   }
   if (get_diff_remote_index(fullpath2)) {
@@ -358,21 +361,21 @@ static int write_in(const char *path, const struct stat *ptr,
 
   if (rv == 0) {
   
-    if (EOF == fputs(digest, temp_sha1_fss)) {
+    if (EOF == fputs(digest, temp_hash_fss)) {
       perror("@write_in(): fputs fails.");
       return 1;
     }
-    if (EOF == fputc('\n', temp_sha1_fss)) {
+    if (EOF == fputc('\n', temp_hash_fss)) {
       perror("@write_in(): fputc() \\n fails.");
       return 1;
     }
 
   
-    if (EOF == fputs(path, fname_fss)) {
+    if (EOF == fputs(path, finfo_fss)) {
       perror("@write_in(): fputs fails.");
       return 1;
     }
-    if (EOF == fputc('\n', fname_fss)) {
+    if (EOF == fputc('\n', finfo_fss)) {
       perror("@write_in(): fputc() \\n fails.");
       return 1;
     }
@@ -478,19 +481,19 @@ static int get_rela_path(const char *fullpath, char *rela_path)
 }
 
 
-/* protocol.h/c get sha1.fss's st_mtime to compare with remote's */
-time_t sha1_fss_mtime()
+/* protocol.h/c get hash.fss's st_mtime to compare with remote's */
+time_t hash_fss_mtime()
 {
   char fullpath[MAX_PATH_LEN];
   struct stat statbuf;
 
-  if (get_sha1_fss(fullpath)) {
-    fprintf(stderr, "@sha1_fss_mtime(): get_sha1_fss() failed\n");
+  if (get_hash_fss(fullpath)) {
+    fprintf(stderr, "@hash_fss_mtime(): get_hash_fss() failed\n");
     return 1;
   }
   
   if (stat(fullpath, &statbuf) < 0) {
-    perror("sha1_fss_mtime(): stat() failed");
+    perror("hash_fss_mtime(): stat() failed");
     return 1;
   }
 
@@ -529,7 +532,7 @@ int remove_diffs()
 int remove_files()
 {
   char fullpath0[MAX_PATH_LEN]; // diff.local.index
-  char fullpath1[MAX_PATH_LEN]; // fname.fss
+  char fullpath1[MAX_PATH_LEN]; // finfo.fss
   char buf[MAX_PATH_LEN];
   char record[MAX_PATH_LEN];
   long linenum_to_delete;
@@ -541,8 +544,8 @@ int remove_files()
 	    "@remove_files(): get_diff_local_index() failed\n");
     return 1;
   }
-  if (get_fname_fss(fullpath1)) {
-    fprintf(stderr, "@remove_files(): get_fname_fss() failed\n");
+  if (get_finfo_fss(fullpath1)) {
+    fprintf(stderr, "@remove_files(): get_finfo_fss() failed\n");
     return 1;
   }
 
@@ -622,21 +625,21 @@ int send_file_via_linenum(int sockfd)
   char fullpath[MAX_PATH_LEN];
   char record[MAX_PATH_LEN];
 
-  if (get_fname_fss(fullpath)) {
-    fprintf(stderr, "@send_file_via_fname(): get_fname_fss() failed\n");
+  if (get_finfo_fss(fullpath)) {
+    fprintf(stderr, "@send_file_via_linenum(): get_finfo_fss() failed\n");
     return 1;
   }
 
   memset(record, 0, MAX_PATH_LEN);
 
   if (get_line(fullpath, linenum_to_send, record, MAX_PATH_LEN)) {
-    fprintf(stderr, "@send_file_via_fname(): get_line() failed\n");
+    fprintf(stderr, "@send_file_via_linenum(): get_line() failed\n");
     return 1;
   }
 
 
   if (send_file(sockfd, record)) {
-    fprintf(stderr, "@send_file_via_fname(): send_file() failed\n");
+    fprintf(stderr, "@send_file_via_linenun(): send_file() failed\n");
     return 1;
   }
 
@@ -704,9 +707,9 @@ int send_entryinfo_via_linenum(int sockfd, long linenum,
   char fullpath[MAX_PATH_LEN];
   char record[MAX_PATH_LEN];
 
-  if (get_fname_fss(fullpath)) {
+  if (get_finfo_fss(fullpath)) {
     fprintf(stderr, "@send_entryinfo_via_linenum(): " \
-	    "get_fname_fss() failed\n");
+	    "get_finfo_fss() failed\n");
     return 1;
   }
 
@@ -867,7 +870,7 @@ int send_linenum_or_done(int sockfd, int if_init,
 }
 
 
-int send_entryinfo_or_reqsha1info(int sockfd, int ifinit,
+int send_entryinfo_or_reqhashinfo(int sockfd, int ifinit,
 				  const char *prefix0,
 				  const char *prefix1, const char *prefix2)
 {
@@ -930,17 +933,17 @@ int send_entryinfo_or_reqsha1info(int sockfd, int ifinit,
 
 
 
-int receive_sha1_file(int sockfd, off_t sz)
+int receive_hash_fss(int sockfd, off_t sz)
 {
   char fullpath[MAX_PATH_LEN];
 
-  if (get_remote_sha1_fss(fullpath)) {
-    fprintf(stderr, "@reveive_sha1_file(): get_remote_sha1_fss() failed\n");
+  if (get_remote_hash_fss(fullpath)) {
+    fprintf(stderr, "@reveive_hash_fss(): get_remote_hash_fss() failed\n");
     return 1;
   }
 
   if (receive_file(sockfd, fullpath, sz)) {
-    fprintf(stderr, "@receive_sha1_file(): receive_file() fail\n");
+    fprintf(stderr, "@receive_hash_file(): receive_file() fail\n");
     return 1;
   }
   return 0;
@@ -1053,12 +1056,12 @@ int receive_file(int sockfd, const char *fname, off_t sz)
   }
   
   if (0 != fflush(file)) {
-    perror("@receive_file(): fflush(remote_sha1_file) fails.");
+    perror("@receive_file(): fflush(remote_hash_file) fails.");
     return 1;
   }
   
   if (0 != fclose(file)) {
-    perror("@receive_file(): fclose(remote_sha1_file) fails.");
+    perror("@receive_file(): fclose(remote_hash_file) fails.");
     return 1;
   }
   printf(" received\n"); fflush(stdout);
@@ -1166,26 +1169,26 @@ static int get_xxx(char *fpath, const char *name)
   return 0;
 }
 
-static int get_fname_fss(char *fpath)
+static int get_finfo_fss(char *fpath)
 {
-  return get_xxx(fpath, FNAME_FSS);
+  return get_xxx(fpath, FINFO_FSS);
 }
 
-static int get_sha1_fss(char *fpath)
+static int get_hash_fss(char *fpath)
 {
-  return get_xxx(fpath, SHA1_FSS);
+  return get_xxx(fpath, HASH_FSS);
 }
 
-static int get_temp_sha1_fss(char * fpath)
+static int get_temp_hash_fss(char * fpath)
 {
 
-  return get_xxx(fpath, TEMP_SHA1_FSS);
+  return get_xxx(fpath, TEMP_HASH_FSS);
 }
 
-static int get_remote_sha1_fss(char * fpath)
+static int get_remote_hash_fss(char * fpath)
 {
 
-  return get_xxx(fpath, REMOTE_SHA1_FSS);
+  return get_xxx(fpath, REMOTE_HASH_FSS);
 }
 
 static int get_diff_remote_index(char * fpath)

@@ -20,30 +20,18 @@
 #ifndef _WRAP_SHA1_H_
 #define _WRAP_SHA1_H_
 
-#include "sha1.h"
-
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
-#include <sys/stat.h>
-extern int errno;
+#include "fss.h"
 
 #ifndef SHA1_BUF_LEN
 #define SHA1_BUF_LEN 1024
 #endif
-
-#ifndef MAX_PATH_LEN
-#define MAX_PATH_LEN 1024
-#endif
-
 
 int sha1_digest_via_fname(const char *fname, char *digest);
 
 /* I need this function because of my dirty design
  * this function ask for root_path to calculate sha1 including
  * relative path*/
-int sha1_digest_via_fname_fss(const char *fname,
-			      const char *root_path, char*digest);
+int sha1_digest_via_fname_fss(const char *, const char *, char*);
 
 int sha1_file(FILE *file, char *digest);
 int sha1_str(char *text, char *digest);

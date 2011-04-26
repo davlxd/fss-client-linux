@@ -21,9 +21,6 @@
 #ifndef _DIFF_H_
 #define _DIFF_H_
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 #define SHA1_LINE_LEN 42
 
@@ -31,11 +28,6 @@
 #define MAX_LINE_LEN SHA1_LINE_LEN
 #endif
 
-FILE *file_in_0;
-FILE *file_in_1;
-FILE *file_out_0;
-FILE *file_out_1;
-FILE *file_out_2;
 
 /* fout0 -> lines exist in fin0, not in fin1
  * fout1 -> lines exist in fin1, not in fin0
