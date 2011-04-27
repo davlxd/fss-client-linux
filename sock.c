@@ -19,7 +19,10 @@
  * along with fss.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "fss.h"
 #include "sock.h"
+
+extern int errno;
 
 int fss_connect(const char *text, int *sockfd)
 {

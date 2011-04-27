@@ -22,23 +22,9 @@
 #ifndef _PARAMS_H_
 #define _PARAMS_H_
 
-//#include "log.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <ctype.h>
-#include <errno.h>
-#include <sys/stat.h>
 
-#ifndef PARAM_LEN
 #define PARAM_LEN 16
-#endif
-#ifndef VALUE_LEN
 #define VALUE_LEN 1024
-#endif
-
-extern int errno;
 
 int get_param_value(const char *k, char *v);
 

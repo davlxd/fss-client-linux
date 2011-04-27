@@ -22,27 +22,36 @@
 #ifndef _F_SS_H_
 #define _F_SS_H_
 
+#define _XOPEN_SOURCE 500
 
-#ifndef INCLUDE_HIDDEN
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/socket.h>
+#include <sys/select.h>
+#include <sys/time.h>
+#include <sys/wait.h>
+#include <sys/inotify.h>
+#include <signal.h>
+#include <fcntl.h>
+#include <ftw.h>
+#include <dirent.h>
+#include <netdb.h>
+
 #define INCLUDE_HIDDEN 0
-#endif 
 
-#ifndef FSS_DIR
-#define FSS_DIR ".fss"
-#endif
-
-#ifndef MAX_PATH_LEN
-#define MAX_PATH_LEN 1024
-#endif
-
-#ifndef BUF_LEN
 #define BUF_LEN 4096
-#endif
+#define MAX_PATH_LEN 1024
 
-#ifndef FLF
-#define FLF __FILE__, __LINE__, __FUNCTION__
-#endif
+#define PORT 3375
+#define PORT_STR "3375"
 
+
+#define FSS_DIR ".fss"
 
 
 #endif

@@ -24,8 +24,7 @@
 #include "params.h"
 #include "protocol.h"
 #include "wrap-inotify.h"
-#include <stdlib.h>
-#include <stdio.h>
+#include "fss.h"
 
 
 

@@ -22,6 +22,7 @@
  * You should have received a copy of the GNU General Public License
  * along with fss.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "fss.h"
 #include "wrap-inotify.h"
 
 static char FIFO0[MAX_PATH_LEN];

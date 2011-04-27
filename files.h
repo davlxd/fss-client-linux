@@ -22,22 +22,7 @@
 #ifndef _FSS_FILES_H_
 #define _FSS_FILES_H_
 
-#define _XOPEN_SOURCE 500
-
 #include "fss.h"
-#include "diff.h"
-#include "wrap-sha1.h"
-
-#include <stdio.h>
-#include <unistd.h>
-#include <errno.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/socket.h>
-#include <ftw.h>
-
-extern int errno;
-
 
 #define PREFIX0_SENT 0
 #define PREFIX1_SENT 2
@@ -50,18 +35,18 @@ extern int errno;
 #define DIFF_REMOTE_UNIQ 4
 
 
-#define FNAME_FSS "fname.fss"
+#define FINFO_FSS "finfo.fss"
 
-#define SHA1_FSS "sha1.fss"
-#define TEMP_SHA1_FSS "temp.sha1.fss"
+#define HASH_FSS "hash.fss"
+#define TEMP_HASH_FSS "temp.hash.fss"
 
-/* remote.sha1.fss is ONLY server's sha.fss @ client */
-#define REMOTE_SHA1_FSS "remote.sha1.fss"
+/* remote.hash.fss is ONLY server's sha.fss @ client */
+#define REMOTE_HASH_FSS "remote.hash.fss"
 
-/* remote.sha1.fss's unique sha1 record line_number in remote.sha1.fss */
+/* remote.hash.fss's unique hash record line_number in remote.hash.fss */
 #define DIFF_REMOTE_INDEX "diff.remote.index.fss"
 
-/* local's sha1.fss's unique sha1 record line_number in sha1.fss */
+/* local's hash.fss's unique hash record line_number in hash.fss */
 #define DIFF_LOCAL_INDEX "diff.local.index.fss"
 
 #define DEL_INDEX "del.index.fss"
@@ -91,12 +76,12 @@ int send_msg(int sockfd, const char *msg);
 int send_linenum_or_done(int sockfd, int ifinit,
 			 const char *prefix0, const char *prefix1);
 
-int send_entryinfo_or_reqsha1info(int sockfd, int ifinit,
+int send_entryinfo_or_reqhashinfo(int sockfd, int ifinit,
 				  const char *prefix0,
 				  const char *prefix1, const char *prefix2);
 
 /* receive... */
-int receive_sha1_file(int sockfd, off_t sz);
+int receive_hash_fss(int sockfd, off_t sz);
 int receive_common_file(int sockfd, const char *rela_fname, off_t sz);
 int receive_file(int sockfd, const char *relaname, off_t size);
 
@@ -104,7 +89,7 @@ int create_dir(const char *relafname);
 int remove_dir(const char *fname);
 
 
-time_t sha1_fss_mtime();
+time_t hash_fss_mtime();
 int remove_diffs();
 int remove_files();
 

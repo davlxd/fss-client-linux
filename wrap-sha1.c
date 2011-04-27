@@ -19,7 +19,10 @@
  * along with fss.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "sha1.h"
 #include "wrap-sha1.h"
+
+extern int errno;
 
 int sha1_digest_via_fname(const char *fname, char *digest)
 {

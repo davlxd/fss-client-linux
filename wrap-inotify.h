@@ -22,32 +22,6 @@
 #ifndef _WRAP_INOTIFY_H_
 #define _WRAP_INOTIFY_H_
 
-#define _XOPEN_SOURCE 500
-#include <errno.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/inotify.h>
-#include <sys/select.h>
-#include <sys/time.h>
-#include <sys/wait.h>
-#include <signal.h>
-#include <dirent.h>
-#include <unistd.h>
-#include <fcntl.h>
-
-#include <ftw.h>
-#include "fss.h"
-
-#ifndef MAX_PATH_LEN
-#define MAX_PATH_LEN 1024
-#endif
-
-#ifndef BUF_LEN
-#define BUF_LEN 4096
-#endif
-
 
 //#define FIFO0 "/tmp/fifo-wrap-inotify.0"
 //#define FIFO1 "/tmp/fifo-wrap-inotify.1"

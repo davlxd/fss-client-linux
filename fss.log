@@ -1,5 +1,0 @@
-Tue Feb 22 16:51:39 2011	5775	params.c open_file(): fail to open config file, Permission denied
-Tue Feb 22 16:51:39 2011	5775	params.c get_param_value(): fail to open conf_fp
-Tue Feb 22 16:51:39 2011	5775	get_param_value() error
-Tue Feb 22 16:51:39 2011	5775	params.c open_file(): fail to open config file, Permission denied
-Tue Feb 22 16:51:39 2011	5775	params.c get_param_value(): fail to open conf_fp
