@@ -654,6 +654,9 @@ int send_file(int sockfd, const char *fname)
   off_t size;
   FILE *file;
 
+  if (size_to_send == 0)
+    return 0;
+
   if (!(file = fopen(fname, "rb"))) {
     fprintf(stderr, "@send_file(): fopen(%s) fails\n", fname);
     return 1;
@@ -742,11 +745,13 @@ int send_entryinfo(int sockfd, const char *fname,
   struct stat statbuf;
   int len, str_len;
   int rv;
+  int temp_errno;
 
-  if (stat(fname, &statbuf) < 0) {
-    perror("@send_entryinfo_via_fname(): stat failed");
+  if ((stat(fname, &statbuf) < 0) && (errno != ENOENT) ) {
+    perror("@send_entryinfo(): stat failed");
     return 1;
   }
+  temp_errno = errno;
 
   // if it is a dir, append prefix1 (DIR_INFO)
   if (S_ISDIR(statbuf.st_mode)) {
@@ -756,6 +761,7 @@ int send_entryinfo(int sockfd, const char *fname,
     }
     msg[strlen(prefix1)] = 0;  rv = PREFIX1_SENT;
 
+    // else append prefix0 (FILE_INFO)
   } else {
     if (strncpy(msg, prefix0, strlen(prefix0)) == NULL) {
       perror("@send_entryinfo(): strncpy() failed");
@@ -775,31 +781,42 @@ int send_entryinfo(int sockfd, const char *fname,
     return 1;
   }
   msg[str_len+strlen(rela_fname)] = 0;
-
   str_len = strlen(msg);
-  if ((len = snprintf(msg + str_len,
-		      MAX_PATH_LEN - str_len,
-		      "\n%ld", statbuf.st_mtime)) < 0) {
-    perror("@send_entryinfo(): snprintf() failed");
-    return 1;
-  }
-  msg[str_len + len] = 0;
 
-  str_len = strlen(msg);
-  if ((len = snprintf(msg + str_len,
-		      MAX_PATH_LEN - str_len,
-		      "\n%ld", statbuf.st_size)) < 0) {
-    perror("@send_entryinfo(): snprintf() failed");
-    return 1;
+  // if this file or dir has been deleted while syncing
+  if (temp_errno == ENOENT) {
+    if((len = snprintf(msg+str_len,
+		       MAX_PATH_LEN - str_len,
+		       "\n%ld\n%ld", (long)1, (long)0)) < 0) {
+      perror("@send_entryinfo(): snprintf() failed");
+      return 1;
+    }
+    size_to_send = 0;
+
+  } else {
+    if ((len = snprintf(msg + str_len,
+			MAX_PATH_LEN - str_len,
+			"\n%ld", statbuf.st_mtime)) < 0) {
+      perror("@send_entryinfo(): snprintf() failed");
+      return 1;
+    }
+    msg[str_len + len] = 0;
+
+    str_len = strlen(msg);
+    if ((len = snprintf(msg + str_len,
+			MAX_PATH_LEN - str_len,
+			"\n%ld", statbuf.st_size)) < 0) {
+      perror("@send_entryinfo(): snprintf() failed");
+      return 1;
+    }
+    msg[str_len + len] = 0;
+    size_to_send = statbuf.st_size;
   }
-  msg[str_len + len] = 0;
 
   if (send_msg(sockfd, msg)) {
     fprintf(stderr, "@send_entryinfo(): send_msg() failed\n");
     return 1;
   }
-
-  size_to_send = statbuf.st_size;
 
   printf(">>>> just send --%s--\n", msg);
   return rv;
