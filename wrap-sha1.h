@@ -33,6 +33,11 @@ int sha1_digest_via_fname(const char *fname, char *digest);
  * relative path*/
 int sha1_digest_via_fname_fss(const char *, const char *, char*);
 
+// sha1_digest should be a char array with length=41
+// hash_digest should be a char array with length=42
+int compute_hash(const char *fname, const char *root_path,
+		 char *sha1_digest, char *hash_digest);
+
 int sha1_file(FILE *file, char *digest);
 int sha1_str(char *text, char *digest);
 

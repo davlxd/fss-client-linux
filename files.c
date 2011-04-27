@@ -335,13 +335,21 @@ static int write_in(const char *path, const struct stat *ptr,
 		    int flag, struct FTW *fb)
 {
   int rv;
+
+  // only include regular files and dirs
+  if (!S_ISDIR(ptr->st_mode) && !S_ISREG(ptr->st_mode))
+    return 0;
+
   // esapce rootpath
   if (strncmp(path, rootpath, strlen(path)) == 0)
     return 0;
 
-  //TODO: trick
+  // TODO: trick
+  // escapce hidden files
   if (!INCLUDE_HIDDEN && strstr(path, "/."))
     return 0;
+
+  //escapce .fss
   if (strncmp(FSS_DIR, path+fb->base, strlen(FSS_DIR) == 0))
     return 0;
   

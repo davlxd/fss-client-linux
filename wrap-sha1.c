@@ -24,6 +24,8 @@
 
 extern int errno;
 
+static int export_to_str(SHA1Context *sha1, char *digest_str);
+
 int sha1_digest_via_fname(const char *fname, char *digest)
 {
   FILE *file;
@@ -119,7 +121,7 @@ int sha1_digest_via_fname_fss(const char *fname,
     if (errno == ENOENT)
       return 2;
     else {
-      perror("@sha1_digest_via_fname_fss(): stat() failed\n");
+      perror("@sha1_digest_via_fname_fss(): stat() failed");
       return 1;
     }
   }
@@ -168,7 +170,7 @@ int sha1_digest_via_fname_fss(const char *fname,
   }
   digest0[40] = 0;
 
-  // now calcuate relapth's sha1 digest
+  // now calcuate relapath's sha1 digest
   char *token;
   token = strtok(fullpath, "/");
   while(token) {
@@ -232,6 +234,135 @@ int sha1_digest_via_fname_fss(const char *fname,
   return 0;
 }
 
+
+
+
+// sha1_digest should be a char array with length=41
+// hash_digest should be a char array with length=42
+int compute_hash(const char *fname, const char *root_path,
+		 char *sha1_digest, char *hash_digest)
+{
+  SHA1Context sha;
+  int flag = 0; // file type flag, 0=reg file, 1=dir
+  unsigned char buf[SHA1_BUF_LEN];
+  char content_digest[41], path_digest[41], both_digest[81];
+  struct stat statbuf;
+  FILE *file = NULL;
+  size_t len;
+
+  if (stat(fname, &statbuf) < 0) {
+    perror("@compute_hash(): stat() failed");
+    return 1;
+  }
+
+  // if it is a dir, make normal sha1 string as 000...00
+  if (S_ISDIR(statbuf.st_mode)) {
+    flag = 1;
+    SHA1Reset(&sha);
+    SHA1Result(&sha);
+    if (export_to_str(&sha, content_digest)) {
+      fprintf(stderr, "@compute_hash(): export_to_str() failed\n");
+      return 1;
+    }
+
+    // if it is regular file, calc its normal sha1 string
+  }  else if (S_ISREG(statbuf.st_mode)) {
+    if ((file = fopen(fname, "rb")) == NULL) {
+      perror("@compute_hash(): fopen() failed");
+      return 1;
+    }
+
+    SHA1Reset(&sha);
+    len = fread(buf, sizeof(unsigned char), SHA1_BUF_LEN, file);
+    while(len) {
+      SHA1Input(&sha, buf, len);
+      len = fread(buf, sizeof(unsigned char), SHA1_BUF_LEN, file);
+    }
+
+    fclose(file);
+    SHA1Result(&sha);
+
+    if (export_to_str(&sha, content_digest)) {
+      fprintf(stderr, "@compute_hash(): export_to_str() failed\n");
+      return 1;
+    }
+
+  } else {
+    fprintf(stderr, "@compute_hash(): target neither reg file nor dir\n");
+    return 1;
+  }
+
+  if (sha1_digest != NULL) {
+    strncpy(sha1_digest, content_digest, 40);
+    sha1_digest[40] = 0;
+  }
+
+  if (hash_digest == NULL)
+    return 0;
+
+  char relapath[MAX_PATH_LEN];
+  size_t relalen = strlen(fname) - strlen(root_path);
+  if(!strncpy(relapath, fname+strlen(root_path), relalen)) {
+    perror("@compute_hash(): strncpy() failed");
+    return 1;
+  }
+  relapath[relalen] = 0;
+
+
+  // the following hash computation is a little bit complicated and
+  // annoying, just because client on windows platform did this way
+  char *token;
+  token = strtok(relapath, "/");
+  
+   while(token) {
+    SHA1Reset(&sha);
+    SHA1Input(&sha, (unsigned char*)token, strlen(token));
+    SHA1Result(&sha);
+
+    if (export_to_str(&sha, path_digest)) {
+      fprintf(stderr, "@compute_hash(): export_to_str() failed\n");
+      return 1;
+    }
+
+    strncpy(both_digest, content_digest, 40);
+    strncpy(both_digest+40, path_digest, 40);
+    both_digest[80] = 0;
+
+    SHA1Reset(&sha);
+    SHA1Input(&sha, (unsigned char*)both_digest, strlen(both_digest));
+    SHA1Result(&sha);
+
+    if (export_to_str(&sha, content_digest)) {
+      fprintf(stderr, "@compute_hash(): export_to_str() failed\n");
+      return 1;
+    }
+    
+    token = strtok(NULL, "/");
+  }
+
+
+  snprintf(hash_digest, 1+1, "%0X", flag);
+  strncpy(hash_digest+1, content_digest, 40);
+  hash_digest[41] = 0;
+
+  return 0;
+}
+
+
+
+static int export_to_str(SHA1Context *sha1, char *digest_str)
+{
+  int i;
+  for (i = 0; i < 5; i++) {
+    if (snprintf(digest_str+8*i, 8+1, "%08X", sha1->Message_Digest[i]) < 0) {
+      perror("@export_to_str(): snprintf() failed");
+      return 1;
+    }
+  }
+  digest_str[40] = 0;
+
+  return 0;
+}
   
   
   
