@@ -70,8 +70,8 @@ int set_rootpath(const char *root_path)
   // copy stripped path to rootpath as global viraible
   if (!strncpy(rootpath, root_path, strncpy_len)) {
     fprintf(stderr,
-	    "%s %d %s(): fail to strncpy %s to rootpath: %s\n",
-	    FLF, fullpath, strerror(errno));
+	    "@set_rootpath(): failed to strncpy %s to rootpath: %s\n",
+	    fullpath, strerror(errno));
     return 1;
   }
   rootpath[strlen(rootpath)] = 0;
@@ -97,20 +97,20 @@ int update_files()
   }
 
   if (!strncpy(fullpath, rootpath, strlen(rootpath))) {
-    fprintf(stderr, "%s %d %s(): strncpy() failed: %s", FLF,
+    fprintf(stderr, "@update_files(): strncpy() failed: %s",
 	    strerror(errno));
     return 1;
   }
   fullpath[strlen(rootpath)] = 0;
 
   if (get_fss_dir(fullpath)) {
-    fprintf(stderr, "%s %d %s(): get_fss_dir() failed\n", FLF);
+    fprintf(stderr, "@update_files(): get_fss_dir() failed\n");
     return 1;
   }
 
   if (create_fss_dir(fullpath)) {
     fprintf(stderr,
-	    "%s %d %s(): create_fss_dir(%s) failed\n", FLF, fullpath);
+	    "@update_files(): create_fss_dir(%s) failed\n", fullpath);
     return 1;
   }
   
