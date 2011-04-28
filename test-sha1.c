@@ -4,8 +4,8 @@
 
 int main()
 {
-  char *target = "/home/i/Desktop/new file";
-  char *target_p = "/home/i/Desktop";
+  char *target = "/home/i/VirtualBox/fss-client/fss-client/Sha1.cs";
+  char *target_p = "/home/i/VirtualBox/fss-client/";
   char digest[41];
   char hash[42];
  

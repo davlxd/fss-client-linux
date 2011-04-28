@@ -21,12 +21,7 @@
 #ifndef _DIFF_H_
 #define _DIFF_H_
 
-
-#define SHA1_LINE_LEN 42
-
-#ifndef MAX_LINE_LEN
-#define MAX_LINE_LEN SHA1_LINE_LEN
-#endif
+#define MAX_LINE_LEN HASH_LEN+1
 
 
 /* fout0 -> lines exist in fin0, not in fin1
