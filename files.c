@@ -49,6 +49,9 @@ static int get_diff_local_index(char*);
 static int create_fss_dir(const char*);
 static int connect_path(char*, const char*);
 static int disconnect_path(char*, const char*);
+static int get_rela_path(const char*, char *);
+static int get_crlf_line(const char*, long , char*, int);
+static int get_line(const char*, long, char*, int_t);
 static int write_in(const char*, const struct stat*, int, struct FTW*);
 static int fn(const char*, const struct stat*, int, struct FTW*);
 
@@ -323,6 +326,7 @@ static int connect_path(char *path0, const char *path1)
   return 0;
 }
 
+
 static int disconnect_path(char *path0, const char *path1)
 {
   char *ptr;
@@ -331,65 +335,80 @@ static int disconnect_path(char *path0, const char *path1)
   return 0;
 }
 
+
 static int write_in(const char *path, const struct stat *ptr,
 		    int flag, struct FTW *fb)
 {
-  int rv;
-
   // only include regular files and dirs
   if (!S_ISDIR(ptr->st_mode) && !S_ISREG(ptr->st_mode))
     return 0;
-
   // esapce rootpath
   if (strncmp(path, rootpath, strlen(path)) == 0)
     return 0;
-
   // TODO: trick
   // escapce hidden files
   if (!INCLUDE_HIDDEN && strstr(path, "/."))
     return 0;
-
   //escapce .fss
   if (strncmp(FSS_DIR, path+fb->base, strlen(FSS_DIR) == 0))
     return 0;
-  
-  char digest[41];
 
+  int rv;
+  int typeflag = 0; // flag for entry type, regfile->0, dir->1
+  size_t str_len, len;
+  char sha1[41];
+  char hash[42];
+  char relapath[MAX_PATH_LEN];
+  char record[MAX_PATH_LEN];
 
-  if ((rv = sha1_digest_via_fname_fss(path, rootpath, digest)) == 1) {
-    fprintf(stderr, "@write_in(): sha1_digest_via_fname_fss(%s) fails\n",
-	    path);
+  if (get_rela_path(path, relapath)) {
+    fprintf(stderr, "@write_in(): get_rela_path() failed");
     return 1;
   }
 
-  // if sha1_digest_via_fname_fss() return 2,
-  // means target file/dir dosen't exist, which happens
-  // when user remove files continously, and nftw() is so fast that
-  // catch a being deleting file
-
-  if (rv == 0) {
+  if (S_ISDIR(ptr->st_mode))
+    typeflag = 1;
   
-    if (EOF == fputs(digest, temp_hash_fss)) {
-      perror("@write_in(): fputs fails.");
-      return 1;
-    }
-    if (EOF == fputc('\n', temp_hash_fss)) {
-      perror("@write_in(): fputc() \\n fails.");
-      return 1;
-    }
-
-  
-    if (EOF == fputs(path, finfo_fss)) {
-      perror("@write_in(): fputs fails.");
-      return 1;
-    }
-    if (EOF == fputc('\n', finfo_fss)) {
-      perror("@write_in(): fputc() \\n fails.");
-      return 1;
-    }
+  if ((rv = compute_hash(path, rootpath, sha1, hash)) == 1) {
+    fprintf(stderr, "@write_in(): compute_hash() failed");
+    return 1;
   }
 
 
+  // if sha1_digest_via_fname_fss() return ENOENT(2)
+  // means target file/dir dosen't exist, which happens
+  // when user remove files continously, and nftw() is so fast that
+  // catch a being deleting file
+  if (rv == ENOENT)
+    return 0;
+
+  strncat(record, hash, strlen(hash));
+  strncat(record, "\n", strlen("\n"));
+
+  if (EOF == (fputs(record, temp_hash_fss))) {
+    perror("@write_in(): fputs() failed");
+    return 1;
+  }
+
+  snprintf(record, MAX_PATH_LEN, "%d", typeflag);
+  record[1] = 0;
+
+  strncat(record, sha1, strlen(sha1));
+  strncat(record, "\n", strlen("\n"));
+  strncat(record, relapath, strlen(relapath));
+  strncat(record, "\n", strlen("\n"));
+
+  str_len = strlen(record);
+  len = snprintf(record+str_len,
+		 MAX_PATH_LEN-str_len,
+		 "%ld\n%ld\r\n", ptr->st_size, ptr->st_mtime);
+  record[str_len+len] = 0;
+
+  if (EOF == (fputs(record, finfo_fss))) {
+    perror("@write_in(): fputs() failed");
+    return 1;
+  }
+ 
   return 0;
 }
   
@@ -434,6 +453,36 @@ static int create_fss_dir(const char *path)
   return 0;
 }
 
+// get one line lined by CRLF
+static int get_crlf_line(const char *fname, long linenum,
+			 char *buffer, int len)
+
+{
+  FILE *file;
+  int c, d;
+  int num = 0;
+
+  if (!(file = fopen(fname, "rb"))) {
+    perror("@get_crlf_line(): fopen() failed");
+    return 1;
+  }
+
+  num = 0;
+  c = getc(file);
+  while ((num < (linenum-1)) && (c != EOF)) {
+    d = c;
+    c = getc(file);
+
+    if ((d == '\r') && (c == '\n'))
+      num++;
+  }
+    
+    if (c == '\r')
+      num++;
+  
+
+}
+
 static int get_line(const char *fname, long linenum,
 		    char *buffer, int maxlen)
 {
@@ -450,6 +499,11 @@ static int get_line(const char *fname, long linenum,
   while((num < (linenum-1)) && (c = getc(file)) != EOF)
     if (c == '\n')
       num++;
+
+  if (c == EOF) {
+    fprintf(stderr, "@get_line(): linenum %ld is larger\n", linenum);
+    return 1;
+  }
 
   if (fgets(buffer, maxlen, file) == NULL) {
     perror("@get_line(): fgets() failed\n");

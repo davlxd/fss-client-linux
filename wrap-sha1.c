@@ -251,8 +251,12 @@ int compute_hash(const char *fname, const char *root_path,
   size_t len;
 
   if (stat(fname, &statbuf) < 0) {
-    perror("@compute_hash(): stat() failed");
-    return 1;
+    if (errno == ENOENT)
+      return errno;
+    else {
+      perror("@compute_hash(): stat() failed");
+      return 1;
+    }
   }
 
   // if it is a dir, make normal sha1 string as 000...00
