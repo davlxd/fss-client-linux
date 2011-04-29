@@ -39,19 +39,13 @@ static FILE *temp_hash_fss;
 static FILE *diff_remote_index;
 static FILE *diff_local_index;
 
-static int get_temp_hash_fss(char*);
-static int get_hash_fss(char*);
-static int get_finfo_fss(char*);
-static int get_fss_dir(char*);
-static int get_remote_hash_fss(char*);
-static int get_diff_remote_index(char*);
-static int get_diff_local_index(char*);
+static int get_thefile(const char*, char*);
 static int create_fss_dir(const char*);
-static int connect_path(char*, const char*);
-static int disconnect_path(char*, const char*);
+static int connect_path(const char*, char*);
+static int disconnect_path(const char*, char*);
 static int get_rela_path(const char*, char *);
 static int get_crlf_line(const char*, long , char*, int);
-static int get_line(const char*, long, char*, int_t);
+static int get_line(const char*, long, char*, int);
 static int write_in(const char*, const struct stat*, int, struct FTW*);
 static int fn(const char*, const struct stat*, int, struct FTW*);
 
@@ -89,16 +83,9 @@ int update_files()
   char fullpath0[MAX_PATH_LEN]; //temp.hash.fss
   char fullpath1[MAX_PATH_LEN]; //hash.fss
 
-  if (get_temp_hash_fss(fullpath0)) {
-    fprintf(stderr, "@update_files(): get_temp_hash_fss() failed\n");
-    return 1;
-  }
-
-  if (get_hash_fss(fullpath1)) {
-    fprintf(stderr, "@update_files(): get_hash_fss() failed\n");
-    return 1;
-  }
-
+  get_thefile(TEMP_HASH_FSS, fullpath0);
+  get_thefile(HASH_FSS, fullpath1);
+  
   if (!strncpy(fullpath, rootpath, strlen(rootpath))) {
     fprintf(stderr, "@update_files(): strncpy() failed: %s",
 	    strerror(errno));
@@ -106,10 +93,7 @@ int update_files()
   }
   fullpath[strlen(rootpath)] = 0;
 
-  if (get_fss_dir(fullpath)) {
-    fprintf(stderr, "@update_files(): get_fss_dir() failed\n");
-    return 1;
-  }
+  get_thefile(FSS_DIR, fullpath);
 
   if (create_fss_dir(fullpath)) {
     fprintf(stderr,
@@ -117,10 +101,8 @@ int update_files()
     return 1;
   }
   
-  if (connect_path(fullpath, FINFO_FSS)) {
-    fprintf(stderr,
-	    "@update_files(): connect_path(%s, %s) fails\n",
-	    fullpath, FINFO_FSS);
+  if (connect_path(FINFO_FSS, fullpath)) {
+    fprintf(stderr, "@update_files(): connect_path() failed\n");
     return 1;
   }
   
@@ -129,12 +111,10 @@ int update_files()
     return 1;
   }
 
-  disconnect_path(fullpath, FINFO_FSS);
+  disconnect_path(FINFO_FSS, fullpath);
   
-  if (connect_path(fullpath, TEMP_HASH_FSS)) {
-    fprintf(stderr,
-	    "@update_files(): connect_path(%s, %s) fails\n",
-	    fullpath, TEMP_HASH_FSS);
+  if (connect_path(TEMP_HASH_FSS, fullpath)) {
+    fprintf(stderr, "@update_files(): connect_path() failed\n");
     return 1;
   }
 
@@ -142,8 +122,8 @@ int update_files()
     fprintf(stderr, "@update_files(): fopen(%s) fails\n", fullpath);
     return 1;
   }
-  disconnect_path(fullpath, TEMP_HASH_FSS);
-  disconnect_path(fullpath, FSS_DIR);
+  disconnect_path(TEMP_HASH_FSS, fullpath);
+  disconnect_path(FSS_DIR, fullpath);
 
   if (nftw(fullpath, write_in, 10, FTW_DEPTH) != 0) {
     perror("@update_files(): ftw() failed");
@@ -225,22 +205,11 @@ int generate_diffs()
   char fullpath2[MAX_PATH_LEN]; // diff.remote.index
   char fullpath3[MAX_PATH_LEN]; // diff.local.index
 
-  if (get_remote_hash_fss(fullpath0)) {
-    fprintf(stderr, "@generate_diffs(): get_remote_hash_fss() failed\n");
-    return 1;
-  }
-  if (get_hash_fss(fullpath1)) {
-    fprintf(stderr, "@generate_diffs(): get_remote_hash_fss() failed\n");
-    return 1;
-  }
-  if (get_diff_remote_index(fullpath2)) {
-    fprintf(stderr, "@generate_diffs(): get_diff_remote_index() failed\n");
-    return 1;
-  }
-  if (get_diff_local_index(fullpath3)) {
-    fprintf(stderr, "@generate_diffs(): get_diff_local_index() failed\n");
-    return 1;
-  }
+  get_thefile(REMOTE_HASH_FSS, fullpath0);
+  get_thefile(HASH_FSS, fullpath1);
+  get_thefile(DIFF_REMOTE_INDEX, fullpath2);
+  get_thefile(DIFF_LOCAL_INDEX, fullpath3);
+
 
   char digest_remote[41];
   char digest_local[41];
@@ -292,7 +261,7 @@ int generate_diffs()
   return 0;
 }
 
-static int connect_path(char *path0, const char *path1)
+static int connect_path(const char *path1, char *path0)
 {
   char *ptr;
   //char *ptr1;
@@ -327,7 +296,7 @@ static int connect_path(char *path0, const char *path1)
 }
 
 
-static int disconnect_path(char *path0, const char *path1)
+static int disconnect_path(const char *path1, char *path0)
 {
   char *ptr;
   ptr = path0 + strlen(path0);
@@ -459,8 +428,10 @@ static int get_crlf_line(const char *fname, long linenum,
 
 {
   FILE *file;
+  char *ptr;
   int c, d;
-  int num = 0;
+  int i;
+  long num = 0;
 
   if (!(file = fopen(fname, "rb"))) {
     perror("@get_crlf_line(): fopen() failed");
@@ -472,15 +443,37 @@ static int get_crlf_line(const char *fname, long linenum,
   while ((num < (linenum-1)) && (c != EOF)) {
     d = c;
     c = getc(file);
-
     if ((d == '\r') && (c == '\n'))
       num++;
   }
-    
-    if (c == '\r')
-      num++;
-  
+  if (c == EOF) {
+    fprintf(stderr, "@get_crlf_line(): linemum %ld is largner %ld\n", 
+	    linenum, num);
+    return 1;
+  }
 
+  c = getc(file);
+  ptr = buffer;
+  i = 0;
+  while ((c != EOF) && (c != '\r') && (i < len)) {
+    *ptr++ = c;
+    i++;
+    c = getc(file);
+  }
+  *ptr = 0;
+
+  if (c == EOF) {
+    fprintf(stderr, "@get_crlf_line(): unexpcted EOF\n");
+    return 1;
+  }
+  if (i >= len) {
+    fprintf(stderr,
+	    "@get_crlf_line(): line %s.., exceeds buffer length %d\n",
+	    buffer, len);
+    return 1;
+  }
+
+  return 0;   
 }
 
 static int get_line(const char *fname, long linenum,
@@ -549,10 +542,7 @@ time_t hash_fss_mtime()
   char fullpath[MAX_PATH_LEN];
   struct stat statbuf;
 
-  if (get_hash_fss(fullpath)) {
-    fprintf(stderr, "@hash_fss_mtime(): get_hash_fss() failed\n");
-    return 1;
-  }
+  get_thefile(HASH_FSS, fullpath);
   
   if (stat(fullpath, &statbuf) < 0) {
     perror("hash_fss_mtime(): stat() failed");
@@ -565,16 +555,10 @@ time_t hash_fss_mtime()
 int remove_diffs()
 {
   char fullpath0[MAX_PATH_LEN];
-  if (get_diff_remote_index(fullpath0)) {
-    fprintf(stderr, "@remove_diffs(): get_diff_remote_index() failed\n");
-    return 1;
-  }
-
   char fullpath1[MAX_PATH_LEN];
-  if (get_diff_local_index(fullpath1)) {
-    fprintf(stderr, "@remove_diffs(): get_diff_local_index() failed\n");
-    return 1;
-  }
+  
+  get_thefile(DIFF_LOCAL_INDEX, fullpath1);
+  get_thefile(DIFF_REMOTE_INDEX, fullpath0);
 
   errno = 0;
   if (remove(fullpath0) < 0 && errno != ENOENT) {
@@ -601,15 +585,8 @@ int remove_files()
   struct stat statbuf;
   FILE *file;
 
-  if (get_diff_local_index(fullpath0)) {
-    fprintf(stderr,
-	    "@remove_files(): get_diff_local_index() failed\n");
-    return 1;
-  }
-  if (get_finfo_fss(fullpath1)) {
-    fprintf(stderr, "@remove_files(): get_finfo_fss() failed\n");
-    return 1;
-  }
+  get_thefile(DIFF_LOCAL_INDEX, fullpath0);
+  get_thefile(FINFO_FSS, fullpath1);
 
   if (stat(fullpath0, &statbuf) < 0) {
     perror("@remove_files(): stat failed");
@@ -665,16 +642,10 @@ int remove_files()
 int send_del_index(int sockfd)
 {
   char fullpath[MAX_PATH_LEN];
-
-  if (get_diff_remote_index(fullpath)) {
-    fprintf(stderr, "@send_del_index(): " \
-	    "get_diff_local_index() failed\n");
-    return 1;
-  }
+  get_thefile(DIFF_REMOTE_INDEX, fullpath);
 
   if (send_file(sockfd, fullpath)) {
-    fprintf(stderr, "@send_del_index(): "\
-	    "send_file() failed\n");
+    fprintf(stderr, "@send_del_index(): send_file() failed\n");
     return 1;
   }
 
@@ -687,10 +658,7 @@ int send_file_via_linenum(int sockfd)
   char fullpath[MAX_PATH_LEN];
   char record[MAX_PATH_LEN];
 
-  if (get_finfo_fss(fullpath)) {
-    fprintf(stderr, "@send_file_via_linenum(): get_finfo_fss() failed\n");
-    return 1;
-  }
+  get_thefile(FINFO_FSS, fullpath);
 
   memset(record, 0, MAX_PATH_LEN);
 
@@ -748,11 +716,8 @@ int send_file(int sockfd, const char *fname)
 int send_del_index_info(int sockfd, const char *prefix)
 {
   char fullpath[MAX_PATH_LEN];
-  if (get_diff_remote_index(fullpath)) {
-    fprintf(stderr,
-	    "@send_del_index_size(): get_diff_remote_index() failed\n");
-    return 1;
-  }
+  
+  get_thefile(DIFF_REMOTE_INDEX, fullpath);
 
   if (send_entryinfo(sockfd, fullpath, prefix, NULL) == 1) {
     fprintf(stderr,
@@ -772,12 +737,7 @@ int send_entryinfo_via_linenum(int sockfd, long linenum,
   char fullpath[MAX_PATH_LEN];
   char record[MAX_PATH_LEN];
 
-  if (get_finfo_fss(fullpath)) {
-    fprintf(stderr, "@send_entryinfo_via_linenum(): " \
-	    "get_finfo_fss() failed\n");
-    return 1;
-  }
-
+  get_thefile(FINFO_FSS, fullpath);
 
   memset(record, 0, MAX_PATH_LEN);
   if (get_line(fullpath, linenum, record, MAX_PATH_LEN)) {
@@ -797,6 +757,21 @@ int send_entryinfo_via_linenum(int sockfd, long linenum,
 }
 
 
+int send_entryinfo_via_linenum2(int sockfd, long linenum,
+				const char *prefix0, const char *prefix1)
+{
+
+
+}
+
+
+int send_entryinfo2(int sockfd, const char *fname,
+		    const char *prefix0, const char *prefix1)
+{
+
+
+  return 0;
+}
 
 int send_entryinfo(int sockfd, const char *fname,
 		   const char *prefix0, const char *prefix1)
@@ -908,11 +883,7 @@ int send_linenum_or_done(int sockfd, int if_init,
   }
   buf[strlen(prefix0)] = 0;
 
-  if (get_diff_remote_index(fullpath)) {
-    fprintf(stderr,
-	    "@send_linenum_or_done(): get_diff_remote_index() failed\n");
-    return 1;
-  }
+  get_thefile(DIFF_REMOTE_INDEX, fullpath);
   
   if (if_init) {
     if ((diff_remote_index = fopen(fullpath, "rb")) == NULL) {
@@ -957,11 +928,7 @@ int send_entryinfo_or_reqhashinfo(int sockfd, int ifinit,
   char fullpath[MAX_PATH_LEN];
   char buf[MAX_PATH_LEN];
 
-  if (get_diff_local_index(fullpath)) {
-    fprintf(stderr,
-	    "@send_entryinfo_or_done(): get_diff_local_index() failed\n");
-    return 1;
-  }
+  get_thefile(DIFF_LOCAL_INDEX, fullpath);
   
   if (ifinit) {
     if ((diff_local_index = fopen(fullpath, "rb")) == NULL) {
@@ -1016,11 +983,8 @@ int receive_hash_fss(int sockfd, off_t sz)
 {
   char fullpath[MAX_PATH_LEN];
 
-  if (get_remote_hash_fss(fullpath)) {
-    fprintf(stderr, "@reveive_hash_fss(): get_remote_hash_fss() failed\n");
-    return 1;
-  }
-
+  get_thefile(HASH_FSS, fullpath);
+  
   if (receive_file(sockfd, fullpath, sz)) {
     fprintf(stderr, "@receive_hash_file(): receive_file() fail\n");
     return 1;
@@ -1063,7 +1027,7 @@ int receive_common_file(int sockfd, const char *rela_fname, off_t sz)
   token = strtok(relaname, "/");
   token1 = strtok(NULL, "/");
   while(token && token1) {
-    if (connect_path(fullpath, token)) {
+    if (connect_path(token, fullpath)) {
       fprintf(stderr, "@receive_common_file(): connect_path() failed\n");
       return 1;
     }
@@ -1082,7 +1046,7 @@ int receive_common_file(int sockfd, const char *rela_fname, off_t sz)
     token1 = strtok(NULL, "/");
   }
     
-  if (connect_path(fullpath, token)) {
+  if (connect_path(token, fullpath)) {
     fprintf(stderr, "@receive_common_file(): connect_path failed\n");
     return 1;
   }
@@ -1148,6 +1112,68 @@ int receive_file(int sockfd, const char *fname, off_t sz)
   return 0;
 }
 
+
+int receive_file2(int sockfd, const char *fname, off_t sz)
+{
+  printf(">>>> in receive_file2(), receiving: %s, size=%ld\n", fname, sz); fflush(stdout);
+
+  char buf[BUF_LEN];
+  ssize_t len;
+  off_t size;
+  FILE *file;
+
+  if (!(file = fopen(fname, "w+"))) {
+    fprintf(stderr, "@receive_file(): fopen(%s) fails\n", fname);
+    return 1;
+  }
+
+  /* touch it if it is an empty file */
+  if (sz == 0 ) {
+    if (0 != fclose(file)) {
+      perror("@receive_file(): fclose() failed");
+      return 1;
+    }
+    return 0;
+  }
+
+  size = 0;
+  memset(buf, 0, BUF_LEN);
+  while((size < sz) && ((len = read(sockfd, buf, BUF_LEN)) > 0)) {
+    if (size == 0 &&
+	len <= (strlen(ENTRY_CHANGED) + 3) &&
+	strncmp(buf, ENTRY_CHANGED, ) {
+      
+
+    }
+    size += len;
+    if (fwrite(buf, sizeof(char), len, file) < len) {
+      perror("@receive_file(): fwrite fails.");
+      return 1;
+    }
+    memset(buf, 0, BUF_LEN);
+  }
+  
+  if (len < 0) {
+    perror("@receive_file(): read from socket fails");
+    return 1;
+  }
+  
+  if (0 != fflush(file)) {
+    perror("@receive_file(): fflush(remote_hash_file) fails.");
+    return 1;
+  }
+  
+  if (0 != fclose(file)) {
+    perror("@receive_file(): fclose(remote_hash_file) fails.");
+    return 1;
+  }
+  printf(" received\n"); fflush(stdout);
+
+  return 0;
+}
+
+
+
 int create_dir(const char *relafname)
 {
   char fullpath[MAX_PATH_LEN];
@@ -1168,7 +1194,7 @@ int create_dir(const char *relafname)
   }
   fullpath[strlen(rootpath)] = 0;
 
-  if (connect_path(fullpath, relafname)) {
+  if (connect_path(relafname, fullpath)) {
     fprintf(stderr, "@create_dir(): connect_path failed\n");
     return 1;
   }
@@ -1213,80 +1239,30 @@ static int fn(const char *fname, const struct stat *sb,
   return 0;
 }
 
-static int get_fss_dir(char *fpath)
+
+
+static int get_thefile(const char *name, char* fpath)
 {
+
   if (!strncpy(fpath, rootpath, strlen(rootpath))) {
-    fprintf(stderr,
-	    "@get_fss_dir(): strncpy rootpath:%s to fpath:%s failed: %s\n",
-	    rootpath, fpath, strerror(errno));
+    perror("@get_thefile(): strncpy() failed");
     return 1;
   }
   fpath[strlen(rootpath)] = 0;
 
-  if (connect_path(fpath, FSS_DIR)) {
-    fprintf(stderr, "@get_fss_dir(): connect_path failed\n");
-    return 1;
-  }
-
-  return 0;
-}
-
-
-static int get_xxx(char *fpath, const char *name)
-{
-  if (get_fss_dir(fpath)) {
-    fprintf(stderr, "@get_xxx(): get_fss_dir() failed\n");
+  if (connect_path(FSS_DIR, fpath)) {
+    fprintf(stderr, "@get_thefile(): connect_path() failed\n");
     return 1;
   }
   
-  if (connect_path(fpath, name)) {
-    fprintf(stderr, "@get_xxx(): connect_path(%s, %s) failed\n",
-	    fpath, name);
+  if (0 == strncmp(name, FSS_DIR, strlen(name)))
+    return 0;
+
+  if (connect_path(name, fpath)) {
+    fprintf(stderr, "@get_thefile(): connect_path() failed\n");
     return 1;
   }
 
   return 0;
+
 }
-
-static int get_finfo_fss(char *fpath)
-{
-  return get_xxx(fpath, FINFO_FSS);
-}
-
-static int get_hash_fss(char *fpath)
-{
-  return get_xxx(fpath, HASH_FSS);
-}
-
-static int get_temp_hash_fss(char * fpath)
-{
-
-  return get_xxx(fpath, TEMP_HASH_FSS);
-}
-
-static int get_remote_hash_fss(char * fpath)
-{
-
-  return get_xxx(fpath, REMOTE_HASH_FSS);
-}
-
-static int get_diff_remote_index(char * fpath)
-{
-
-  return get_xxx(fpath, DIFF_REMOTE_INDEX);
-}
-
-static int get_diff_local_index(char * fpath)
-{
-
-  return get_xxx(fpath, DIFF_LOCAL_INDEX);
-}
-
-
-
-
-
-
-
-
-
