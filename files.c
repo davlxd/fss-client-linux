@@ -47,6 +47,7 @@ static int get_rela_path(const char*, char *);
 static int get_crlf_line(const char*, long , char*, int);
 static int get_line(const char*, long, char*, int);
 static int write_in(const char*, const struct stat*, int, struct FTW*);
+static int write_in2(const char*, const struct stat*, int, struct FTW*);
 static int fn(const char*, const struct stat*, int, struct FTW*);
 
 int set_rootpath(const char *root_path)
@@ -306,6 +307,62 @@ static int disconnect_path(const char *path1, char *path0)
 
 
 static int write_in(const char *path, const struct stat *ptr,
+		    int flag, struct FTW *fb)
+{
+  int rv;
+  // esapce rootpath
+  if (strncmp(path, rootpath, strlen(path)) == 0)
+    return 0;
+
+  //TODO: trick
+  if (!INCLUDE_HIDDEN && strstr(path, "/."))
+    return 0;
+  if (strncmp(FSS_DIR, path+fb->base, strlen(FSS_DIR) == 0))
+    return 0;
+  
+  char digest[41];
+
+
+  if ((rv = sha1_digest_via_fname_fss(path, rootpath, digest)) == 1) {
+    fprintf(stderr, "@write_in(): sha1_digest_via_fname_fss(%s) fails\n",
+	    path);
+    return 1;
+  }
+
+  // if sha1_digest_via_fname_fss() return 2,
+  // means target file/dir dosen't exist, which happens
+  // when user remove files continously, and nftw() is so fast that
+  // catch a being deleting file
+
+  if (rv == 0) {
+  
+    if (EOF == fputs(digest, temp_hash_fss)) {
+      perror("@write_in(): fputs fails.");
+      return 1;
+    }
+    if (EOF == fputc('\n', temp_hash_fss)) {
+      perror("@write_in(): fputc() \\n fails.");
+      return 1;
+    }
+
+  
+    if (EOF == fputs(path, finfo_fss)) {
+      perror("@write_in(): fputs fails.");
+      return 1;
+    }
+    if (EOF == fputc('\n', finfo_fss)) {
+      perror("@write_in(): fputc() \\n fails.");
+      return 1;
+    }
+  }
+
+
+  return 0;
+}
+  
+
+
+static int write_in2(const char *path, const struct stat *ptr,
 		    int flag, struct FTW *fb)
 {
   // only include regular files and dirs
@@ -1085,66 +1142,6 @@ int receive_file(int sockfd, const char *fname, off_t sz)
   size = 0;
   memset(buf, 0, BUF_LEN);
   while((size < sz) && ((len = read(sockfd, buf, BUF_LEN)) > 0)) {
-    size += len;
-    if (fwrite(buf, sizeof(char), len, file) < len) {
-      perror("@receive_file(): fwrite fails.");
-      return 1;
-    }
-    memset(buf, 0, BUF_LEN);
-  }
-  
-  if (len < 0) {
-    perror("@receive_file(): read from socket fails");
-    return 1;
-  }
-  
-  if (0 != fflush(file)) {
-    perror("@receive_file(): fflush(remote_hash_file) fails.");
-    return 1;
-  }
-  
-  if (0 != fclose(file)) {
-    perror("@receive_file(): fclose(remote_hash_file) fails.");
-    return 1;
-  }
-  printf(" received\n"); fflush(stdout);
-
-  return 0;
-}
-
-
-int receive_file2(int sockfd, const char *fname, off_t sz)
-{
-  printf(">>>> in receive_file2(), receiving: %s, size=%ld\n", fname, sz); fflush(stdout);
-
-  char buf[BUF_LEN];
-  ssize_t len;
-  off_t size;
-  FILE *file;
-
-  if (!(file = fopen(fname, "w+"))) {
-    fprintf(stderr, "@receive_file(): fopen(%s) fails\n", fname);
-    return 1;
-  }
-
-  /* touch it if it is an empty file */
-  if (sz == 0 ) {
-    if (0 != fclose(file)) {
-      perror("@receive_file(): fclose() failed");
-      return 1;
-    }
-    return 0;
-  }
-
-  size = 0;
-  memset(buf, 0, BUF_LEN);
-  while((size < sz) && ((len = read(sockfd, buf, BUF_LEN)) > 0)) {
-    if (size == 0 &&
-	len <= (strlen(ENTRY_CHANGED) + 3) &&
-	strncmp(buf, ENTRY_CHANGED, ) {
-      
-
-    }
     size += len;
     if (fwrite(buf, sizeof(char), len, file) < len) {
       perror("@receive_file(): fwrite fails.");
