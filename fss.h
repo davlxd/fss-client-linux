@@ -48,7 +48,7 @@
 #define MAX_PATH_LEN 1024
 
 // length of record of hash.fss
-#define HASH_LEN 41
+#define HASH_LEN 40
 
 #define PORT 3375
 #define PORT_STR "3375"

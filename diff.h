@@ -21,7 +21,7 @@
 #ifndef _DIFF_H_
 #define _DIFF_H_
 
-#define MAX_LINE_LEN HASH_LEN+1
+#define MAX_LINE_LEN HASH_LEN+2
 
 
 /* fout0 -> lines exist in fin0, not in fin1

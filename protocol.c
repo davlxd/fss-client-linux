@@ -31,6 +31,7 @@ static int monifd;
 // monitor lock 
 static int lock;
 
+static char sha1_str[41];
 static char rela_name[MAX_PATH_LEN];
 static time_t mtime;
 static off_t req_sz;
@@ -431,9 +432,13 @@ static int status_WAIT_ENTRY_INFO()
   printf(">>>> received %s\n", buf);
 
   if (strncmp(buf, DIR_INFO, strlen(DIR_INFO)) == 0) {
-    char *token;
-    token = strtok(buf+strlen(DIR_INFO), "\n");
-    if (create_dir(token)) {
+
+    if (set_fileinfo(buf+strlen(DIR_INFO))) {
+      fprintf(stderr, "@status_WAIT_ENTRY_INFO(): set_fileinfo failed\n");
+      return 1;
+    }
+
+    if (create_dir(rela_name)) {
       fprintf(stderr, "@status_WAIT_ENTRY_INFO(): create_dir() failed\n");
       return 1;
     }
@@ -444,19 +449,20 @@ static int status_WAIT_ENTRY_INFO()
     }
 
   } else if (strncmp(buf, FILE_INFO, strlen(FILE_INFO)) == 0) {
+    
     if (set_fileinfo(buf+strlen(FILE_INFO))) {
-      fprintf(stderr, "@status_WAIT_FILE_INFO(): set_fileinfo() failed\n");
+      fprintf(stderr, "@status_WAIT_ENTRY_INFO(): set_fileinfo() failed\n");
       return 1;
     }
     if (send_msg(sockfd, CLI_REQ_FILE)) {
-      fprintf(stderr, "@status_WAIT_FILE_INFO(): send_msg() failed\n");
+      fprintf(stderr, "@status_WAIT_ENTRY_INFO(): send_msg() failed\n");
       return 1;
     }
 
     if (req_sz == 0 ) {
       if (status_WAIT_FILE()) {
 	fprintf(stderr,
-		"@status_WAIT_FILE_INFO(): status_WAIT_FILE() failed\n");
+		"@status_WAIT_ENTRY_INFO(): status_WAIT_FILE() failed\n");
 	return 1;
       }
     } else 
@@ -700,13 +706,20 @@ static int set_fileinfo(char *buf)
 
   char *token;
   token = strtok(buf, "\n");
+  if (!strncpy(sha1_str, token, strlen(token))) {
+    perror("@set_fileinfo(): strncpy failed");
+    return 1;
+  }
+  sha1_str[strlen(token)] = 0;
+
+  token = strtok(NULL, "\n");
   if(strncpy(rela_name, token, strlen(token)) == NULL) {
     perror("@set_fileinfo(): strncpy failed");
     return 1;
   }
   rela_name[strlen(token)] = 0;
-  token = strtok(NULL, "\n");
-  
+
+  token = strtok(NULL, "\n");  
   /* Attention:
    * I assign off_t and time_t to long */
   errno = 0;
@@ -714,8 +727,8 @@ static int set_fileinfo(char *buf)
     perror("@set_fileinfo(): strtol size failed");
     return 1;
   }
-  token = strtok(NULL, "\n");
 
+  token = strtok(NULL, "\n");
   errno = 0;
   if (((req_sz = strtol(token, NULL, 10)) == 0) && errno != 0) {
     perror("@set_fileinfo(): strtol size failed");

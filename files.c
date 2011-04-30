@@ -33,6 +33,7 @@ static off_t size_to_send;
 
 /* these 2 global via called by call back function write_in() */
 static FILE *finfo_fss;
+static FILE *sha1_fss;
 static FILE *temp_hash_fss;
 
 // client
@@ -113,20 +114,26 @@ int update_files()
   }
 
   disconnect_path(FINFO_FSS, fullpath);
-  
   if (connect_path(TEMP_HASH_FSS, fullpath)) {
     fprintf(stderr, "@update_files(): connect_path() failed\n");
     return 1;
   }
-
   if (!(temp_hash_fss = fopen(fullpath, "w+"))) {
     fprintf(stderr, "@update_files(): fopen(%s) fails\n", fullpath);
     return 1;
   }
+
   disconnect_path(TEMP_HASH_FSS, fullpath);
+  connect_path(SHA1_FSS, fullpath);
+  if (!(sha1_fss = fopen(fullpath, "w+"))) {
+    fprintf(stderr, "@update_files(): fopen(%s) faileld\n", fullpath);
+    return 1;
+  }
+  
+  disconnect_path(SHA1_FSS, fullpath);
   disconnect_path(FSS_DIR, fullpath);
 
-  if (nftw(fullpath, write_in, 10, FTW_DEPTH) != 0) {
+  if (nftw(fullpath, write_in2, 10, FTW_DEPTH) != 0) {
     perror("@update_files(): ftw() failed");
     return 1;
   }
@@ -142,12 +149,22 @@ int update_files()
   }
 
   if (0 != fflush(temp_hash_fss)) {
-    perror("@update_files(): fflush(hash_fss) fails.");
+    perror("@update_files(): fflush(temp_hash_fss) fails.");
     return 1;
   }
   
   if (0 != fclose(temp_hash_fss)) {
-    perror("@update_files(): fclose(hashx_fss) fails.");
+    perror("@update_files(): fclose(temp_hash_fss) fails.");
+    return 1;
+  }
+
+  if (0 != fflush(sha1_fss)) {
+    perror("@update_files(): fflush(sha1_fss) fails.");
+    return 1;
+  }
+  
+  if (0 != fclose(sha1_fss)) {
+    perror("@update_files(): fclose(sha1_fss) fails.");
     return 1;
   }
   
@@ -381,14 +398,13 @@ static int write_in2(const char *path, const struct stat *ptr,
 
   int rv;
   int typeflag = 0; // flag for entry type, regfile->0, dir->1
-  size_t str_len, len;
   char sha1[41];
-  char hash[42];
+  char hash[41];
   char relapath[MAX_PATH_LEN];
   char record[MAX_PATH_LEN];
 
   if (get_rela_path(path, relapath)) {
-    fprintf(stderr, "@write_in(): get_rela_path() failed");
+    fprintf(stderr, "@write_in2(): get_rela_path() failed");
     return 1;
   }
 
@@ -396,7 +412,7 @@ static int write_in2(const char *path, const struct stat *ptr,
     typeflag = 1;
   
   if ((rv = compute_hash(path, rootpath, sha1, hash)) == 1) {
-    fprintf(stderr, "@write_in(): compute_hash() failed");
+    fprintf(stderr, "@write_in2(): compute_hash() failed");
     return 1;
   }
 
@@ -408,30 +424,27 @@ static int write_in2(const char *path, const struct stat *ptr,
   if (rv == ENOENT)
     return 0;
 
+  *record = 0;
   strncat(record, hash, strlen(hash));
   strncat(record, "\n", strlen("\n"));
-
   if (EOF == (fputs(record, temp_hash_fss))) {
-    perror("@write_in(): fputs() failed");
+    perror("@write_in2(): fputs() failed");
     return 1;
   }
 
-  snprintf(record, MAX_PATH_LEN, "%d", typeflag);
-  record[1] = 0;
+  *record = 0;
+  strncat(record, path, strlen(path));
+  strncat(record, "\n", strlen("\n"));
+  if (EOF == (fputs(record, finfo_fss))) {
+    perror("@write_in2(): fputs() failed");
+    return 1;
+  }
 
+  *record = 0;
   strncat(record, sha1, strlen(sha1));
   strncat(record, "\n", strlen("\n"));
-  strncat(record, relapath, strlen(relapath));
-  strncat(record, "\n", strlen("\n"));
-
-  str_len = strlen(record);
-  len = snprintf(record+str_len,
-		 MAX_PATH_LEN-str_len,
-		 "%ld\n%ld\r\n", ptr->st_size, ptr->st_mtime);
-  record[str_len+len] = 0;
-
-  if (EOF == (fputs(record, finfo_fss))) {
-    perror("@write_in(): fputs() failed");
+  if (EOF == (fputs(record, sha1_fss))) {
+    perror("@write_in2(): fputs() to sha1_fss failed");
     return 1;
   }
  
@@ -818,6 +831,7 @@ int send_entryinfo_via_linenum2(int sockfd, long linenum,
 				const char *prefix0, const char *prefix1)
 {
 
+  return 0;
 
 }
 
@@ -835,6 +849,7 @@ int send_entryinfo(int sockfd, const char *fname,
 {
 
   char rela_fname[MAX_PATH_LEN];
+  char sha1[41];
   char msg[MAX_PATH_LEN];
   struct stat statbuf;
   int len, str_len;
@@ -863,12 +878,18 @@ int send_entryinfo(int sockfd, const char *fname,
     }
     msg[strlen(prefix0)] = 0;  rv = PREFIX0_SENT;
   }
+
+  if (compute_hash(fname, rootpath, sha1, NULL)) {
+    fprintf(stderr, "@send_entryinfo(): compute_hash() failed\n");
+    return 1;
+  }
+  strncat(msg, sha1, strlen(sha1));
+  strncat(msg, "\n", strlen("\n"));
   
   if (get_rela_path(fname, rela_fname)) {
     fprintf(stderr, "@send_entryinfo(): get_rela_path() failed\n");
     return 1;
   }
-
   str_len = strlen(msg);
   if (!strncpy(msg+str_len, rela_fname, strlen(rela_fname))) {
     fprintf(stderr, "@send_file_via_fname(): strncpy() failed");
@@ -918,6 +939,8 @@ int send_entryinfo(int sockfd, const char *fname,
 
 int send_msg(int sockfd, const char *msg)
 {
+  printf(">>>> in send_msg: --%s--\n", msg);
+  
   if(write(sockfd, msg, strlen(msg)) < 0) {
     perror("@send_msg(): write() failed");
     return 1;
@@ -1040,7 +1063,7 @@ int receive_hash_fss(int sockfd, off_t sz)
 {
   char fullpath[MAX_PATH_LEN];
 
-  get_thefile(HASH_FSS, fullpath);
+  get_thefile(REMOTE_HASH_FSS, fullpath);
   
   if (receive_file(sockfd, fullpath, sz)) {
     fprintf(stderr, "@receive_hash_file(): receive_file() fail\n");

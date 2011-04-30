@@ -36,7 +36,7 @@
 
 
 #define FINFO_FSS "finfo.fss"
-
+#define SHA1_FSS "sha1.fss"
 #define HASH_FSS "hash.fss"
 #define TEMP_HASH_FSS "temp.hash.fss"
 

@@ -345,9 +345,9 @@ int compute_hash(const char *fname, const char *root_path,
   }
 
 
-  snprintf(hash_digest, 1+1, "%0X", flag);
-  strncpy(hash_digest+1, content_digest, 40);
-  hash_digest[41] = 0;
+   //  snprintf(hash_digest, 1+1, "%0X", flag);
+  strncpy(hash_digest, content_digest, 40);
+  hash_digest[40] = 0;
 
   return 0;
 }
