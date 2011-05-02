@@ -24,10 +24,12 @@
 
 #include "fss.h"
 
-#define PREFIX0_SENT 0
-#define PREFIX1_SENT 2
-#define PREFIX2_SENT 3
-#define PREFIX3_SENT 4
+
+
+#define PREFIX0_SENT 00001
+#define PREFIX1_SENT 00002
+#define PREFIX2_SENT 00004
+#define SIZE0_SENT 00010
 
 #define DIFF_BOTH_UNIQ 0
 #define DIFF_IDENTICAL 2
@@ -56,16 +58,18 @@ int update_files();
 int generate_diffs();
 
 /* send.... */
-int send_del_index_info(int sockfd, const char *prefix);
+int send_del_index_info(int sockfd, const char *, unsigned char*);
 
 int send_del_index(int sockfd);
 int send_file_via_linenum(int sockfd);
 int send_file(int sockfd, const char *relaname);
 
 int send_entryinfo_via_linenum(int sockfd, long linenum,
-			       const char *prefix0, const char *prefix1);
-int send_entryinfo(int sockfd, const char *fname,
-		   const char *prefix0,  const char *prefix1);
+			       const char *prefix0, const char *prefix1,
+			       unsigned char*);
+
+int send_entryinfo(int sockfd, const char *fname, const char *prefix0,
+		   const char *prefix1, unsigned char*);
 
 int send_msg(int sockfd, const char *msg);
 
@@ -73,12 +77,13 @@ int send_msg(int sockfd, const char *msg);
 /* TODO:
  *     this 3 functions are a little bit noisy, should be rewriete */
 //client
-int send_linenum_or_done(int sockfd, int ifinit,
-			 const char *prefix0, const char *prefix1);
+int send_linenum_or_done(int sockfd, int ifinit, const char *prefix0,
+			 const char *prefix1, unsigned char*);
 
 int send_entryinfo_or_reqhashinfo(int sockfd, int ifinit,
 				  const char *prefix0,
-				  const char *prefix1, const char *prefix2);
+				  const char *prefix1,
+				  const char *prefix2, unsigned char*);
 
 /* receive... */
 int receive_hash_fss(int sockfd, off_t sz);
