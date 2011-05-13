@@ -131,8 +131,8 @@ int update_files()
   disconnect_path(SHA1_FSS, fullpath);
   disconnect_path(FSS_DIR, fullpath);
 
-  if (nftw(fullpath, write_in2, 10, FTW_DEPTH) != 0) {
-    perror("@update_files(): ftw() failed");
+  if (nftw(fullpath, write_in2, 10, FTW_DEPTH) != 0 && errno != ENOENT) {
+    perror("@update_files(): nftw() failed");
     return 1;
   }
 
