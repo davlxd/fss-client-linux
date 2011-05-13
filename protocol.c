@@ -45,6 +45,7 @@ static int status_WAIT_FILE();
 static int status_WAIT_MSG_SER_RECEIVED();
 static int status_WAIT_MSG_SER_REQ_FILE();
 static int status_WAIT_MSG_SER_REQ_DEL_IDX();
+static int status_ENTRY_INFO_SENT();
 static int receive_line(int, char*, int);
 static int set_fileinfo(char*);
 static int analyse_hash();
@@ -137,12 +138,15 @@ static int handle_monifd()
     }
 
     printf(">>>> >>>>flag=%d\n", (int)flag);
+
+    if (flag & PREFIX0_SENT || flag & PREFIX1_SENT)
+      status = ENTRY_INFO_SENT;
     
-    if (flag & PREFIX1_SENT || flag & SIZE0_SENT)
-      status = WAIT_MSG_SER_RECEIVED;
+    /* if (flag & PREFIX1_SENT || flag & SIZE0_SENT) */
+    /*   status = WAIT_MSG_SER_RECEIVED; */
     
-    else if (flag & PREFIX0_SENT)
-      status = WAIT_MSG_SER_REQ_FILE;
+    /* else if (flag & PREFIX0_SENT) */
+    /*   status = WAIT_MSG_SER_REQ_FILE; */
    
     else if (flag & PREFIX2_SENT)
       status = WAIT_HASH_FSS_INFO;
@@ -234,6 +238,14 @@ static int handle_sockfd()
       fprintf(stderr,
 	      "@handle_sockfd(): "\
 	      "status_WAIT_MSG_SER_REQ_DEL_IDX() failed\n");
+      return 1;
+    }
+    break;
+
+  case ENTRY_INFO_SENT:
+    if (status_ENTRY_INFO_SENT()) {
+      fprintf(stderr,
+	      "@handle_sockfd(): status_ENTRY_INFO_SENT() failed\n");
       return 1;
     }
     break;
@@ -347,11 +359,13 @@ static int analyse_hash()
 	 
        }
        printf(">>>> >>>>> flag=%d\n", (int)flag);
-       if (flag & PREFIX1_SENT || flag & SIZE0_SENT)
-	 status = WAIT_MSG_SER_RECEIVED;
+       if (flag & PREFIX0_SENT || flag & PREFIX1_SENT)
+	 status = ENTRY_INFO_SENT;
+       /* if (flag & PREFIX1_SENT || flag & SIZE0_SENT) */
+       /* 	 status = WAIT_MSG_SER_RECEIVED; */
        
-       else if (flag & PREFIX0_SENT) 
-	 status = WAIT_MSG_SER_REQ_FILE;
+       /* else if (flag & PREFIX0_SENT)  */
+       /* 	 status = WAIT_MSG_SER_REQ_FILE; */
        
        else if (flag & PREFIX2_SENT)
 	 status = WAIT_HASH_FSS_INFO;
@@ -430,7 +444,68 @@ static int analyse_hash()
 }
 
 
+static int status_ENTRY_INFO_SENT()
+{
+  unsigned char flag;
+  printf(">>>> ---> WAIT_ENTRY_INFO_SENT\n");
+  char buf[MAX_PATH_LEN];
+  
+  if (receive_line(sockfd, buf, MAX_PATH_LEN)) {
+    fprintf(stderr,
+	    "@status_ENTRY_INFO_SENT(): received_line() failed\n");
+    return 1;
+  }
+  printf(">>>> received %s\n", buf);
+  if (strncmp(buf, SER_REQ_FILE, strlen(SER_REQ_FILE)) == 0) {
 
+    // via files.c/h's internal linenum
+    if (send_file_via_linenum(sockfd)) {
+      fprintf(stderr,
+	      "@status_ENTRY_INFO_SENT(): set_fileinfo() failed\n");
+      return 1;
+    }
+    status = WAIT_MSG_SER_RECEIVED;
+    printf(">>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED\n");
+
+
+  } else if (strncmp(buf, SER_RECEIVED, strlen(SER_RECEIVED)) == 0) {
+    if (send_entryinfo_or_reqhashinfo(sockfd, 0,
+				      FILE_INFO, DIR_INFO,
+				      CLI_REQ_HASH_FSS_INFO, &flag)) {
+      fprintf(stderr,
+	      "@status_WAIT_MSG_SER_RECEIVED(): "\
+	      "send_entryinfo_or_reqhashinfo() failed\n");
+      return 1;
+	    
+    }
+
+    printf(">>>> >>>> flag=%d\n", (int)flag);
+    if (flag & PREFIX0_SENT || flag & PREFIX1_SENT) {
+      status = ENTRY_INFO_SENT;
+      
+    }
+
+    /* if (flag & PREFIX1_SENT || flag & SIZE0_SENT) { */
+    /*   status = WAIT_MSG_SER_RECEIVED; */
+    /*   printf(">>>> done sent, status set to ---> WAIT_HASH_FSS_INFO\n"); */
+      
+    /* } else if (flag & PREFIX0_SENT) { */
+    /*   status = WAIT_MSG_SER_REQ_FILE; */
+    /*   printf(">>>> fileinfo sent, status set to ---> WAIT_MSG_SER_REQ_FILE\n"); */
+
+    else if (flag & PREFIX2_SENT) {
+      status = WAIT_HASH_FSS_INFO;
+    }
+    
+  } else {
+    printf("WARNING: current status WAIT_ENTRY_INFO_SENT"\
+	   " received invalid message: %s\n", buf);
+    return 0;
+  }
+  return 0;
+
+
+}
 
 static int status_WAIT_ENTRY_INFO()
 {
@@ -474,12 +549,25 @@ static int status_WAIT_ENTRY_INFO()
 	return 1;
       }
     } else {
-      if (send_msg(sockfd, CLI_REQ_FILE)) {
-	fprintf(stderr, "@status_WAIT_ENTRY_INFO(): send_msg() failed\n");
+      int reused = 0;
+      if (reuse_file(sha1_str, rela_name, &reused)) {
+	fprintf(stderr, "@status_WAIT_ENTRY_INFO(): reuse_file() failed\n");
 	return 1;
       }
-      status = WAIT_FILE;
-          printf(">>>> CLI_REQ_FILE sent, status sent to ---> WAIT_FILE\n");
+      if (reused) {
+	if (download_sync()) {
+	  fprintf(stderr,
+		  "@status_WAIT_ENTRY_INFO(): download_sync() failed\n");
+	  return 1;
+	}
+      } else {
+	if (send_msg(sockfd, CLI_REQ_FILE)) {
+	  fprintf(stderr, "@status_WAIT_ENTRY_INFO(): send_msg() failed\n");
+	  return 1;
+	}
+	status = WAIT_FILE;
+	printf(">>>> CLI_REQ_FILE sent, status sent to ---> WAIT_FILE\n");
+      }
     }
 
   } else {
@@ -554,12 +642,13 @@ static int download_sync()
 	return 1;
 	    
       }
-        printf(">>>> >>>> flag1=%d\n", flag1);
-      if (flag1 & PREFIX1_SENT || flag1 & SIZE0_SENT)
-	status = WAIT_MSG_SER_RECEIVED;
+      if (flag1 & PREFIX0_SENT || flag1 & PREFIX1_SENT)
+	status = ENTRY_INFO_SENT;
+      /* if (flag1 & PREFIX1_SENT || flag1 & SIZE0_SENT) */
+      /* 	status = WAIT_MSG_SER_RECEIVED; */
       
-      else if (flag1 & PREFIX0_SENT) 
-	status = WAIT_MSG_SER_REQ_FILE;
+      /* else if (flag1 & PREFIX0_SENT)  */
+      /* 	status = WAIT_MSG_SER_REQ_FILE; */
 
       else if (flag1 & PREFIX2_SENT)
 	status = WAIT_HASH_FSS_INFO;
@@ -649,16 +738,20 @@ static int status_WAIT_MSG_SER_RECEIVED()
     }
 
     printf(">>>> >>>> flag=%d\n", (int)flag);
-
-    if (flag & PREFIX1_SENT || flag & SIZE0_SENT) {
-      status = WAIT_MSG_SER_RECEIVED;
-      printf(">>>> done sent, status set to ---> WAIT_HASH_FSS_INFO\n");
+    if (flag & PREFIX0_SENT || flag & PREFIX1_SENT) {
+      status = ENTRY_INFO_SENT;
       
-    } else if (flag & PREFIX0_SENT) {
-      status = WAIT_MSG_SER_REQ_FILE;
-      printf(">>>> fileinfo sent, status set to ---> WAIT_MSG_SER_REQ_FILE\n");
+    }
 
-    } else if (flag & PREFIX2_SENT) {
+    /* if (flag & PREFIX1_SENT || flag & SIZE0_SENT) { */
+    /*   status = WAIT_MSG_SER_RECEIVED; */
+    /*   printf(">>>> done sent, status set to ---> WAIT_HASH_FSS_INFO\n"); */
+      
+    /* } else if (flag & PREFIX0_SENT) { */
+    /*   status = WAIT_MSG_SER_REQ_FILE; */
+   /*   printf(">>>> fileinfo sent, status set to ---> WAIT_MSG_SER_REQ_FILE\n"); */
+
+    else if (flag & PREFIX2_SENT) {
       status = WAIT_HASH_FSS_INFO;
     }
 

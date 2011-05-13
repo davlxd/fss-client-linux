@@ -85,11 +85,15 @@ int send_entryinfo_or_reqhashinfo(int sockfd, int ifinit,
 				  const char *prefix1,
 				  const char *prefix2, unsigned char*);
 
+int reuse_file(const char *sha1_str, const char *relafname, int *reused);
+
 /* receive... */
 int receive_hash_fss(int sockfd, off_t sz);
 int receive_common_file(int sockfd, const char *rela_fname, off_t sz);
 int receive_file(int sockfd, const char *relaname, off_t size);
 
+int create_dir_literal(const char *rela_fname);
+int copy(const char*, const char *);
 int create_dir(const char *relafname);
 int remove_dir(const char *fname);
 

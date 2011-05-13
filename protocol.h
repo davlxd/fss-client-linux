@@ -36,6 +36,7 @@
 #define FIN "L"
 #define CLI_REQ_HASH_FSS_INFO "M"
 #define DIR_INFO "N"
+#define CHKSUM_INFO "O"
 
 enum {
   WAIT_SHA1_FSS_INFO = 1,
@@ -44,7 +45,8 @@ enum {
   WAIT_FILE = 7,
   WAIT_MSG_SER_REQ_FILE = 9,
   WAIT_MSG_SER_RECEIVED = 11,
-  WAIT_MSG_SER_REQ_DEL_IDX = 13
+  WAIT_MSG_SER_REQ_DEL_IDX = 13,
+  ENTRY_INFO_SENT = 15
 };
 
 #define WAIT_HASH_FSS_INFO 1

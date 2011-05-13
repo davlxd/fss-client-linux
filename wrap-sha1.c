@@ -238,7 +238,7 @@ int sha1_digest_via_fname_fss(const char *fname,
 
 
 // sha1_digest should be a char array with length=41
-// hash_digest should be a char array with length=42
+// hash_digest should be a char array with length=41
 int compute_hash(const char *fname, const char *root_path,
 		 char *sha1_digest, char *hash_digest)
 {

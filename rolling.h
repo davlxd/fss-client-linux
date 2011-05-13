@@ -1,5 +1,4 @@
 /*
- * Linearly diff match algorithm, header file
  *
  * Copyright (c) 2010, 2011 lxd <edl.eppc@gmail.com>
  * 
@@ -18,24 +17,21 @@
  * You should have received a copy of the GNU General Public License
  * along with fss.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _DIFF_H_
-#define _DIFF_H_
+#ifndef _WRAP_SHA1_H_
+#define _WRAP_SHA1_H_
 
-#define MAX_LINE_LEN HASH_LEN+2
+#include "fss.h"
 
+#define RECORD_LEN 9
 
-/* fout0 -> lines exist in fin0, not in fin1
- * fout1 -> lines exist in fin1, not in fin0
- * fout2 -> lines both in fin0 and fin1
- */
-int diff(const char *fin0, const char *fin1,
-	 const char *fout0, const char *fout1, const char *fout2);
+uint32_t get_checksum1(char *buf, int32_t len);
 
-int get_line_via_linenum(const char *fname, long linenum,
-			 char *buffer, int maxlen);
-int search_line(const char *fname, const char *target, int maxlen,
-		int *linenum);
-
-
+int rolling_file(const char *in, const char *out);
 
 #endif
+
+  
+  
+  
+    
+    

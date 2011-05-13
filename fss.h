@@ -40,6 +40,8 @@
 #include <fcntl.h>
 #include <ftw.h>
 #include <dirent.h>
+#include <stdint.h>
+#include <inttypes.h>
 #include <netdb.h>
 
 #define INCLUDE_HIDDEN 0
@@ -47,14 +49,19 @@
 #define BUF_LEN 4096
 #define MAX_PATH_LEN 1024
 
+#define BLOCK_LEN 700
+
 // length of record of hash.fss
 #define HASH_LEN 40
 
 #define PORT 3375
 #define PORT_STR "3375"
 
-
 #define FSS_DIR ".fss"
+
+
+#define MIN(a,b) ((a)<(b)?(a):(b))
+#define MAX(a,b) ((a)>(b)?(a):(b))
 
 
 #endif

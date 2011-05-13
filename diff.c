@@ -66,24 +66,22 @@ int diff(const char *fin0, const char *fin1,
   rewind(file_in_0);
   for (i = 0; i < file_in_0_line_num; i++) {
     fgets(buf0, MAX_LINE_LEN, file_in_0);
-    printf(">>>> diff: Now --%s--%ld-- from file_in_0 read\n", buf0, i+1);
+    //    printf(">>>> diff: Now --%s--%ld-- from file_in_0 read\n", buf0, i+1);
     rewind(file_in_1);
     for (j = 0; j < file_in_1_line_num; j++) {
       fgets(buf1, MAX_LINE_LEN, file_in_1);
-       printf(">>>> diff: Now --%s--%ld-- from file_in_1 read\n", buf1, j+1);
+      // printf(">>>> diff: Now --%s--%ld-- from file_in_1 read\n", buf1, j+1);
       if (flag[j]) {
-	printf("Setted\n");
 	continue;
       }
       if (strncmp(buf0, buf1, 40) == 0) {
-	printf("Setting\n");
 	flag[j] = 1;
 	break;
       }
     }
     if (j == file_in_1_line_num) {
-      printf(">>> diff: Line --%s--%ld-- from file_in_0 unique\n",
-      buf0, i+1); 
+      //      printf(">>> diff: Line --%s--%ld-- from file_in_0 unique\n",
+      //buf0, i+1); 
       if (write_line_num(i+1, file_out_0)) {
 	fprintf(stderr, "@diff(): write_line_num() failed");
 	return 1;
@@ -252,3 +250,86 @@ static int write_line_num(long num, FILE *file_out)
   return 0;
 }
   
+int get_line_via_linenum(const char *fname, long linenum,
+			 char *buffer, int maxlen)
+{
+  FILE *file;
+  int c;
+  int num;
+  
+  if (!(file = fopen(fname, "rb"))) {
+    fprintf(stderr, "@get_line_via_linenum(): fopen(%s) fails\n", fname);
+    return 1;
+  }
+  
+  num = 0;
+  while((num < (linenum-1)) && (c = getc(file)) != EOF)
+    if (c == '\n')
+      num++;
+
+  if (c == EOF) {
+    fprintf(stderr,
+	    "@get_line_via_linenum(): linenum %ld is larger\n", linenum);
+    return 1;
+  }
+
+  if (fgets(buffer, maxlen, file) == NULL) {
+    perror("@get_line_via_linenum(): fgets() failed\n");
+    return 1;
+  }
+
+  /* if..., actually it must be */
+  if (buffer[strlen(buffer)-1] == '\n') {
+    buffer[strlen(buffer)-1] = 0;
+  }
+    
+
+  if (0 != fclose(file)) {
+    perror("@get_line_via_linenum(): fclose(file) failed");
+    return 1;
+  }
+
+  return 0;
+}
+
+
+int search_line(const char *fname, const char *target, int maxlen,
+		int *linenum)
+{
+  FILE *file;
+  int found = 0;
+  int count = 0;
+  char buf[maxlen];
+  char *ptr;
+  maxlen += 2;
+  
+  if (!(file = fopen(fname, "rb"))) {
+    perror("@search_line(): fopen() failed");
+    return 1;
+  }
+
+  while(fgets(buf, maxlen, file) != NULL) {
+    ptr = buf+strlen(buf)-1; // handle \n
+    if(*ptr  == '\n') *ptr = 0;
+
+    count++;
+    printf(">>>> now get ==%s==, =%d=\n", buf, count);
+    if (strncmp(buf, target, MAX(strlen(buf), strlen(target))) == 0) {
+      found = 1;
+      break;
+    }
+  }
+
+
+  if (found == 0)
+    *linenum = -1;
+  else
+    *linenum = count;
+
+  if (0 != fclose(file)) {
+    perror("@search_line(): fclose(file) failed");
+    return 1;
+  }
+
+  return 0;
+}
