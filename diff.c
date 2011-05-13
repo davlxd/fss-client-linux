@@ -313,7 +313,6 @@ int search_line(const char *fname, const char *target, int maxlen,
     if(*ptr  == '\n') *ptr = 0;
 
     count++;
-    printf(">>>> now get ==%s==, =%d=\n", buf, count);
     if (strncmp(buf, target, MAX(strlen(buf), strlen(target))) == 0) {
       found = 1;
       break;
