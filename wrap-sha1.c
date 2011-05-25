@@ -101,6 +101,31 @@ int sha1_str(char *text, char *digest)
   return 0;
 }
 
+int sha1_digest_of_buffer(char *buffer, size_t len, char *digest)
+{
+  SHA1Context sha;
+  int i;
+  
+  SHA1Reset(&sha);
+  SHA1Input(&sha, (const unsigned char*)buffer, (unsigned)len);
+  if (!SHA1Result(&sha)) {
+    fprintf(stderr,
+	    "@sha1_str(): SHA1Result() fails.\n");
+    return 1;
+  }
+
+  for (i = 0 ; i < 5 ; i++) {
+    if (0 > snprintf(digest+8*i, 8+1, "%08X", sha.Message_Digest[i])) {
+      perror("@sha1_file(): snprintf() fails");
+      return 1;
+    }
+  }
+  digest[40] = 0;
+
+  return 0;
+
+}
+
 /* calculation with rela_path*/
 int sha1_digest_via_fname_fss(const char *fname,
 			      const char *root_path, char *digest)

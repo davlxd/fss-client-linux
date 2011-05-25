@@ -17,32 +17,35 @@
  * You should have received a copy of the GNU General Public License
  * along with fss.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _WRAP_SHA1_H_
-#define _WRAP_SHA1_H_
+#ifndef _FSS_HASH_TABLE_H_
+#define _FSS_HASH_TABLE_H_
 
 #include "fss.h"
 
-#ifndef SHA1_BUF_LEN
-#define SHA1_BUF_LEN 1024
-#endif
+typedef struct block_struct
+{
+  size_t idx;
+  size_t chain;
+  
 
-int sha1_digest_via_fname(const char *fname, char *digest);
+  
+} block_struct;
 
-/* I need this function because of my dirty design
- * this function ask for root_path to calculate sha1 including
- * relative path*/
-int sha1_digest_via_fname_fss(const char *, const char *, char*);
 
-// sha1_digest should be a char array with length=41
-// hash_digest should be a char array with length=42
-int compute_hash(const char *fname, const char *root_path,
-		 char *sha1_digest, char *hash_digest);
+typedef struct file_struct
+{
+  off_t len;
+  block_struct *blocks;
+  
 
-int sha1_file(FILE *file, char *digest);
-int sha1_str(char *text, char *digest);
 
-int sha1_digest_of_buffer(char *buf, size_t len, char *digest);
 
+} file_struct;
+
+
+int init_hashtable_from_file(const char *t_file, file_struct *f_s);
+int build_hashtable(file_struct *f_s);
+int cleanup_hashtable(file_struct *f_s);
 
 
 

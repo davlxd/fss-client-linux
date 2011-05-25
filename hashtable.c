@@ -19,8 +19,7 @@
  * along with fss.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "rolling.h"
-#include "wrap-sha1.h"
+#include "hashtable.h"
 
 extern int errno;
 

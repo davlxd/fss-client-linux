@@ -17,16 +17,17 @@
  * You should have received a copy of the GNU General Public License
  * along with fss.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _WRAP_SHA1_H_
-#define _WRAP_SHA1_H_
+#ifndef _ROLLING_H_
+#define _ROLLING_H_
 
 #include "fss.h"
 
-#define RECORD_LEN 9
+#define RECORD_LEN 55
 
 uint32_t get_checksum1(char *buf, int32_t len);
 
-int rolling_file(const char *in, const char *out);
+// compute rolling hash and export 2 a file named @param out
+int rolling_to_file(const char *in, const char *out, int with_sha1);
 
 #endif
 
