@@ -243,7 +243,6 @@ int compute_hash(const char *fname, const char *root_path,
 		 char *sha1_digest, char *hash_digest)
 {
   SHA1Context sha;
-  int flag = 0; // file type flag, 0=reg file, 1=dir
   unsigned char buf[SHA1_BUF_LEN];
   char content_digest[41], path_digest[41], both_digest[81];
   struct stat statbuf;
@@ -261,7 +260,6 @@ int compute_hash(const char *fname, const char *root_path,
 
   // if it is a dir, make normal sha1 string as 000...00
   if (S_ISDIR(statbuf.st_mode)) {
-    flag = 1;
     SHA1Reset(&sha);
     SHA1Result(&sha);
     if (export_to_str(&sha, content_digest)) {

@@ -395,7 +395,7 @@ static int write_in2(const char *path, const struct stat *ptr,
     return 0;
 
   int rv;
-  int typeflag = 0; // flag for entry type, regfile->0, dir->1
+  //int typeflag = 0; // flag for entry type, regfile->0, dir->1
   char sha1[41];
   char hash[41];
   char relapath[MAX_PATH_LEN];
@@ -406,8 +406,8 @@ static int write_in2(const char *path, const struct stat *ptr,
     return 1;
   }
 
-  if (S_ISDIR(ptr->st_mode))
-    typeflag = 1;
+  //if (S_ISDIR(ptr->st_mode))
+  //typeflag = 1;
   
   if ((rv = compute_hash(path, rootpath, sha1, hash)) == 1) {
     fprintf(stderr, "@write_in2(): compute_hash() failed");
@@ -771,7 +771,8 @@ int send_entryinfo_via_linenum(int sockfd, long linenum,
 
   memset(record, 0, MAX_PATH_LEN);
   if (get_line_via_linenum(fullpath, linenum, record, MAX_PATH_LEN)) {
-    fprintf(stderr, "@send_entryinfo_via_linenum(): get_line() failed\n");
+    fprintf(stderr,
+	    "@send_entryinfo_via_linenum(): get_line_via_linenum() failed\n");
     return 1;
   }
 

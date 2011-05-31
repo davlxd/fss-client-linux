@@ -254,7 +254,7 @@ int get_line_via_linenum(const char *fname, long linenum,
 			 char *buffer, int maxlen)
 {
   FILE *file;
-  int c;
+  int c = 0;
   int num;
   
   if (!(file = fopen(fname, "rb"))) {
