@@ -215,7 +215,6 @@ static void repaint_window_pref()
 
 static void destroy(GtkWidget *widget, gpointer data)
 {
-  printf("in destroy\n");
   gtk_widget_destroy(GTK_WIDGET(data));
 }
 

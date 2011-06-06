@@ -1,0 +1,180 @@
+KEY:Path found
+KEY:Path -> VALUE:/home/i/for-sync
+KEY:Server found
+KEY:Server -> VALUE:lxd.me
+>>>> hash.fss and finfo.fss updateed
+>>>> socket readable
+>>>> ---> WAIT_HASH_FSS_INFO
+>>>> receive_line received H11ED9F5022266BAF59366288DAC59A2A4A044A2F
+.fss/hash.fss
+1307035589
+4346
+>>>> lock is on
+>>>> In set_fileinfo string 11ED9F5022266BAF59366288DAC59A2A4A044A2F
+.fss/hash.fss
+1307035589
+4346   set
+>>>> in send_msg: --A--
+>>>> status set to ----> WAIT_HASH_FSS
+>>>> socket readable
+>>>> ---> WAIT_HASH_FSS 
+>>>> in receive_file(), receiving: /home/i/for-sync/.fss/remote.hash.fss, size=4346
+ received
+>>>> hash.fss received, updating local hash.fss ...
+>>>> hash.fss and finfo.fss updateed
+>>>> in send_msg: --NDA39A3EE5E6B4B0D3255BFEF95601890AFD80709
+Untitled Folder
+1307390005
+4096--
+>>>> just send --NDA39A3EE5E6B4B0D3255BFEF95601890AFD80709
+Untitled Folder
+1307390005
+4096--
+>>>> >>>>> flag=2
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --M--
+>>>> >>>> flag=4
+>>>> socket readable
+>>>> ---> WAIT_HASH_FSS_INFO
+>>>> receive_line received HEC47E4CF99BD67D4D11CFDF098F5C43F77C83945
+.fss/hash.fss
+1
+4387
+>>>> lock is on
+>>>> In set_fileinfo string EC47E4CF99BD67D4D11CFDF098F5C43F77C83945
+.fss/hash.fss
+1
+4387   set
+>>>> in send_msg: --A--
+>>>> status set to ----> WAIT_HASH_FSS
+>>>> socket readable
+>>>> ---> WAIT_HASH_FSS 
+>>>> in receive_file(), receiving: /home/i/for-sync/.fss/remote.hash.fss, size=4387
+ received
+>>>> hash.fss received, updating local hash.fss ...
+>>>> hash.fss and finfo.fss updateed
+>>>> in send_msg: --K8C7637821E833E1B767289E5D475D3A8ECCE8601
+.fss/diff.remote.index.fss
+1307390018
+6--
+>>>> just send --K8C7637821E833E1B767289E5D475D3A8ECCE8601
+.fss/diff.remote.index.fss
+1307390018
+6--
+>>>> >>>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_REQ_DEL_IDX
+>>>> receive_line received E
+>>>> received E
+>>>> in send_file(): sending  /home/i/for-sync/.fss/diff.remote.index.fss, size=6    ...    DONE
+>>>> del_index sent, status set to ---> WAIT_HASH_FSS_INFO
+>>>> socket readable
+>>>> ---> WAIT_HASH_FSS_INFO
+>>>> receive_line received H3F399F335D68AB6835480ED9DA1A28EC9102BB62
+.fss/hash.fss
+1
+4305
+>>>> lock is on
+>>>> In set_fileinfo string 3F399F335D68AB6835480ED9DA1A28EC9102BB62
+.fss/hash.fss
+1
+4305   set
+>>>> in send_msg: --A--
+>>>> status set to ----> WAIT_HASH_FSS
+>>>> socket readable
+>>>> ---> WAIT_HASH_FSS 
+>>>> in receive_file(), receiving: /home/i/for-sync/.fss/remote.hash.fss, size=4305
+ received
+>>>> hash.fss received, updating local hash.fss ...
+>>>> hash.fss and finfo.fss updateed
+>>>> in send_msg: --L--
+>>>> status set to ------> WAIT_HASH_FSS_INFO
+>>>> lock unset
+>>>> INOTIFY detected and passed: DIR Untitled Folder was moved from 
+>>>> hash.fss and finfo.fss updateed
+>>>> lock set
+>>>> in send_msg: --KE5FA44F2B31C1FB553B6021E7360D07D5D91FF5E
+.fss/diff.remote.index.fss
+1307390029
+2--
+>>>> just send --KE5FA44F2B31C1FB553B6021E7360D07D5D91FF5E
+.fss/diff.remote.index.fss
+1307390029
+2--
+>>>> >>>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_REQ_DEL_IDX
+>>>> receive_line received E
+>>>> received E
+>>>> in send_file(): sending  /home/i/for-sync/.fss/diff.remote.index.fss, size=2    ...    DONE
+>>>> del_index sent, status set to ---> WAIT_HASH_FSS_INFO
+>>>> socket readable
+>>>> ---> WAIT_HASH_FSS_INFO
+>>>> receive_line received HAFE435BAFFA033D3504CB4C21656C1BE9D1C0B7E
+.fss/hash.fss
+1
+4264
+>>>> lock is on
+>>>> In set_fileinfo string AFE435BAFFA033D3504CB4C21656C1BE9D1C0B7E
+.fss/hash.fss
+1
+4264   set
+>>>> in send_msg: --A--
+>>>> status set to ----> WAIT_HASH_FSS
+>>>> socket readable
+>>>> ---> WAIT_HASH_FSS 
+>>>> in receive_file(), receiving: /home/i/for-sync/.fss/remote.hash.fss, size=4264
+ received
+>>>> hash.fss received, updating local hash.fss ...
+>>>> hash.fss and finfo.fss updateed
+>>>> in send_msg: --L--
+>>>> status set to ------> WAIT_HASH_FSS_INFO
+>>>> lock unset
+>>>> INOTIFY detected and passed: under /home/i/for-sync
+
+>>>> hash.fss and finfo.fss updateed
+>>>> INOTIFY detected and passed: FILE COPYING was moved from under /home/i/for-sync/fss-client
+
+>>>> hash.fss and finfo.fss updateed
+>>>> lock set
+>>>> in send_msg: --KFBEA1350DA5283F2E89CC2669635731281202371
+.fss/diff.remote.index.fss
+1307390037
+4--
+>>>> just send --KFBEA1350DA5283F2E89CC2669635731281202371
+.fss/diff.remote.index.fss
+1307390037
+4--
+>>>> >>>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_REQ_DEL_IDX
+>>>> receive_line received E
+>>>> received E
+>>>> in send_file(): sending  /home/i/for-sync/.fss/diff.remote.index.fss, size=4    ...    DONE
+>>>> del_index sent, status set to ---> WAIT_HASH_FSS_INFO
+>>>> socket readable
+>>>> ---> WAIT_HASH_FSS_INFO
+>>>> receive_line received H8764E43A43F57C33C2AD462DB4821E74B33C47B4
+.fss/hash.fss
+1
+4223
+>>>> lock is on
+>>>> In set_fileinfo string 8764E43A43F57C33C2AD462DB4821E74B33C47B4
+.fss/hash.fss
+1
+4223   set
+>>>> in send_msg: --A--
+>>>> status set to ----> WAIT_HASH_FSS
+>>>> socket readable
+>>>> ---> WAIT_HASH_FSS 
+>>>> in receive_file(), receiving: /home/i/for-sync/.fss/remote.hash.fss, size=4223
+ received
+>>>> hash.fss received, updating local hash.fss ...
+>>>> hash.fss and finfo.fss updateed
+>>>> in send_msg: --L--
+>>>> status set to ------> WAIT_HASH_FSS_INFO
+>>>> lock unset
+in destroy
