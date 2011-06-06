@@ -39,8 +39,8 @@
 #define CHKSUM_INFO "O"
 
 enum {
-  WAIT_SHA1_FSS_INFO = 1,
-  WAIT_SHA1_FSS = 3,
+  WAIT_HASH_FSS_INFO = 1,
+  WAIT_HASH_FSS = 3,
   WAIT_ENTRY_INFO = 5,
   WAIT_FILE = 7,
   WAIT_MSG_SER_REQ_FILE = 9,
@@ -49,13 +49,6 @@ enum {
   ENTRY_INFO_SENT = 15
 };
 
-#define WAIT_HASH_FSS_INFO 1
-#define WAIT_HASH_FSS 3
-#define WAIT_ENTRY_INFO 5
-#define WAIT_FILE 7
-#define WAIT_MSG_SER_REQ_FILE 9
-#define WAIT_MSG_SER_RECEIVED 11
-#define WAIT_MSG_SER_REQ_DEL_IDX 13
 
 
 int client_polling(int, int);

@@ -1,1 +1,1 @@
-./a.out | tee log
+./fss-client | tee log
