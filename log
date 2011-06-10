@@ -5,32 +5,1959 @@ KEY:Server -> VALUE:lxd.me
 >>>> hash.fss and finfo.fss updateed
 >>>> socket readable
 >>>> ---> WAIT_HASH_FSS_INFO
->>>> receive_line received H11ED9F5022266BAF59366288DAC59A2A4A044A2F
+>>>> receive_line received HBB6C5B56852E22B9B2C6EC2E23D50387E2AD5084
 .fss/hash.fss
-1307035589
-4346
+1307633635
+41
 >>>> lock is on
->>>> In set_fileinfo string 11ED9F5022266BAF59366288DAC59A2A4A044A2F
+>>>> In set_fileinfo string BB6C5B56852E22B9B2C6EC2E23D50387E2AD5084
 .fss/hash.fss
-1307035589
-4346   set
+1307633635
+41   set
 >>>> in send_msg: --A--
 >>>> status set to ----> WAIT_HASH_FSS
 >>>> socket readable
 >>>> ---> WAIT_HASH_FSS 
->>>> in receive_file(), receiving: /home/i/for-sync/.fss/remote.hash.fss, size=4346
+>>>> in receive_file(), receiving: /home/i/for-sync/.fss/remote.hash.fss, size=41
  received
 >>>> hash.fss received, updating local hash.fss ...
 >>>> hash.fss and finfo.fss updateed
 >>>> in send_msg: --NDA39A3EE5E6B4B0D3255BFEF95601890AFD80709
 Untitled Folder
-1307390005
+1307390053
 4096--
 >>>> just send --NDA39A3EE5E6B4B0D3255BFEF95601890AFD80709
 Untitled Folder
-1307390005
+1307390053
 4096--
 >>>> >>>>> flag=2
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JD9A7ECE8D3339B7236064FE8ACA7240BCD635112
+fuck.fuck/fss/fss-client/sock.h.gch
+1306618232
+721152--
+>>>> just send --JD9A7ECE8D3339B7236064FE8ACA7240BCD635112
+fuck.fuck/fss/fss-client/sock.h.gch
+1306618232
+721152--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/sock.h.gch, size=721152    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J3662D37AD8390088583EFBCF05CDB7EAC9EC9A61
+fuck.fuck/fss/fss-client/a.out
+1306618233
+97880--
+>>>> just send --J3662D37AD8390088583EFBCF05CDB7EAC9EC9A61
+fuck.fuck/fss/fss-client/a.out
+1306618233
+97880--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/a.out, size=97880    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JBA47E7A55F80FEA3A6B885122B7EE913BBD4955C
+fuck.fuck/fss/fss-client/fss.h
+1306588543
+1545--
+>>>> just send --JBA47E7A55F80FEA3A6B885122B7EE913BBD4955C
+fuck.fuck/fss/fss-client/fss.h
+1306588543
+1545--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/fss.h, size=1545    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J9085CA63CC5218103F81CAF298AE878C6B174F7C
+fuck.fuck/fss/fss-client/wrap-sha1.c
+1306607317
+8985--
+>>>> just send --J9085CA63CC5218103F81CAF298AE878C6B174F7C
+fuck.fuck/fss/fss-client/wrap-sha1.c
+1306607317
+8985--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/wrap-sha1.c, size=8985    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JCFCD9549630713C6BEE016920C1821B5CE9792FD
+fuck.fuck/fss/fss-client/params.h
+1303901427
+921--
+>>>> just send --JCFCD9549630713C6BEE016920C1821B5CE9792FD
+fuck.fuck/fss/fss-client/params.h
+1303901427
+921--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/params.h, size=921    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J10C2A2A2E156AFB49204C51102BD1E56B2E8BFDD
+fuck.fuck/fss/fss-client/wrap-inotify.h
+1303901427
+1290--
+>>>> just send --J10C2A2A2E156AFB49204C51102BD1E56B2E8BFDD
+fuck.fuck/fss/fss-client/wrap-inotify.h
+1303901427
+1290--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/wrap-inotify.h, size=1290    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J2CE0FE153F6F14FBDCDBA30829C5A38C50195DE8
+fuck.fuck/fss/fss-client/protocol.h
+1306588543
+1620--
+>>>> just send --J2CE0FE153F6F14FBDCDBA30829C5A38C50195DE8
+fuck.fuck/fss/fss-client/protocol.h
+1306588543
+1620--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/protocol.h, size=1620    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J9DC59415A01EEE107E1A7B31C968245323820F07
+fuck.fuck/fss/fss-client/params.c
+1303901427
+5041--
+>>>> just send --J9DC59415A01EEE107E1A7B31C968245323820F07
+fuck.fuck/fss/fss-client/params.c
+1303901427
+5041--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/params.c, size=5041    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J052593A1673398CF4056396CA5155DC6DAB42936
+fuck.fuck/fss/fss-client/test-sha1.c
+1306588543
+667--
+>>>> just send --J052593A1673398CF4056396CA5155DC6DAB42936
+fuck.fuck/fss/fss-client/test-sha1.c
+1306588543
+667--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/test-sha1.c, size=667    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J3D803008D3096B9E03EFA96841AF91147D10326A
+fuck.fuck/fss/fss-client/sock.h
+1303901427
+926--
+>>>> just send --J3D803008D3096B9E03EFA96841AF91147D10326A
+fuck.fuck/fss/fss-client/sock.h
+1303901427
+926--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/sock.h, size=926    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J2CB4B7DAA5960119DD5F029B450A68DBD8F1285B
+fuck.fuck/fss/fss-client/log
+1306618596
+5853--
+>>>> just send --J2CB4B7DAA5960119DD5F029B450A68DBD8F1285B
+fuck.fuck/fss/fss-client/log
+1306618596
+5853--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/log, size=5853    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JD2CE716F8531656D605037AC72776E0B1AE37AD6
+fuck.fuck/fss/fss-client/diff.h
+1306588543
+1283--
+>>>> just send --JD2CE716F8531656D605037AC72776E0B1AE37AD6
+fuck.fuck/fss/fss-client/diff.h
+1306588543
+1283--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/diff.h, size=1283    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J4C51442BB13909BCFD5F0AB123BACC1D1C6C609F
+fuck.fuck/fss/fss-client/files.h.gch
+1306618230
+1841880--
+>>>> just send --J4C51442BB13909BCFD5F0AB123BACC1D1C6C609F
+fuck.fuck/fss/fss-client/files.h.gch
+1306618230
+1841880--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/files.h.gch, size=1841880    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J72FE678E7ABF3185742A4FBD9312AC64E81E0638
+fuck.fuck/fss/fss-client/wrap-sha1.h.gch
+1306618233
+1833688--
+>>>> just send --J72FE678E7ABF3185742A4FBD9312AC64E81E0638
+fuck.fuck/fss/fss-client/wrap-sha1.h.gch
+1306618233
+1833688--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/wrap-sha1.h.gch, size=1833688    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JFF64EB931C030F21D6EDC52F3A7A63D484E4DD9D
+fuck.fuck/fss/fss-client/diff.h.gch
+1306618229
+721152--
+>>>> just send --JFF64EB931C030F21D6EDC52F3A7A63D484E4DD9D
+fuck.fuck/fss/fss-client/diff.h.gch
+1306618229
+721152--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/diff.h.gch, size=721152    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J3DDFDA1917F12E776A5CD1EB3921D16BF4B35657
+fuck.fuck/fss/fss-client/protocol.c
+1306588543
+21454--
+>>>> just send --J3DDFDA1917F12E776A5CD1EB3921D16BF4B35657
+fuck.fuck/fss/fss-client/protocol.c
+1306588543
+21454--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/protocol.c, size=21454    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JC3C3EB3B9CC2B076DD1898C1E0C9C2224EAB0E74
+fuck.fuck/fss/fss-client/main.c
+1303901427
+2150--
+>>>> just send --JC3C3EB3B9CC2B076DD1898C1E0C9C2224EAB0E74
+fuck.fuck/fss/fss-client/main.c
+1303901427
+2150--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/main.c, size=2150    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J9E6B4DE97E8AA1B82AB3D659791D39B167F7C4EA
+fuck.fuck/fss/fss-client/rolling.c
+1306588543
+2023--
+>>>> just send --J9E6B4DE97E8AA1B82AB3D659791D39B167F7C4EA
+fuck.fuck/fss/fss-client/rolling.c
+1306588543
+2023--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/rolling.c, size=2023    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JF2C133058960FA11695CFA3B8463542FB67357BC
+fuck.fuck/fss/fss-client/files.c
+1306616848
+30913--
+>>>> just send --JF2C133058960FA11695CFA3B8463542FB67357BC
+fuck.fuck/fss/fss-client/files.c
+1306616848
+30913--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/files.c, size=30913    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J095032438CA049DFB7126BBF291982D8478731BB
+fuck.fuck/fss/fss-client/exe
+1306588543
+18--
+>>>> just send --J095032438CA049DFB7126BBF291982D8478731BB
+fuck.fuck/fss/fss-client/exe
+1306588543
+18--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/exe, size=18    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JF6195C27614160EAE63A4FD98346A04AE84E6096
+fuck.fuck/fss/fss-client/sha1.h.gch
+1306618232
+729344--
+>>>> just send --JF6195C27614160EAE63A4FD98346A04AE84E6096
+fuck.fuck/fss/fss-client/sha1.h.gch
+1306618232
+729344--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/sha1.h.gch, size=729344    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J77F0FB4740C8771145A56FF51A2744CC3305C4EC
+fuck.fuck/fss/fss-client/sock.c
+1303901427
+1590--
+>>>> just send --J77F0FB4740C8771145A56FF51A2744CC3305C4EC
+fuck.fuck/fss/fss-client/sock.c
+1303901427
+1590--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/sock.c, size=1590    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J2BE4DE9D62A90F49EDE3E50CDE3D4958D76D4076
+fuck.fuck/fss/fss-client/test-rolling.c
+1306588543
+161--
+>>>> just send --J2BE4DE9D62A90F49EDE3E50CDE3D4958D76D4076
+fuck.fuck/fss/fss-client/test-rolling.c
+1306588543
+161--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/test-rolling.c, size=161    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JE770CCCE6468AA1876F3CF3440C9CA00E9E42175
+fuck.fuck/fss/fss-client/wrap-inotify.c
+1303901427
+13857--
+>>>> just send --JE770CCCE6468AA1876F3CF3440C9CA00E9E42175
+fuck.fuck/fss/fss-client/wrap-inotify.c
+1303901427
+13857--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/wrap-inotify.c, size=13857    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J8BE45BDE28D99D70F87C371441B4A1AB11147F97
+fuck.fuck/fss/fss-client/fss.conf
+1306588971
+472--
+>>>> just send --J8BE45BDE28D99D70F87C371441B4A1AB11147F97
+fuck.fuck/fss/fss-client/fss.conf
+1306588971
+472--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/fss.conf, size=472    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J85DB87880E298028991D327630F8D7B4AE018A84
+fuck.fuck/fss/fss-client/sha1.c
+1302490334
+10382--
+>>>> just send --J85DB87880E298028991D327630F8D7B4AE018A84
+fuck.fuck/fss/fss-client/sha1.c
+1302490334
+10382--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/sha1.c, size=10382    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J1CF5567AB4BE4ECC6877D5933B9800EC0801C2BB
+fuck.fuck/fss/fss-client/protocol.h.gch
+1306618232
+733440--
+>>>> just send --J1CF5567AB4BE4ECC6877D5933B9800EC0801C2BB
+fuck.fuck/fss/fss-client/protocol.h.gch
+1306618232
+733440--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/protocol.h.gch, size=733440    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J387FE230D3A8A1480AE9DBBD0CB3A20614197BB4
+fuck.fuck/fss/fss-client/test-diff.c
+1306588543
+367--
+>>>> just send --J387FE230D3A8A1480AE9DBBD0CB3A20614197BB4
+fuck.fuck/fss/fss-client/test-diff.c
+1306588543
+367--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/test-diff.c, size=367    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JF5E2A67090AEFB2C4521055B44F991B3086C9BA9
+fuck.fuck/fss/fss-client/README
+1302490334
+615--
+>>>> just send --JF5E2A67090AEFB2C4521055B44F991B3086C9BA9
+fuck.fuck/fss/fss-client/README
+1302490334
+615--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/README, size=615    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JB8322E04499AB0B09F84EFBB23EFD651C34618DC
+fuck.fuck/fss/fss-client/diff.c
+1306617191
+7263--
+>>>> just send --JB8322E04499AB0B09F84EFBB23EFD651C34618DC
+fuck.fuck/fss/fss-client/diff.c
+1306617191
+7263--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/diff.c, size=7263    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J1DE7BACB4FBBD7B6D391A69ABFE174C2509EC303
+fuck.fuck/fss/fss-client/COPYING
+1302490334
+35146--
+>>>> just send --J1DE7BACB4FBBD7B6D391A69ABFE174C2509EC303
+fuck.fuck/fss/fss-client/COPYING
+1302490334
+35146--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/COPYING, size=35146    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J1ED91F5A5F65D197446855220F57FB6EDFF3796E
+fuck.fuck/fss/fss-client/params.h.gch
+1306618231
+721152--
+>>>> just send --J1ED91F5A5F65D197446855220F57FB6EDFF3796E
+fuck.fuck/fss/fss-client/params.h.gch
+1306618231
+721152--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/params.h.gch, size=721152    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J62A3F5F35E769C20B7491F5FCD51887A0AB3F06B
+fuck.fuck/fss/fss-client/files.h
+1306588543
+3032--
+>>>> just send --J62A3F5F35E769C20B7491F5FCD51887A0AB3F06B
+fuck.fuck/fss/fss-client/files.h
+1306588543
+3032--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/files.h, size=3032    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JB13FC3AA51C395D0D513E92DCEE6390837DF195A
+fuck.fuck/fss/fss-client/license.txt
+1302490334
+702--
+>>>> just send --JB13FC3AA51C395D0D513E92DCEE6390837DF195A
+fuck.fuck/fss/fss-client/license.txt
+1302490334
+702--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/license.txt, size=702    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J96D1F008BD49AED8A25366AEFEB3EAD81559043C
+fuck.fuck/fss/fss-client/build
+1306588543
+163--
+>>>> just send --J96D1F008BD49AED8A25366AEFEB3EAD81559043C
+fuck.fuck/fss/fss-client/build
+1306588543
+163--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/build, size=163    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JD06D098A3EB295313BED9BE0D06AAFFC9891C85C
+fuck.fuck/fss/fss-client/sha1.h
+1302490334
+1574--
+>>>> just send --JD06D098A3EB295313BED9BE0D06AAFFC9891C85C
+fuck.fuck/fss/fss-client/sha1.h
+1302490334
+1574--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/sha1.h, size=1574    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JC58E5B9DF9677E318E030802CACFB7DA338936F7
+fuck.fuck/fss/fss-client/fss.h.gch
+1306618231
+1829564--
+>>>> just send --JC58E5B9DF9677E318E030802CACFB7DA338936F7
+fuck.fuck/fss/fss-client/fss.h.gch
+1306618231
+1829564--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/fss.h.gch, size=1829564    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J0FC3FD2290ED16BD1E0C9E719A7C365F4829557D
+fuck.fuck/fss/fss-client/rolling.h
+1306588543
+958--
+>>>> just send --J0FC3FD2290ED16BD1E0C9E719A7C365F4829557D
+fuck.fuck/fss/fss-client/rolling.h
+1306588543
+958--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/rolling.h, size=958    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J8D25F6399AD6277A7C7869178E9785557B67D4B3
+fuck.fuck/fss/fss-client/wrap-sha1.h
+1306588543
+1444--
+>>>> just send --J8D25F6399AD6277A7C7869178E9785557B67D4B3
+fuck.fuck/fss/fss-client/wrap-sha1.h
+1306588543
+1444--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-client/wrap-sha1.h, size=1444    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --NDA39A3EE5E6B4B0D3255BFEF95601890AFD80709
+fuck.fuck/fss/fss-client
+1307032826
+4096--
+>>>> just send --NDA39A3EE5E6B4B0D3255BFEF95601890AFD80709
+fuck.fuck/fss/fss-client
+1307032826
+4096--
+>>>> >>>> flag=2
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JD2C4E563CABFDC88C4F411ECAAF7A3A875E14C93
+fuck.fuck/fss/fss-server/fss.h
+1306588589
+1364--
+>>>> just send --JD2C4E563CABFDC88C4F411ECAAF7A3A875E14C93
+fuck.fuck/fss/fss-server/fss.h
+1306588589
+1364--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/fss.h, size=1364    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JDC55170AF106C0C5267196A7199D102C51D1C179
+fuck.fuck/fss/fss-server/wrap-sha1.c
+1306314156
+9052--
+>>>> just send --JDC55170AF106C0C5267196A7199D102C51D1C179
+fuck.fuck/fss/fss-server/wrap-sha1.c
+1306314156
+9052--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/wrap-sha1.c, size=9052    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J41B8D93E93682A1004A36CC2590B5B0E681A71EF
+fuck.fuck/fss/fss-server/params.h
+1303901334
+920--
+>>>> just send --J41B8D93E93682A1004A36CC2590B5B0E681A71EF
+fuck.fuck/fss/fss-server/params.h
+1303901334
+920--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/params.h, size=920    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J8B43B59D4F713F908142D9A394E4B1B1B6484271
+fuck.fuck/fss/fss-server/protocol.h
+1306588589
+1569--
+>>>> just send --J8B43B59D4F713F908142D9A394E4B1B1B6484271
+fuck.fuck/fss/fss-server/protocol.h
+1306588589
+1569--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/protocol.h, size=1569    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J7DD8AE052DB5AF941EB0709AB7750226CF994969
+fuck.fuck/fss/fss-server/params.c
+1303901334
+4671--
+>>>> just send --J7DD8AE052DB5AF941EB0709AB7750226CF994969
+fuck.fuck/fss/fss-server/params.c
+1303901334
+4671--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/params.c, size=4671    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JAA5B0F6CBAC1FF0F06068266B1EE50702CB5BB12
+fuck.fuck/fss/fss-server/client.h
+1306314156
+1026--
+>>>> just send --JAA5B0F6CBAC1FF0F06068266B1EE50702CB5BB12
+fuck.fuck/fss/fss-server/client.h
+1306314156
+1026--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/client.h, size=1026    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J5F5761E953C59A26904A037F088855C57B160A0F
+fuck.fuck/fss/fss-server/test-sha1.c
+1302489779
+550--
+>>>> just send --J5F5761E953C59A26904A037F088855C57B160A0F
+fuck.fuck/fss/fss-server/test-sha1.c
+1302489779
+550--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/test-sha1.c, size=550    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J623A20E442FFA2048FBD23BBC3DC05C6205692D3
+fuck.fuck/fss/fss-server/sock.h
+1303901334
+908--
+>>>> just send --J623A20E442FFA2048FBD23BBC3DC05C6205692D3
+fuck.fuck/fss/fss-server/sock.h
+1303901334
+908--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/sock.h, size=908    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J2FBC25576736C3B09007299392E622456573253D
+fuck.fuck/fss/fss-server/diff.h
+1306588589
+1283--
+>>>> just send --J2FBC25576736C3B09007299392E622456573253D
+fuck.fuck/fss/fss-server/diff.h
+1306588589
+1283--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/diff.h, size=1283    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J5018FF8C4B9045BFEB9C67C2DD47ACEE243F5E72
+fuck.fuck/fss/fss-server/protocol.c
+1306588589
+24784--
+>>>> just send --J5018FF8C4B9045BFEB9C67C2DD47ACEE243F5E72
+fuck.fuck/fss/fss-server/protocol.c
+1306588589
+24784--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/protocol.c, size=24784    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J93492D287883C49BA2AA30E97CD2DF432EB9128E
+fuck.fuck/fss/fss-server/main.c
+1303901334
+1622--
+>>>> just send --J93492D287883C49BA2AA30E97CD2DF432EB9128E
+fuck.fuck/fss/fss-server/main.c
+1303901334
+1622--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/main.c, size=1622    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J303D6EEFDB723C6BFCD983EC62FEC5F9EB5CE252
+fuck.fuck/fss/fss-server/files.c
+1306588589
+27501--
+>>>> just send --J303D6EEFDB723C6BFCD983EC62FEC5F9EB5CE252
+fuck.fuck/fss/fss-server/files.c
+1306588589
+27501--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/files.c, size=27501    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J095032438CA049DFB7126BBF291982D8478731BB
+fuck.fuck/fss/fss-server/exe
+1302489764
+18--
+>>>> just send --J095032438CA049DFB7126BBF291982D8478731BB
+fuck.fuck/fss/fss-server/exe
+1302489764
+18--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/exe, size=18    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JAB3E98BDAA20B05AAA93F697463826B09EEED3A3
+fuck.fuck/fss/fss-server/sock.c
+1303901334
+1797--
+>>>> just send --JAB3E98BDAA20B05AAA93F697463826B09EEED3A3
+fuck.fuck/fss/fss-server/sock.c
+1303901334
+1797--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/sock.c, size=1797    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J1A4EB00B9E4AEB8EE15D1CDCA2756A965FF36B44
+fuck.fuck/fss/fss-server/fss.conf
+1306588589
+369--
+>>>> just send --J1A4EB00B9E4AEB8EE15D1CDCA2756A965FF36B44
+fuck.fuck/fss/fss-server/fss.conf
+1306588589
+369--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/fss.conf, size=369    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J85DB87880E298028991D327630F8D7B4AE018A84
+fuck.fuck/fss/fss-server/sha1.c
+1302489776
+10382--
+>>>> just send --J85DB87880E298028991D327630F8D7B4AE018A84
+fuck.fuck/fss/fss-server/sha1.c
+1302489776
+10382--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/sha1.c, size=10382    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J942D27702530AB6DE3860D957A7BAAED26D947BE
+fuck.fuck/fss/fss-server/test-diff.c
+1302489778
+246--
+>>>> just send --J942D27702530AB6DE3860D957A7BAAED26D947BE
+fuck.fuck/fss/fss-server/test-diff.c
+1302489778
+246--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/test-diff.c, size=246    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J4AA41A1BC9ADEC2A8E95C65BEA1A74D642F70EB4
+fuck.fuck/fss/fss-server/diff.c
+1306588589
+7296--
+>>>> just send --J4AA41A1BC9ADEC2A8E95C65BEA1A74D642F70EB4
+fuck.fuck/fss/fss-server/diff.c
+1306588589
+7296--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/diff.c, size=7296    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JB07D2EA49018096E84F1B28F94A0F6FAFBCCFB3D
+fuck.fuck/fss/fss-server/test-sock.c
+1302489779
+77--
+>>>> just send --JB07D2EA49018096E84F1B28F94A0F6FAFBCCFB3D
+fuck.fuck/fss/fss-server/test-sock.c
+1302489779
+77--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/test-sock.c, size=77    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J43DE91A798B3F224409CFF5A18219238A8250DD2
+fuck.fuck/fss/fss-server/files.h
+1306588589
+2611--
+>>>> just send --J43DE91A798B3F224409CFF5A18219238A8250DD2
+fuck.fuck/fss/fss-server/files.h
+1306588589
+2611--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/files.h, size=2611    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J077A26366DFB8E1A7F228FD705180C89FB9EFC35
+fuck.fuck/fss/fss-server/build
+1306588589
+157--
+>>>> just send --J077A26366DFB8E1A7F228FD705180C89FB9EFC35
+fuck.fuck/fss/fss-server/build
+1306588589
+157--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/build, size=157    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JD06D098A3EB295313BED9BE0D06AAFFC9891C85C
+fuck.fuck/fss/fss-server/sha1.h
+1302489776
+1574--
+>>>> just send --JD06D098A3EB295313BED9BE0D06AAFFC9891C85C
+fuck.fuck/fss/fss-server/sha1.h
+1302489776
+1574--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/sha1.h, size=1574    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J8D25F6399AD6277A7C7869178E9785557B67D4B3
+fuck.fuck/fss/fss-server/wrap-sha1.h
+1304106803
+1444--
+>>>> just send --J8D25F6399AD6277A7C7869178E9785557B67D4B3
+fuck.fuck/fss/fss-server/wrap-sha1.h
+1304106803
+1444--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fuck.fuck/fss/fss-server/wrap-sha1.h, size=1444    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --NDA39A3EE5E6B4B0D3255BFEF95601890AFD80709
+fuck.fuck/fss/fss-server
+1307032830
+4096--
+>>>> just send --NDA39A3EE5E6B4B0D3255BFEF95601890AFD80709
+fuck.fuck/fss/fss-server
+1307032830
+4096--
+>>>> >>>> flag=2
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --NDA39A3EE5E6B4B0D3255BFEF95601890AFD80709
+fuck.fuck/fss
+1307035586
+4096--
+>>>> just send --NDA39A3EE5E6B4B0D3255BFEF95601890AFD80709
+fuck.fuck/fss
+1307035586
+4096--
+>>>> >>>> flag=2
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --NDA39A3EE5E6B4B0D3255BFEF95601890AFD80709
+fuck.fuck
+1306618936
+4096--
+>>>> just send --NDA39A3EE5E6B4B0D3255BFEF95601890AFD80709
+fuck.fuck
+1306618936
+4096--
+>>>> >>>> flag=2
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JD9A7ECE8D3339B7236064FE8ACA7240BCD635112
+fss-client/sock.h.gch
+1306618232
+721152--
+>>>> just send --JD9A7ECE8D3339B7236064FE8ACA7240BCD635112
+fss-client/sock.h.gch
+1306618232
+721152--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/sock.h.gch, size=721152    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JBA47E7A55F80FEA3A6B885122B7EE913BBD4955C
+fss-client/fss.h
+1306588543
+1545--
+>>>> just send --JBA47E7A55F80FEA3A6B885122B7EE913BBD4955C
+fss-client/fss.h
+1306588543
+1545--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/fss.h, size=1545    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J9085CA63CC5218103F81CAF298AE878C6B174F7C
+fss-client/wrap-sha1.c
+1306607317
+8985--
+>>>> just send --J9085CA63CC5218103F81CAF298AE878C6B174F7C
+fss-client/wrap-sha1.c
+1306607317
+8985--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/wrap-sha1.c, size=8985    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JCFCD9549630713C6BEE016920C1821B5CE9792FD
+fss-client/params.h
+1303901427
+921--
+>>>> just send --JCFCD9549630713C6BEE016920C1821B5CE9792FD
+fss-client/params.h
+1303901427
+921--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/params.h, size=921    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J10C2A2A2E156AFB49204C51102BD1E56B2E8BFDD
+fss-client/wrap-inotify.h
+1303901427
+1290--
+>>>> just send --J10C2A2A2E156AFB49204C51102BD1E56B2E8BFDD
+fss-client/wrap-inotify.h
+1303901427
+1290--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/wrap-inotify.h, size=1290    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J2CE0FE153F6F14FBDCDBA30829C5A38C50195DE8
+fss-client/protocol.h
+1306588543
+1620--
+>>>> just send --J2CE0FE153F6F14FBDCDBA30829C5A38C50195DE8
+fss-client/protocol.h
+1306588543
+1620--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/protocol.h, size=1620    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J9DC59415A01EEE107E1A7B31C968245323820F07
+fss-client/params.c
+1303901427
+5041--
+>>>> just send --J9DC59415A01EEE107E1A7B31C968245323820F07
+fss-client/params.c
+1303901427
+5041--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/params.c, size=5041    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J052593A1673398CF4056396CA5155DC6DAB42936
+fss-client/test-sha1.c
+1306588543
+667--
+>>>> just send --J052593A1673398CF4056396CA5155DC6DAB42936
+fss-client/test-sha1.c
+1306588543
+667--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/test-sha1.c, size=667    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J3D803008D3096B9E03EFA96841AF91147D10326A
+fss-client/sock.h
+1303901427
+926--
+>>>> just send --J3D803008D3096B9E03EFA96841AF91147D10326A
+fss-client/sock.h
+1303901427
+926--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/sock.h, size=926    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J2CB4B7DAA5960119DD5F029B450A68DBD8F1285B
+fss-client/log
+1306618596
+5853--
+>>>> just send --J2CB4B7DAA5960119DD5F029B450A68DBD8F1285B
+fss-client/log
+1306618596
+5853--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/log, size=5853    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JD2CE716F8531656D605037AC72776E0B1AE37AD6
+fss-client/diff.h
+1306588543
+1283--
+>>>> just send --JD2CE716F8531656D605037AC72776E0B1AE37AD6
+fss-client/diff.h
+1306588543
+1283--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/diff.h, size=1283    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J4C51442BB13909BCFD5F0AB123BACC1D1C6C609F
+fss-client/files.h.gch
+1306618230
+1841880--
+>>>> just send --J4C51442BB13909BCFD5F0AB123BACC1D1C6C609F
+fss-client/files.h.gch
+1306618230
+1841880--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/files.h.gch, size=1841880    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J72FE678E7ABF3185742A4FBD9312AC64E81E0638
+fss-client/wrap-sha1.h.gch
+1306618233
+1833688--
+>>>> just send --J72FE678E7ABF3185742A4FBD9312AC64E81E0638
+fss-client/wrap-sha1.h.gch
+1306618233
+1833688--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/wrap-sha1.h.gch, size=1833688    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JFF64EB931C030F21D6EDC52F3A7A63D484E4DD9D
+fss-client/diff.h.gch
+1306618229
+721152--
+>>>> just send --JFF64EB931C030F21D6EDC52F3A7A63D484E4DD9D
+fss-client/diff.h.gch
+1306618229
+721152--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/diff.h.gch, size=721152    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J3DDFDA1917F12E776A5CD1EB3921D16BF4B35657
+fss-client/protocol.c
+1306588543
+21454--
+>>>> just send --J3DDFDA1917F12E776A5CD1EB3921D16BF4B35657
+fss-client/protocol.c
+1306588543
+21454--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/protocol.c, size=21454    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JC3C3EB3B9CC2B076DD1898C1E0C9C2224EAB0E74
+fss-client/main.c
+1303901427
+2150--
+>>>> just send --JC3C3EB3B9CC2B076DD1898C1E0C9C2224EAB0E74
+fss-client/main.c
+1303901427
+2150--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/main.c, size=2150    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J9E6B4DE97E8AA1B82AB3D659791D39B167F7C4EA
+fss-client/rolling.c
+1306588543
+2023--
+>>>> just send --J9E6B4DE97E8AA1B82AB3D659791D39B167F7C4EA
+fss-client/rolling.c
+1306588543
+2023--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/rolling.c, size=2023    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JF2C133058960FA11695CFA3B8463542FB67357BC
+fss-client/files.c
+1306616848
+30913--
+>>>> just send --JF2C133058960FA11695CFA3B8463542FB67357BC
+fss-client/files.c
+1306616848
+30913--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/files.c, size=30913    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J095032438CA049DFB7126BBF291982D8478731BB
+fss-client/exe
+1306588543
+18--
+>>>> just send --J095032438CA049DFB7126BBF291982D8478731BB
+fss-client/exe
+1306588543
+18--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/exe, size=18    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JF6195C27614160EAE63A4FD98346A04AE84E6096
+fss-client/sha1.h.gch
+1306618232
+729344--
+>>>> just send --JF6195C27614160EAE63A4FD98346A04AE84E6096
+fss-client/sha1.h.gch
+1306618232
+729344--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/sha1.h.gch, size=729344    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J77F0FB4740C8771145A56FF51A2744CC3305C4EC
+fss-client/sock.c
+1303901427
+1590--
+>>>> just send --J77F0FB4740C8771145A56FF51A2744CC3305C4EC
+fss-client/sock.c
+1303901427
+1590--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/sock.c, size=1590    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J2BE4DE9D62A90F49EDE3E50CDE3D4958D76D4076
+fss-client/test-rolling.c
+1306588543
+161--
+>>>> just send --J2BE4DE9D62A90F49EDE3E50CDE3D4958D76D4076
+fss-client/test-rolling.c
+1306588543
+161--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/test-rolling.c, size=161    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JE770CCCE6468AA1876F3CF3440C9CA00E9E42175
+fss-client/wrap-inotify.c
+1303901427
+13857--
+>>>> just send --JE770CCCE6468AA1876F3CF3440C9CA00E9E42175
+fss-client/wrap-inotify.c
+1303901427
+13857--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/wrap-inotify.c, size=13857    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J8BE45BDE28D99D70F87C371441B4A1AB11147F97
+fss-client/fss.conf
+1306588971
+472--
+>>>> just send --J8BE45BDE28D99D70F87C371441B4A1AB11147F97
+fss-client/fss.conf
+1306588971
+472--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/fss.conf, size=472    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J85DB87880E298028991D327630F8D7B4AE018A84
+fss-client/sha1.c
+1302490334
+10382--
+>>>> just send --J85DB87880E298028991D327630F8D7B4AE018A84
+fss-client/sha1.c
+1302490334
+10382--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/sha1.c, size=10382    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J1CF5567AB4BE4ECC6877D5933B9800EC0801C2BB
+fss-client/protocol.h.gch
+1306618232
+733440--
+>>>> just send --J1CF5567AB4BE4ECC6877D5933B9800EC0801C2BB
+fss-client/protocol.h.gch
+1306618232
+733440--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/protocol.h.gch, size=733440    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J387FE230D3A8A1480AE9DBBD0CB3A20614197BB4
+fss-client/test-diff.c
+1306588543
+367--
+>>>> just send --J387FE230D3A8A1480AE9DBBD0CB3A20614197BB4
+fss-client/test-diff.c
+1306588543
+367--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/test-diff.c, size=367    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JF5E2A67090AEFB2C4521055B44F991B3086C9BA9
+fss-client/README
+1302490334
+615--
+>>>> just send --JF5E2A67090AEFB2C4521055B44F991B3086C9BA9
+fss-client/README
+1302490334
+615--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/README, size=615    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JB8322E04499AB0B09F84EFBB23EFD651C34618DC
+fss-client/diff.c
+1306617191
+7263--
+>>>> just send --JB8322E04499AB0B09F84EFBB23EFD651C34618DC
+fss-client/diff.c
+1306617191
+7263--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/diff.c, size=7263    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J1ED91F5A5F65D197446855220F57FB6EDFF3796E
+fss-client/params.h.gch
+1306618231
+721152--
+>>>> just send --J1ED91F5A5F65D197446855220F57FB6EDFF3796E
+fss-client/params.h.gch
+1306618231
+721152--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/params.h.gch, size=721152    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J62A3F5F35E769C20B7491F5FCD51887A0AB3F06B
+fss-client/files.h
+1306588543
+3032--
+>>>> just send --J62A3F5F35E769C20B7491F5FCD51887A0AB3F06B
+fss-client/files.h
+1306588543
+3032--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/files.h, size=3032    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JB13FC3AA51C395D0D513E92DCEE6390837DF195A
+fss-client/license.txt
+1302490334
+702--
+>>>> just send --JB13FC3AA51C395D0D513E92DCEE6390837DF195A
+fss-client/license.txt
+1302490334
+702--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/license.txt, size=702    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JD06D098A3EB295313BED9BE0D06AAFFC9891C85C
+fss-client/sha1.h
+1302490334
+1574--
+>>>> just send --JD06D098A3EB295313BED9BE0D06AAFFC9891C85C
+fss-client/sha1.h
+1302490334
+1574--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/sha1.h, size=1574    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --JC58E5B9DF9677E318E030802CACFB7DA338936F7
+fss-client/fss.h.gch
+1306618231
+1829564--
+>>>> just send --JC58E5B9DF9677E318E030802CACFB7DA338936F7
+fss-client/fss.h.gch
+1306618231
+1829564--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/fss.h.gch, size=1829564    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J0FC3FD2290ED16BD1E0C9E719A7C365F4829557D
+fss-client/rolling.h
+1306588543
+958--
+>>>> just send --J0FC3FD2290ED16BD1E0C9E719A7C365F4829557D
+fss-client/rolling.h
+1306588543
+958--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/rolling.h, size=958    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --J8D25F6399AD6277A7C7869178E9785557B67D4B3
+fss-client/wrap-sha1.h
+1306588543
+1444--
+>>>> just send --J8D25F6399AD6277A7C7869178E9785557B67D4B3
+fss-client/wrap-sha1.h
+1306588543
+1444--
+>>>> >>>> flag=1
+>>>> socket readable
+>>>> ---> WAIT_ENTRY_INFO_SENT
+>>>> receive_line received D
+>>>> received D
+>>>> in send_file(): sending  /home/i/for-sync/fss-client/wrap-sha1.h, size=1444    ...    DONE
+>>>> file via linenum sent, status set to ---> WAIT_MSG_SER_RECEIVED
+>>>> socket readable
+>>>> ---> WAIT_MSG_SER_RECEIVED
+>>>> receive_line received F
+>>>> received F
+>>>> in send_msg: --NDA39A3EE5E6B4B0D3255BFEF95601890AFD80709
+fss-client
+1307390036
+4096--
+>>>> just send --NDA39A3EE5E6B4B0D3255BFEF95601890AFD80709
+fss-client
+1307390036
+4096--
+>>>> >>>> flag=2
 >>>> socket readable
 >>>> ---> WAIT_ENTRY_INFO_SENT
 >>>> receive_line received F
@@ -39,46 +1966,12 @@ Untitled Folder
 >>>> >>>> flag=4
 >>>> socket readable
 >>>> ---> WAIT_HASH_FSS_INFO
->>>> receive_line received HEC47E4CF99BD67D4D11CFDF098F5C43F77C83945
-.fss/hash.fss
-1
-4387
->>>> lock is on
->>>> In set_fileinfo string EC47E4CF99BD67D4D11CFDF098F5C43F77C83945
-.fss/hash.fss
-1
-4387   set
->>>> in send_msg: --A--
->>>> status set to ----> WAIT_HASH_FSS
->>>> socket readable
->>>> ---> WAIT_HASH_FSS 
->>>> in receive_file(), receiving: /home/i/for-sync/.fss/remote.hash.fss, size=4387
- received
->>>> hash.fss received, updating local hash.fss ...
->>>> hash.fss and finfo.fss updateed
->>>> in send_msg: --K8C7637821E833E1B767289E5D475D3A8ECCE8601
-.fss/diff.remote.index.fss
-1307390018
-6--
->>>> just send --K8C7637821E833E1B767289E5D475D3A8ECCE8601
-.fss/diff.remote.index.fss
-1307390018
-6--
->>>> >>>>> flag=1
->>>> socket readable
->>>> ---> WAIT_MSG_SER_REQ_DEL_IDX
->>>> receive_line received E
->>>> received E
->>>> in send_file(): sending  /home/i/for-sync/.fss/diff.remote.index.fss, size=6    ...    DONE
->>>> del_index sent, status set to ---> WAIT_HASH_FSS_INFO
->>>> socket readable
->>>> ---> WAIT_HASH_FSS_INFO
->>>> receive_line received H3F399F335D68AB6835480ED9DA1A28EC9102BB62
+>>>> receive_line received HC5761F4BDB510EEE1FB7F7E45F97D0540479283E
 .fss/hash.fss
 1
 4305
 >>>> lock is on
->>>> In set_fileinfo string 3F399F335D68AB6835480ED9DA1A28EC9102BB62
+>>>> In set_fileinfo string C5761F4BDB510EEE1FB7F7E45F97D0540479283E
 .fss/hash.fss
 1
 4305   set
@@ -90,35 +1983,29 @@ Untitled Folder
  received
 >>>> hash.fss received, updating local hash.fss ...
 >>>> hash.fss and finfo.fss updateed
->>>> in send_msg: --L--
->>>> status set to ------> WAIT_HASH_FSS_INFO
->>>> lock unset
->>>> INOTIFY detected and passed: DIR Untitled Folder was moved from 
->>>> hash.fss and finfo.fss updateed
->>>> lock set
->>>> in send_msg: --KE5FA44F2B31C1FB553B6021E7360D07D5D91FF5E
+>>>> in send_msg: --K592D58131F564A5ECC4FDF0EEB530A1DD0786D34
 .fss/diff.remote.index.fss
-1307390029
-2--
->>>> just send --KE5FA44F2B31C1FB553B6021E7360D07D5D91FF5E
+1307638355
+4--
+>>>> just send --K592D58131F564A5ECC4FDF0EEB530A1DD0786D34
 .fss/diff.remote.index.fss
-1307390029
-2--
+1307638355
+4--
 >>>> >>>>> flag=1
 >>>> socket readable
 >>>> ---> WAIT_MSG_SER_REQ_DEL_IDX
 >>>> receive_line received E
 >>>> received E
->>>> in send_file(): sending  /home/i/for-sync/.fss/diff.remote.index.fss, size=2    ...    DONE
+>>>> in send_file(): sending  /home/i/for-sync/.fss/diff.remote.index.fss, size=4    ...    DONE
 >>>> del_index sent, status set to ---> WAIT_HASH_FSS_INFO
 >>>> socket readable
 >>>> ---> WAIT_HASH_FSS_INFO
->>>> receive_line received HAFE435BAFFA033D3504CB4C21656C1BE9D1C0B7E
+>>>> receive_line received H507283656DFE1C97AB77FD99F8AFA56359785E07
 .fss/hash.fss
 1
 4264
 >>>> lock is on
->>>> In set_fileinfo string AFE435BAFFA033D3504CB4C21656C1BE9D1C0B7E
+>>>> In set_fileinfo string 507283656DFE1C97AB77FD99F8AFA56359785E07
 .fss/hash.fss
 1
 4264   set
@@ -133,48 +2020,3 @@ Untitled Folder
 >>>> in send_msg: --L--
 >>>> status set to ------> WAIT_HASH_FSS_INFO
 >>>> lock unset
->>>> INOTIFY detected and passed: under /home/i/for-sync
-
->>>> hash.fss and finfo.fss updateed
->>>> INOTIFY detected and passed: FILE COPYING was moved from under /home/i/for-sync/fss-client
-
->>>> hash.fss and finfo.fss updateed
->>>> lock set
->>>> in send_msg: --KFBEA1350DA5283F2E89CC2669635731281202371
-.fss/diff.remote.index.fss
-1307390037
-4--
->>>> just send --KFBEA1350DA5283F2E89CC2669635731281202371
-.fss/diff.remote.index.fss
-1307390037
-4--
->>>> >>>>> flag=1
->>>> socket readable
->>>> ---> WAIT_MSG_SER_REQ_DEL_IDX
->>>> receive_line received E
->>>> received E
->>>> in send_file(): sending  /home/i/for-sync/.fss/diff.remote.index.fss, size=4    ...    DONE
->>>> del_index sent, status set to ---> WAIT_HASH_FSS_INFO
->>>> socket readable
->>>> ---> WAIT_HASH_FSS_INFO
->>>> receive_line received H8764E43A43F57C33C2AD462DB4821E74B33C47B4
-.fss/hash.fss
-1
-4223
->>>> lock is on
->>>> In set_fileinfo string 8764E43A43F57C33C2AD462DB4821E74B33C47B4
-.fss/hash.fss
-1
-4223   set
->>>> in send_msg: --A--
->>>> status set to ----> WAIT_HASH_FSS
->>>> socket readable
->>>> ---> WAIT_HASH_FSS 
->>>> in receive_file(), receiving: /home/i/for-sync/.fss/remote.hash.fss, size=4223
- received
->>>> hash.fss received, updating local hash.fss ...
->>>> hash.fss and finfo.fss updateed
->>>> in send_msg: --L--
->>>> status set to ------> WAIT_HASH_FSS_INFO
->>>> lock unset
-in destroy
