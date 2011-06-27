@@ -24,8 +24,6 @@
 
 #include "fss.h"
 
-
-
 #define PREFIX0_SENT 00001
 #define PREFIX1_SENT 00002
 #define PREFIX2_SENT 00004
@@ -86,6 +84,8 @@ int send_entryinfo_or_reqhashinfo(int sockfd, int ifinit,
 				  const char *prefix2, unsigned char*);
 
 int reuse_file(const char *sha1_str, const char *relafname, int *reused);
+int frag_file(const char *relaname, off_t req_sz,
+	      off_t threshold, int *fragable, char *filename);
 
 /* receive... */
 int receive_hash_fss(int sockfd, off_t sz);

@@ -1,8 +1,10 @@
 /*
- * sock.h
+ * match.h
  *
- * network manipulate functions
- * 
+ * Slice target file to overlapped blocks and check if there is a match
+ * based on hashtable generated in hashtable.c
+ * This is just a simple version of rsync algorithm.
+ *
  * Copyright (c) 2010, 2011 lxd <i@lxd.me>
  * 
  * This file is part of File Synchronization System(fss).
@@ -20,14 +22,9 @@
  * You should have received a copy of the GNU General Public License
  * along with fss.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _SOCK_H_
-#define _SOCK_H_
+
+#include "hashtable.h"
+
+int block_match(file_struct *fstruct, int32_t *hashtable, direction dt);
 
 
-/* input IP addr or Domain name AS text */
-int fss_connect(const char *text, int *sockfd);
-int fss_readline(int fd, char *buf, size_t size);
-int read_msg_head(int fd, char *buf, size_t size);
-int fss_write(int fd, size_t size, char *fmt, ...);
-
-#endif

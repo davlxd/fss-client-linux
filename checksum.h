@@ -1,8 +1,5 @@
 /*
- * sock.h
  *
- * network manipulate functions
- * 
  * Copyright (c) 2010, 2011 lxd <i@lxd.me>
  * 
  * This file is part of File Synchronization System(fss).
@@ -20,14 +17,22 @@
  * You should have received a copy of the GNU General Public License
  * along with fss.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _SOCK_H_
-#define _SOCK_H_
+#ifndef _FSS_CHECKSUM_H_
+#define _FSS_CHECKSUM_H_
 
+#include "fss.h"
 
-/* input IP addr or Domain name AS text */
-int fss_connect(const char *text, int *sockfd);
-int fss_readline(int fd, char *buf, size_t size);
-int read_msg_head(int fd, char *buf, size_t size);
-int fss_write(int fd, size_t size, char *fmt, ...);
+uint32_t rolling_checksum(char *buf, int32_t len);
+
+// compute rolling hash and sha1 checksum of block, send it to fd
+int send_blk_checksums(int sockfd, const char *pathname,
+		       const char *relaname, 
+		       off_t block_size, const char *prefix);
 
 #endif
+
+  
+  
+  
+    
+    

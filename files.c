@@ -21,6 +21,7 @@
 #include "diff.h"
 #include "wrap-sha1.h"
 #include "files.h"
+#include <stdarg.h>
 
 extern int errorno;
 
@@ -935,6 +936,9 @@ int reuse_file(const char *sha1_str, const char *rela_fname, int *reused)
 
 int send_msg(int sockfd, const char *msg)
 {
+  
+
+  
   printf(">>>> in send_msg: --%s--\n", msg);
   
   if(write(sockfd, msg, strlen(msg)) < 0) {
@@ -955,11 +959,10 @@ int send_linenum_or_done(int sockfd, int if_init,
   char buf[MAX_PATH_LEN];
   *flag = 0;
 
-  if (!strncpy(buf, prefix0, strlen(prefix0))) {
+  if (!strncpy(buf, prefix0, strlen(prefix0)+1)) {
     perror("@send_linenum_or_done(): strncpy failed");
     return 1;
   }
-  buf[strlen(prefix0)] = 0;
 
   get_thefile(DIFF_REMOTE_INDEX, fullpath);
   

@@ -1,7 +1,6 @@
 /*
- * functions frequently used by other modules
  *
- * Copyright (c) 2010, 2011 lxd <edl.eppc@gmail.com>
+ * Copyright (c) 2010, 2011 lxd <i@lxd.me>
  * 
  * This file is part of File Synchronization System(fss).
  *
@@ -43,6 +42,7 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include <netdb.h>
+#include <stdarg.h>
 
 #define INCLUDE_HIDDEN 0
 
@@ -60,8 +60,49 @@
 #define FSS_DIR ".fss"
 
 
+#define CLI_REQ_HASH_FSS "A"
+#define CLI_REQ_FILE "B"
+#define SER_REQ_FILE "D"
+#define SER_REQ_DEL_IDX "E"
+#define SER_RECEIVED "F"
+#define DONE "G"
+#define HASH_FSS_INFO "H"
+#define LINE_NUM "I"
+#define FILE_INFO "J"
+#define DEL_IDX_INFO "K"
+#define FIN "L"
+#define CLI_REQ_HASH_FSS_INFO "M"
+#define DIR_INFO "N"
+#define BLK_CHKSUM "O"
+#define CLI_REQ_BLK_CHKSUM "P"
+#define BLK "Q"
+#define CLI_REQ_BLK "R"
+#define SER_RECEIVED_BLK "T"
+
+/* From the perspective of client */
+enum direction {
+  UPLOAD = 0,
+  DOWNLOAD = 1
+};
+
+
+
 #define MIN(a,b) ((a)<(b)?(a):(b))
 #define MAX(a,b) ((a)>(b)?(a):(b))
+
+#define CUR_POS(fd) lseek(fd, 0, SEEK_CUR)
+
+
+int rela2full(const char *relapath, char *fullpath, size_t size);
+int full2rela(const char *fullpath, char *relapath, size_t size);
+
+off_t curpos(int fd);
+
+int fss_connect(const char *text, int *fd);
+int fss_readline(int fd, char *buf, size_t size);
+int read_msg_head(int fd, char *buf, size_t size);
+int fss_write(int fd, size_t size, char *fmt, ...);
+
 
 
 #endif

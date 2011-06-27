@@ -1,7 +1,11 @@
 /*
- * core, header file, client
+ * protocol.h (client-side)
  *
- * Copyright (c) 2010, 2011 lxd <edl.eppc@gmail.com>
+ * This is core part of the system, maintain when and what file or
+ * data to be exchanged with server
+ *
+ *
+ * Copyright (c) 2010, 2011 lxd <i@lxd.me>
  * 
  * This file is part of File Synchronization System(fss).
  *
@@ -36,7 +40,12 @@
 #define FIN "L"
 #define CLI_REQ_HASH_FSS_INFO "M"
 #define DIR_INFO "N"
-#define CHKSUM_INFO "O"
+#define BLK_CHKSUM "O"
+#define CLI_REQ_BLK_CHKSUM "P"
+#define BLK "Q"
+#define CLI_REQ_BLK "R"
+#define SER_RECEIVED_BLK "T"
+
 
 enum {
   WAIT_SHA1_FSS_INFO = 1,
@@ -46,16 +55,19 @@ enum {
   WAIT_MSG_SER_REQ_FILE = 9,
   WAIT_MSG_SER_RECEIVED = 11,
   WAIT_MSG_SER_REQ_DEL_IDX = 13,
-  ENTRY_INFO_SENT = 15
+  ENTRY_INFO_SENT = 15,
+  BLK_SENT = 17,
+  WAIT_BLK_CHKSUM = 19,
+  WAIT_BLK = 21
 };
 
-#define WAIT_HASH_FSS_INFO 1
-#define WAIT_HASH_FSS 3
-#define WAIT_ENTRY_INFO 5
-#define WAIT_FILE 7
-#define WAIT_MSG_SER_REQ_FILE 9
-#define WAIT_MSG_SER_RECEIVED 11
-#define WAIT_MSG_SER_REQ_DEL_IDX 13
+/* #define WAIT_HASH_FSS_INFO 1 */
+/* #define WAIT_HASH_FSS 3 */
+/* #define WAIT_ENTRY_INFO 5 */
+/* #define WAIT_FILE 7 */
+/* #define WAIT_MSG_SER_REQ_FILE 9 */
+/* #define WAIT_MSG_SER_RECEIVED 11 */
+/* #define WAIT_MSG_SER_REQ_DEL_IDX 13 */
 
 
 int client_polling(int, int);

@@ -1,1 +1,1 @@
-gcc diff.c diff.h files.c files.h fss.h main.c params.c params.h protocol.c protocol.h sha1.c sha1.h sock.c sock.h wrap-sha1.c wrap-sha1.h wrap-inotify.c -g -Wall
+gcc diff.c files.c fss.c main.c params.c protocol.c sha1.c wrap-sha1.c wrap-inotify.c -g -Wall

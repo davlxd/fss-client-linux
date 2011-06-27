@@ -1,7 +1,11 @@
 /*
- * core, client
+ * protocol.c (client-side)
  *
- * Copyright (c) 2010, 2011 lxd <edl.eppc@gmail.com>
+ * This is core part of the system, maintain when and what file or
+ * data to be exchanged with server
+ *
+ *
+ * Copyright (c) 2010, 2011 lxd <i@lxd.me>
  * 
  * This file is part of File Synchronization System(fss).
  *
@@ -18,6 +22,7 @@
  * You should have received a copy of the GNU General Public License
  * along with fss.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 #include "fss.h"
 #include "files.h"
 #include "protocol.h"
@@ -46,6 +51,9 @@ static int status_WAIT_MSG_SER_RECEIVED();
 static int status_WAIT_MSG_SER_REQ_FILE();
 static int status_WAIT_MSG_SER_REQ_DEL_IDX();
 static int status_ENTRY_INFO_SENT();
+static int status_BLK_SENT();
+static int status_WAIT_BLK_CHKSUM();
+static int status_WAIT_BLK();
 static int receive_line(int, char*, int);
 static int set_fileinfo(char*);
 static int analyse_hash();
@@ -205,7 +213,6 @@ static int handle_sockfd()
     }
     break;
 
-
   case WAIT_FILE:
     if (status_WAIT_FILE(sockfd)) {
       fprintf(stderr,
@@ -241,11 +248,39 @@ static int handle_sockfd()
       return 1;
     }
     break;
+    
 
   case ENTRY_INFO_SENT:
     if (status_ENTRY_INFO_SENT()) {
       fprintf(stderr,
 	      "@handle_sockfd(): status_ENTRY_INFO_SENT() failed\n");
+      return 1;
+    }
+    break;
+    
+
+  case BLK_SENT:
+    if (status_BLK_SENT()) {
+      fprintf(stderr,
+	      "@handle_sockfd(): status_BLK_SENT() failed\n");
+      return 1;
+    }
+    break;
+
+    
+  case WAIT_BLK_CHKSUM:
+    if (status_WAIT_BLK_CHKSUM()) {
+      fprintf(stderr,
+	      "@handle_sockfd(): status_WAIT_BLK_CHKSUM() failed\n");
+      return 1;
+    }
+    break;
+    
+
+  case WAIT_BLK:
+    if (status_WAIT_BLK()) {
+      fprintf(stderr,
+	      "@handle_sockfd(): status_WAIT_BLK() failed\n");
       return 1;
     }
     break;
@@ -506,6 +541,29 @@ static int status_ENTRY_INFO_SENT()
 
 
 }
+
+
+
+static int status_BLK_SENT()
+{
+
+
+}
+
+
+static int status_WAIT_BLK_CHKSUM()
+{
+
+
+}
+
+
+static int status_WAIT_BLK()
+{
+
+
+}
+
 
 static int status_WAIT_ENTRY_INFO()
 {

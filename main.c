@@ -20,7 +20,6 @@
  */
 
 #include "files.h"
-#include "sock.h"
 #include "params.h"
 #include "protocol.h"
 #include "wrap-inotify.h"
@@ -58,6 +57,7 @@ int main(int argc, char **argv)
     exit(0);
   }
 
+  //TODO: Deprecated
   if (set_rootpath(path)) {
     fprintf(stderr, "@main(): set_rootpath() failed\n");
     return 1;

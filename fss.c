@@ -1,7 +1,5 @@
 /*
- * sock.c
- *
- * network manipulate functions
+ * function implement
  *
  * Copyright (c) 2010, 2011 lxd <i@lxd.me>
  * 
@@ -20,16 +18,70 @@
  * You should have received a copy of the GNU General Public License
  * along with fss.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #include "fss.h"
-#include "sock.h"
-#include <stdarg.h>
 
 extern int errno;
 
-static int socket_fd;
+char rootpath[MAX_PATH_LEN];
+static int sockfd;
 
-int fss_connect(const char *text, int *sockfd)
+//strip '/' in the end
+int update_rootpath(const char *path)
+{
+  struct stat statbuf;
+  size_t strncpy_len, path_len;
+  char *ptr;
+
+  if (stat(path, &statbuf) < 0) {
+    perror("@update_rootpath(): stat() failed");
+    return 1;
+  }
+
+  path_len = strlen(path);
+  strncpy_len = path[path_len-1] == '/' ? path_len-1 : path_len;
+
+  if (!strncpy(rootpath, path, strncpy_len)) {
+    fprintf(stderr, "@update_rootpath(): strncpy() failed\n");
+    return 1;
+  }
+  rootpath[++strncpy_len] = 0;
+  
+  return 0;
+  
+}
+
+int rela2full(const char *relapath, char *fullpath, size_t size)
+{
+
+  size_t len;
+  len = snprintf(fullpath, size, "%s/%s", rootpath, relapath);
+
+  if (len == size)
+    fprintf(stderr, "@rela2full(): pathname too long !!!");
+  
+  
+  return 0;
+}
+
+
+int full2rela(const char *fullpath, char *relapath, size_t size)
+{
+  size_t len;
+  len = strlen(fullpath) - strlen(rootpath);
+  if (len >= size)
+    fprintf(stderr, "@full2rela(): pathname too long !!!");
+  
+  // omit '/' between rootpath and relapath
+  if (!strncpy(relapath, fullpath + strlen(rootpath) + 1, len)) {
+    perror("@full2rela(): strncpy() failed");
+    return 1;
+  }
+
+  return 0;
+}
+
+
+int fss_connect(const char *text, int *fd)
 {
   struct addrinfo hints, *result;
   int rv;
@@ -44,16 +96,16 @@ int fss_connect(const char *text, int *sockfd)
     return 1;
   }
 
-  if ((*sockfd = socket(result->ai_family, result->ai_socktype,
+  if ((*fd = socket(result->ai_family, result->ai_socktype,
 			result->ai_protocol)) < 0) {
     perror("@fss_connect(): socket() fails");
     return 1;
   }
 
-  socket_fd = *sockfd;
+  sockfd = *fd;
   
   /* only deal with the first addr */
-  if ((rv = connect(*sockfd, result->ai_addr, result->ai_addrlen)) < 0) {
+  if ((rv = connect(*fd, result->ai_addr, result->ai_addrlen)) < 0) {
     perror("@fss_connect(): connect() fails");
     return 1;
   }
@@ -65,7 +117,7 @@ int fss_connect(const char *text, int *sockfd)
 
 /* This function comes from UNP v3 with a little modification
  * without appending LF to buf */
-int fss_readline(int fd, char *buf, size_t size)
+int fss_readline(char *buf, size_t size)
 {
   char c;
   char *ptr;
@@ -74,7 +126,7 @@ int fss_readline(int fd, char *buf, size_t size)
 
   ptr = buf;
   for(i = 1; i < size; i++) {
-    if ((rv = read(fd, &c, 1)) == 1) {
+    if ((rv = read(sockfd, &c, 1)) == 1) {
       if (c == '\n')
 	break;
       *ptr++ = c;
@@ -102,7 +154,7 @@ int fss_readline(int fd, char *buf, size_t size)
 
 /* There are 2 LF between msg head and body, this function strip second
  * LF and so only append one LF to buf */
-int read_msg_head(int fd, char *buf, size_t size)
+int read_msg_head(char *buf, size_t size)
 {
   char c, d;
   char *ptr;
@@ -113,7 +165,7 @@ int read_msg_head(int fd, char *buf, size_t size)
   c = d = 0;
   for(i = 1; i < size; i++) {
     c = d;
-    if ((rv = read(fd, &d, 1)) == 1) {
+    if ((rv = read(sockfd, &d, 1)) == 1) {
       if (c == '\n' && d == '\n')
 	break;
       *ptr++ = d;
@@ -140,7 +192,7 @@ int read_msg_head(int fd, char *buf, size_t size)
 }
 
 
-int fss_write(int fd, size_t size, char *fmt, ...)
+int fss_write(size_t size, char *fmt, ...)
 {
   va_list ap;
   va_start(ap, fmt);
@@ -148,7 +200,7 @@ int fss_write(int fd, size_t size, char *fmt, ...)
   char msg[size];
   vsnprintf(msg, size, fmt, ap);
 
-  if(write(fd, msg, strlen(msg)) < 0) {
+  if(write(sockfd, msg, strlen(msg)) < 0) {
     perror("@fss_send(): write() failed");
     return 1;
   }
